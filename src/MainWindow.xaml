@@ -11,8 +11,8 @@
         x:Name="AppWindow"
         Icon="/Images/Logo/logo-small.png"
         Title="Welcome, friend!"
-        Height="450"
-        Width="800"
+        Height="600"
+        Width="1000"
         MinWidth="{Binding WindowMinimumWidth}"
         MinHeight="{Binding WindowMinimumHeight}">
 
@@ -26,7 +26,7 @@
 
                             <!-- Main window outline -->
                             <Grid>
-                                
+
                                 <!-- Opacity mask for corners on grid -->
                                 <Border x:Name="Container"
                                         Background="{StaticResource BackgroundLightBrush}"
@@ -42,7 +42,7 @@
 
                                 <!-- The main window content -->
                                 <Grid>
-                                    
+
                                     <!-- Corner clipping -->
                                     <Grid.OpacityMask>
                                         <VisualBrush Visual="{Binding ElementName=Container}" />
@@ -52,8 +52,6 @@
 
                                         <!-- Title Bar -->
                                         <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=42}" />
-                                        <!-- Drop shadow -->
-                                        <RowDefinition Height="Auto" />
                                         <!-- Window Content -->
                                         <RowDefinition Height="*" />
 
@@ -78,8 +76,13 @@
                                         </Button>
 
                                         <!-- Title -->
-                                        <Viewbox Grid.Column="1" Margin="0">
-                                            <TextBlock Style="{StaticResource HeaderText}" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title, FallbackValue='Welcome, friend!'}" />
+                                        <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="0">
+                                            <StackPanel>
+                                                <TextBlock FontFamily="{StaticResource LatoBold}" FontSize="{StaticResource FontSizeRegular}" Margin="0,0,0,-5">
+                                                    <Run Text="W" Foreground="{StaticResource WordOrangeBrush}"/><Run Text="O" Foreground="{StaticResource WordBlueBrush}"/><Run Text="R" Foreground="{StaticResource WordRedBrush}"/><Run Text="D" Foreground="{StaticResource WordGreenBrush}"/>
+                                                </TextBlock>
+                                                <TextBlock Text="by adison" Foreground="{StaticResource ForegroundDarkBrush}" TextAlignment="Center"/>
+                                            </StackPanel>
                                         </Viewbox>
 
                                         <!--Window Buttons-->
@@ -89,28 +92,10 @@
                                             <Button Command="{Binding CloseCommand}" Content="X" Style="{StaticResource WindowCloseButton}"/>
                                         </StackPanel>
                                     </Grid>
-                                    
-                                    <!--Drop shadow-->
-                                    <Border Grid.Row="1" Height="6" BorderThickness="0 0.2 0 0">
-                                        <!--Underline-->
-                                        <Border.BorderBrush>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                <GradientStop Color="{StaticResource ForegroundLight}" Offset="0.0"/>
-                                                <GradientStop Color="{StaticResource ForegroundMain}" Offset="0.5"/>
-                                                <GradientStop Color="{StaticResource ForegroundLight}" Offset="1.0"/>
-                                            </LinearGradientBrush>
-                                        </Border.BorderBrush>
-                                        <!--Drop shadow-->
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="{StaticResource BackgroundVeryLight}" Offset="0.0"/>
-                                                <GradientStop Color="{StaticResource ForegroundLight}" Offset="1.0"/>
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                    </Border>
+
                                     <!--Page content-->
-                                    <Border Grid.Row="2" Padding="{Binding InnerContentPadding}">
-                                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                                    <Border Grid.Row="1" Padding="{Binding InnerContentPadding}">
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Border>
                                 </Grid>
                             </Grid>
@@ -120,7 +105,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome
             CaptionHeight="{Binding TitleHeight}"
@@ -130,6 +115,7 @@
     </WindowChrome.WindowChrome>
 
     <Grid Background="{StaticResource ForegroundLightBrush}">
+        <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}"/>
     </Grid>
 
 </Window>

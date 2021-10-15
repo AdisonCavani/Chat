@@ -26,6 +26,7 @@
     <None Remove="Fonts\Lato-SemiboldItalic.ttf" />
     <None Remove="Fonts\Lato-Thin.ttf" />
     <None Remove="Fonts\Lato-ThinItalic.ttf" />
+    <None Remove="Images\Backgrounds\emoji-background.png" />
     <None Remove="Images\Logo\icon.ico" />
     <None Remove="Images\Logo\logo-small.png" />
     <None Remove="Images\Logo\logo.png" />
@@ -54,6 +55,7 @@
     <Resource Include="Fonts\Lato-SemiboldItalic.ttf" />
     <Resource Include="Fonts\Lato-Thin.ttf" />
     <Resource Include="Fonts\Lato-ThinItalic.ttf" />
+    <Resource Include="Images\Backgrounds\emoji-background.png" />
     <Resource Include="Images\Logo\icon.ico" />
     <Resource Include="Images\Logo\logo-small.png" />
     <Resource Include="Images\Logo\logo.png" />

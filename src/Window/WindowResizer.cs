@@ -40,7 +40,7 @@ namespace Chat
         /// <summary>
         /// The last calculated available screen size
         /// </summary>
-        private Rect mScreenSize = new();
+        private Rect mScreenSize = new Rect();
 
         /// <summary>
         /// How close to the edge the window has to be to be detected as at the edge of the screen
@@ -312,8 +312,8 @@ namespace Chat
     public class MONITORINFO
     {
         public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-        public Rectangle rcMonitor = new();
-        public Rectangle rcWork = new();
+        public Rectangle rcMonitor = new Rectangle();
+        public Rectangle rcWork = new Rectangle();
         public int dwFlags = 0;
     }
 

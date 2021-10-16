@@ -52,6 +52,7 @@
 
                                         <!-- Title Bar -->
                                         <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=42}" />
+
                                         <!-- Window Content -->
                                         <RowDefinition Height="*" />
 
@@ -62,42 +63,45 @@
 
                                         <Grid.ColumnDefinitions>
                                             <!-- Icon -->
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto" />
                                             <!-- Title -->
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" />
                                             <!-- Windows Button -->
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto" />
 
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Icon -->
                                         <Button Style="{StaticResource SystemIconButton}" Command="{Binding MenuCommand}">
-                                            <Image Source="/Images/Logo/logo-small.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                            <Image Source="/Images/Logo/logo-small.png" />
                                         </Button>
 
                                         <!-- Title -->
-                                        <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="0">
+                                        <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="5">
                                             <StackPanel>
                                                 <TextBlock FontFamily="{StaticResource LatoBold}" FontSize="{StaticResource FontSizeRegular}" Margin="0,0,0,-5">
-                                                    <Run Text="W" Foreground="{StaticResource WordOrangeBrush}"/><Run Text="O" Foreground="{StaticResource WordBlueBrush}"/><Run Text="R" Foreground="{StaticResource WordRedBrush}"/><Run Text="D" Foreground="{StaticResource WordGreenBrush}"/>
+                                                    <Run Text="W" Foreground="{StaticResource WordOrangeBrush}" /><Run Text="O" Foreground="{StaticResource WordBlueBrush}" /><Run Text="R" Foreground="{StaticResource WordRedBrush}" /><Run Text="D" Foreground="{StaticResource WordGreenBrush}" />
                                                 </TextBlock>
-                                                <TextBlock Text="by adison" Foreground="{StaticResource ForegroundDarkBrush}" TextAlignment="Center"/>
+                                                <TextBlock Text="by fasetto" Foreground="{StaticResource ForegroundDarkBrush}" TextAlignment="Center" />
                                             </StackPanel>
                                         </Viewbox>
 
-                                        <!--Window Buttons-->
+                                        <!-- Window Buttons -->
                                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                            <Button Command="{Binding MinimizeCommand}" Content="_" Style="{StaticResource WindowControlButton}"/>
-                                            <Button Command="{Binding MaximizeCommand}" Content="[ ]" Style="{StaticResource WindowControlButton}"/>
-                                            <Button Command="{Binding CloseCommand}" Content="X" Style="{StaticResource WindowCloseButton}"/>
+                                            <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}" Content="_" />
+                                            <Button Command="{Binding MaximizeCommand}" Style="{StaticResource WindowControlButton}" Content="[ ]" />
+                                            <Button Command="{Binding CloseCommand}" Style="{StaticResource WindowCloseButton}" Content="X" />
                                         </StackPanel>
+
                                     </Grid>
 
-                                    <!--Page content-->
+                                    <!-- Page Content -->
                                     <Border Grid.Row="1" Padding="{Binding InnerContentPadding}">
                                         <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Border>
+
                                 </Grid>
+
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -108,14 +112,21 @@
 
     <WindowChrome.WindowChrome>
         <WindowChrome
-            CaptionHeight="{Binding TitleHeight}"
             ResizeBorderThickness="{Binding ResizeBorderThickness}"
+            CaptionHeight="{Binding TitleHeight}"
             CornerRadius="0"
-            GlassFrameThickness="0"/>
+            GlassFrameThickness="0"
+            />
     </WindowChrome.WindowChrome>
 
-    <Grid Background="{StaticResource ForegroundLightBrush}">
-        <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}"/>
-    </Grid>
+    <Border Background="{StaticResource WordBlueBrush}">
+        <Grid>
+            <!-- Blue background image -->
+            <Grid.Background>
+                <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 500 500" ImageSource="/Images/Backgrounds/emoji-background.png" />
+            </Grid.Background>
 
+            <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}" Background="Transparent" />
+        </Grid>
+    </Border>
 </Window>

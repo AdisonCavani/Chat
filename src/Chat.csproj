@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\fa-solid-900.ttf" />
     <None Remove="Fonts\Lato-Black.ttf" />
     <None Remove="Fonts\Lato-BlackItalic.ttf" />
     <None Remove="Fonts\Lato-Bold.ttf" />
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\fa-solid-900.ttf" />
     <Resource Include="Fonts\Lato-Black.ttf" />
     <Resource Include="Fonts\Lato-BlackItalic.ttf" />
     <Resource Include="Fonts\Lato-Bold.ttf" />

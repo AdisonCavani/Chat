@@ -13,27 +13,20 @@ namespace Chat
         /// <summary>
         /// The action to run
         /// </summary>
-        private Action mAction;
+        readonly Action<object> _execute;
+
+        readonly Predicate<object> _canExecute;
 
         #endregion
 
         #region Public Events
 
-        /// <summary>
-        /// The event thats fired when the <see cref="CanExecute(object)"/> value has changed
-        /// </summary>
-        public event EventHandler CanExecuteChanged = (sender, e) => { };
+        public RelayCommand(Action<object> execute) : this(execute, null) { }
 
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RelayCommand(Action action)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            mAction = action;
+            _execute = execute ?? throw new ArgumentNullException("execute");
+            _canExecute = canExecute;
         }
 
         #endregion
@@ -47,7 +40,19 @@ namespace Chat
         /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _canExecute == null || _canExecute(parameter);
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
         }
 
         /// <summary>
@@ -56,7 +61,7 @@ namespace Chat
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            mAction();
+            _execute(parameter);
         }
 
         #endregion

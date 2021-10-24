@@ -27,7 +27,7 @@
                             Width="330"
                             Margin="50 50 50 0">
 
-                        <StackPanel>
+                        <StackPanel ClipToBounds="True">
 
                             <!-- Sign Up header -->
                             <TextBlock Text="Sign In"

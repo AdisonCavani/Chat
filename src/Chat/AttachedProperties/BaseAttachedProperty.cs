@@ -11,24 +11,38 @@ namespace Chat
     public abstract class BaseAttachedProperty<Parrent, Property> where Parrent : BaseAttachedProperty<Parrent, Property>, new()
     {
         #region Public Events
+
         /// <summary>
         /// Fired when the value changes
         /// </summary>
         public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (sender, e) => { };
+
+        /// <summary>
+        /// Fired when the value changes
+        /// </summary>
+        public event Action<DependencyObject, object> ValueUpdated = (sender, value) => { };
+
         #endregion
 
         #region Public Properties
+
         /// <summary>
         /// A singleton instance of our parrent class
         /// </summary>
         public static Parrent Instance { get; private set; } = new Parrent();
+
         #endregion
 
         #region Attached Property Definitions
         /// <summary>
         /// The attached property for this class
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached("Value", typeof(Property), typeof(BaseAttachedProperty<Parrent, Property>), new PropertyMetadata(new PropertyChangedCallback(OnValuePropertyChanged)));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
+            "Value",
+            typeof(Property),
+            typeof(BaseAttachedProperty<Parrent, Property>),
+            new PropertyMetadata(default(Property), new PropertyChangedCallback(OnValuePropertyChanged),
+                new CoerceValueCallback(OnValuePropertyUpdated)));
 
         /// <summary>
         /// The callback event when the <see cref="ValueProperty"/> is changed
@@ -45,6 +59,21 @@ namespace Chat
         }
 
         /// <summary>
+        /// The callback event when the <see cref="ValueProperty"/> is changed, even if it is the same value
+        /// </summary>
+        /// <param name="d">The UI element that had it's property changed</param>
+        /// <param name="e">The arguments for the event</param>
+        private static object OnValuePropertyUpdated(DependencyObject d, object value)
+        {
+            // Call the parent function
+            Instance.OnValueUpdated(d, value);
+
+            // Call event listeners
+            Instance.ValueUpdated(d, value);
+            return value;
+        }
+
+        /// <summary>
         /// Get's the attached property
         /// </summary>
         /// <param name="d">The element to get the property from</param>
@@ -57,15 +86,25 @@ namespace Chat
         /// <param name="d">The element to get the property from</param>
         /// <param name="value">The value to set the property to</param>
         public static void SetValue(DependencyObject d, Property value) => d.SetValue(ValueProperty, value);
+
         #endregion
 
         #region Event Methods
+
         /// <summary>
         /// The method that is called when any attached property of this type is changed
         /// </summary>
         /// <param name="sender">The UI element that this property was changed for</param>
         /// <param name="e">The arguments for this event</param>
         public virtual void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) { }
+
+        /// <summary>
+        /// The method that is called when any attached property of this type is changed, even if the value is the same
+        /// </summary>
+        /// <param name="sender">The UI element that this property was changed for</param>
+        /// <param name="e">The arguments for this event</param>
+        public virtual void OnValueUpdated(DependencyObject sender, object value) { }
+
         #endregion
     }
 }

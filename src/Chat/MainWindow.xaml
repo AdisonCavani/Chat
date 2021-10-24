@@ -28,10 +28,10 @@
                 <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,500,500" ImageSource="/Images/Backgrounds/emoji-background.png"/>
             </Grid.Background>
 
-            <Frame Grid.Column="1"
-                   x:Name="MainFrame"
-                   Background="Transparent"
-                   Content="{Binding ApplicationViewModel.CurrentPage,
+            <local:PageHost Grid.Column="1"
+                   CurrentPage="{Binding}"
+                   d:DataContext=""
+                   DataContext="{Binding ApplicationViewModel.CurrentPage,
                                      Source={x:Static local:ViewModelLocator.Instance},
                                      Converter={local:ApplicationPageValueConverter}}"/>
 

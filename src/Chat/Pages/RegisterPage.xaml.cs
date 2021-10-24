@@ -7,7 +7,7 @@ namespace Chat
     /// <summary>
     /// Interaction logic for RegisterPage.xaml
     /// </summary>
-    public partial class RegisterPage : BasePage<LoginViewModel>, IHavePassword, IComponentConnector
+    public partial class RegisterPage : BasePage<RegisterViewModel>, IHavePassword, IComponentConnector
     {
         public RegisterPage()
         {

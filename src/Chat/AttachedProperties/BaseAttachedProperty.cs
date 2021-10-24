@@ -8,7 +8,8 @@ namespace Chat
     /// </summary>
     /// <typeparam name="Parrent">The parrent class to be the attached property</typeparam>
     /// <typeparam name="Property">The type of this attached property</typeparam>
-    public abstract class BaseAttachedProperty<Parrent, Property> where Parrent : BaseAttachedProperty<Parrent, Property>, new()
+    public abstract class BaseAttachedProperty<Parrent, Property>
+        where Parrent : new()
     {
         #region Public Events
 
@@ -52,10 +53,10 @@ namespace Chat
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Call the parent function
-            Instance.OnValueChanged(d, e);
+            (Instance as BaseAttachedProperty<Parrent, Property>)?.OnValueChanged(d, e);
 
             // Call event listeners
-            Instance.ValueChanged(d, e);
+            (Instance as BaseAttachedProperty<Parrent, Property>)?.ValueChanged(d, e);
         }
 
         /// <summary>
@@ -66,10 +67,10 @@ namespace Chat
         private static object OnValuePropertyUpdated(DependencyObject d, object value)
         {
             // Call the parent function
-            Instance.OnValueUpdated(d, value);
+            (Instance as BaseAttachedProperty<Parrent, Property>)?.OnValueUpdated(d, value);
 
             // Call event listeners
-            Instance.ValueUpdated(d, value);
+            (Instance as BaseAttachedProperty<Parrent, Property>)?.ValueUpdated(d, value);
             return value;
         }
 

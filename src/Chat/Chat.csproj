@@ -78,6 +78,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\Chat\ChatMessage\ChatMessageListControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Pages\ChatPage.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

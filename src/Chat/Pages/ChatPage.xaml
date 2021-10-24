@@ -11,6 +11,6 @@
       x:Name="Page">
 
     <Border>
-        <TextBlock Text="Hello World" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource FontSizeLarge}"/>
+        <local:ChatMessageListControl/>
     </Border>
 </local:BasePage>

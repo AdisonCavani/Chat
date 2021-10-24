@@ -19,7 +19,7 @@
     <Color x:Key="ForegroundDark">#bdbdbd</Color>
     <SolidColorBrush x:Key="ForegroundDarkBrush" Color="{StaticResource ForegroundDark}"/>
 
-    <Color x:Key="WordVeryLightBlue">#ecf6fb</Color>
+    <Color x:Key="WordVeryLightBlue">#c3e5e3</Color>
     <SolidColorBrush x:Key="WordVeryLightBlueBrush" Color="{StaticResource WordVeryLightBlue}"/>
 
     <Color x:Key="WordLightBlue">#45b6e5</Color>

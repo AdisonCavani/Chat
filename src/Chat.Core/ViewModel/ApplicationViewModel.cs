@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Chat.Core
+﻿namespace Chat.Core
 {
     /// <summary>
     /// The application state as a view model

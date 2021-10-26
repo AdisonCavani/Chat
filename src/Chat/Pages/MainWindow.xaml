@@ -13,7 +13,8 @@
         Title="Welcome, friend!"
         Height="600"
         Width="1000"
->
+        MinWidth="{Binding WindowMinimumWidth}"
+        MinHeight="{Binding WindowMinimumHeight}">
 
     <Border Background="{StaticResource WordBlueBrush}">
         <Grid>

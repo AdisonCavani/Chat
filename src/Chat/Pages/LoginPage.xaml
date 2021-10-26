@@ -74,7 +74,6 @@
                         <!--Password-->
                         <TextBox Text="{Binding Password}"
                                      Tag="Enter your password"
-                                     local:IsFocusedProperty.Value="True"
                                      Margin="0,0,0,20"/>
 
                         <!--Password-->

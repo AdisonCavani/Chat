@@ -11,62 +11,93 @@
 
     <Border>
         <Grid>
-
-            <!-- Main content scroll -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <StackPanel 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    TextBlock.TextAlignment="Center">
-
-                    <!-- Login main content white box -->
-                    <Border Background="{StaticResource ForegroundLightBrush}" 
-                            CornerRadius="10"
-                            Padding="15 50 15 15"
-                            Width="330"
-                            Margin="50 50 50 0">
-
-                        <StackPanel>
-
-                            <!-- Sign Up header -->
-                            <TextBlock Text="Sign Up"
-                                   FontSize="{StaticResource FontSizeXXLarge}" 
-                                   FontFamily="{StaticResource LatoRegular}"
-                                   Foreground="{StaticResource WordBlueBrush}"/>
-
-                            <!-- Sign up subtext-->
-                            <TextBlock Text="It's about to get fun" 
-                                       FontSize="{StaticResource FontSizeLarge}"
-                                       Foreground="{StaticResource ForegroundDarkBrush}"
-                                       Margin="0 0 0 20"/>
-
-                            <!-- Email -->
-                            <TextBox Text="{Binding Email}"
-                                     Tag="Email"
-                                     local:IsFocusedProperty.Value="True"/>
-
-                            <!-- Password -->
-                            <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30" />
-
-                            <!-- Next button -->
-                            <Button Content="Register"
-                                    IsDefault="True"
-                                    local:IsBusyProperty.Value="{Binding RegisterIsRunning}"
-                                    Command="{Binding RegisterCommand}"
-                                    CommandParameter="{Binding ElementName=Page}"
-                                    HorizontalAlignment="Center"/>
-
-                        </StackPanel>
-
-                    </Border>
-
-                    <Button Style="{StaticResource TextButton}"
-                            Content="Or, I already have an account"
+            <StackPanel VerticalAlignment="Center"
                             HorizontalAlignment="Center"
-                            Command="{Binding LoginCommand}"/>
+                            TextBlock.TextAlignment="Center">
 
-                </StackPanel>
-            </ScrollViewer>
+                <!--Login main content white box-->
+                <Border CornerRadius="15"
+                        Padding="25,25,25,0"
+                        Width="350"
+                        Height="410"
+                        Background="White">
+
+                    <StackPanel ClipToBounds="True">
+
+                        <TextBlock Text="WELCOME"
+                                       FontSize="11"
+                                       FontFamily="Segoe UI"
+                                       FontWeight="SemiBold"
+                                       Foreground="Gray"/>
+
+                        <TextBlock Text="Create an account"
+                                       FontSize="20"
+                                       FontFamily="Segoe UI"
+                                       FontWeight="Bold"
+                                       Foreground="Black"
+                                       Margin="0,0,0,25"/>
+
+                        <TextBlock Text="E-Mail"
+                                   FontSize="13"
+                                   FontFamily="Segoe UI"
+                                   FontWeight="SemiBold"
+                                   Foreground="Black"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,0,0,10"/>
+
+                        <!--Email-->
+                        <TextBox Text="{Binding Email}"
+                                     Tag="Enter your e-mail"
+                                     local:IsFocusedProperty.Value="True"
+                                     Margin="0,0,0,30"/>
+
+                            <TextBlock Text="Password"
+                                       FontSize="13"
+                                       FontFamily="Segoe UI"
+                                       FontWeight="SemiBold"
+                                       Foreground="Black"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,8"/>
+
+                            <!--Password-->
+                        <TextBox Text="{Binding Password}"
+                                     Tag="Enter your password"
+                                     Margin="0,0,0,20"/>
+
+                        <!--Password-->
+
+                        <!--Login button-->
+                        <Button Width="293"
+                                Height="45"
+                                Content="Register"
+                                IsDefault="True"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding RegisterCommand}"
+                                CommandParameter="{Binding ElementName=Page}"
+                                local:IsBusyProperty.Value="{Binding RegisterIsRunning}"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <!--Register text-->
+                            <TextBlock Text="Already have an account?"
+                                           VerticalAlignment="Center"
+                                           FontSize="13" 
+                                           FontFamily="Segoe UI"
+                                           FontWeight="SemiBold"
+                                           Foreground="Black"/>
+
+                            <!--Register button-->
+                            <Button Margin="10"
+                                    FontSize="13"
+                                        Content="Sign in"
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding LoginCommand}"
+                                        Style="{StaticResource TextButton}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Border>
+            </StackPanel>
         </Grid>
     </Border>
 </local:BasePage>

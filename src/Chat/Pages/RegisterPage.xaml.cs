@@ -7,7 +7,7 @@ namespace Chat
     /// <summary>
     /// Interaction logic for RegisterPage.xaml
     /// </summary>
-    public partial class RegisterPage : BasePage<RegisterViewModel>, IHavePassword, IComponentConnector
+    public partial class RegisterPage : BasePage<RegisterViewModel>, IComponentConnector
     {
         public RegisterPage()
         {
@@ -17,6 +17,6 @@ namespace Chat
         /// <summary>
         /// The secure password for this login page
         /// </summary>
-        public SecureString SecurePassword => PasswordText.SecurePassword;
+        //public SecureString SecurePassword => PasswordText.SecurePassword;
     }
 }

@@ -19,6 +19,9 @@
     <Color x:Key="ForegroundDark">#bdbdbd</Color>
     <SolidColorBrush x:Key="ForegroundDarkBrush" Color="{StaticResource ForegroundDark}"/>
 
+    <Color x:Key="WordVeryVeryLightBlue">#ecf6fb</Color>
+    <SolidColorBrush x:Key="WordVeryVeryLightBlueBrush" Color="{StaticResource WordVeryVeryLightBlue}"/>
+
     <Color x:Key="WordVeryLightBlue">#c3e5e3</Color>
     <SolidColorBrush x:Key="WordVeryLightBlueBrush" Color="{StaticResource WordVeryLightBlue}"/>
 
@@ -27,6 +30,9 @@
 
     <Color x:Key="WordBlue">#3099c5</Color>
     <SolidColorBrush x:Key="WordBlueBrush" Color="{StaticResource WordBlue}"/>
+
+    <Color x:Key="WordBlueTransparent">#003099c5</Color>
+    <SolidColorBrush x:Key="WordBlueBrushTransparent" Color="{StaticResource WordBlueTransparent}"/>
 
     <Color x:Key="WordDarkBlue">#0c6991</Color>
     <SolidColorBrush x:Key="WordDarkBlueBrush" Color="{StaticResource WordDarkBlue}"/>

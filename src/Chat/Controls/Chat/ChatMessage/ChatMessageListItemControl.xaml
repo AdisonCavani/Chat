@@ -12,6 +12,7 @@
             d:Background="{StaticResource WordBlueBrush}"
             d:DataContext="{x:Static core:ChatMessageListItemDesignModel.Instance}">
         <Grid>
+            
             <!--Profile picture-->
             <Border Width="35"
                     Margin="0,7,0,0"
@@ -21,7 +22,7 @@
                     HorizontalAlignment="Left"
                     BorderBrush="{StaticResource ForegroundLightBrush}"
                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                    Visibility="{Binding SentByMy, Converter={local:BooleanToVisiblityConverter}}"
+                    Visibility="{Binding SentByMe, Converter={local:BooleanToVisiblityConverter}}"
                     CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
 
                 <TextBlock Text="{Binding Initials}"
@@ -33,7 +34,7 @@
 
             <!--Chat message container-->
             <Grid Margin="40,0,25,0"
-                  HorizontalAlignment="{Binding SentByMy, Converter={local:SentByMeToAligmentConventer}}">
+                  HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeToAlignmentConverter}}">
 
                 <Grid.Triggers>
                     
@@ -65,7 +66,7 @@
                 <!--Speech bubble rectangle-->
                 <Border Padding="15"
                         CornerRadius="10"
-                        Background="{Binding SentByMy, Converter={local:SentByMeToBackgroundConventer}}">
+                        Background="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}">
 
                     <!--Message text-->
                     <TextBlock Text="{Binding Message}"
@@ -80,25 +81,25 @@
                       StrokeThickness="0"
                       Margin="15,-1,15,0"
                       Data="M 0,0 L 10,10 L 20,0 L 0,0"
-                      Fill="{Binding SentByMy, Converter={local:SentByMeToBackgroundConventer}}"
-                      HorizontalAlignment="{Binding SentByMy, Converter={local:SentByMeToAligmentConventer}}"/>
+                      Fill="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}"
+                      HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeToAlignmentConverter}}"/>
 
+                <!--Time containers-->
                 <StackPanel Opacity="0"
                             Grid.Row="2"
                             x:Name="ExtraDetails"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeToAlignmentConverter}, ConverterParameter=True}">
 
-                    <!-- Sent time -->
+                    <!--Sent time-->
                     <TextBlock Margin="0,0,15,0" 
-                               HorizontalAlignment="Right"
                                FontSize="{StaticResource FontSizeSmall}"
                                FontFamily="{StaticResource LatoRegular}"
                                Foreground="{StaticResource ForegroundLightBrush}"
                                Text="{Binding MessageSentTime, Converter={local:TimeToDisplayTimeConverter}}"/>
 
-                    <!-- Read time -->
-                    <TextBlock HorizontalAlignment="Right"
-                               FontSize="{StaticResource FontSizeSmall}"
+                    <!--Read time-->
+                    <TextBlock FontSize="{StaticResource FontSizeSmall}"
                                FontFamily="{StaticResource LatoRegular}"
                                Foreground="{StaticResource WordDarkBlueBrush}"
                                Text="{Binding MessageReadTime, Converter={local:TimeToReadTimeConverter}}"/>

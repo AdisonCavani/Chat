@@ -7,20 +7,19 @@
       xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="700"
-      Title="LoginPage"
       x:Name="Page">
 
     <Border>
         <Grid>
 
-            <!-- Main content scroll -->
+            <!--Main content scroll-->
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <StackPanel 
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     TextBlock.TextAlignment="Center">
 
-                    <!-- Login main content white box -->
+                    <!--Login main content white box-->
                     <Border Background="{StaticResource ForegroundLightBrush}" 
                             CornerRadius="10"
                             Padding="15 50 15 15"
@@ -29,33 +28,34 @@
 
                         <StackPanel ClipToBounds="True">
 
-                            <!-- Sign Up header -->
+                            <!--Sign Up header-->
                             <TextBlock Text="Sign In"
                                    FontSize="{StaticResource FontSizeXXLarge}" 
                                    FontFamily="{StaticResource LatoRegular}"
-                                   Foreground="{StaticResource WordBlueBrush}" />
+                                   Foreground="{StaticResource WordBlueBrush}"/>
 
-                            <!-- Sign up subtext-->
+                            <!--Sign up subtext-->
                             <TextBlock Text="It's about to get fun" 
                                        FontSize="{StaticResource FontSizeLarge}"
                                        Foreground="{StaticResource ForegroundDarkBrush}"
                                        Margin="0 0 0 20"/>
 
-                            <!-- Email -->
-                            <TextBox Text="{Binding Email}" Tag="Email" />
+                            <!--Email-->
+                            <TextBox Text="{Binding Email}"
+                                     Tag="Email"
+                                     local:IsFocusedProperty.Value="True"/>
 
-                            <!-- Password -->
-                            <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30" />
+                            <!--Password-->
+                            <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30"/>
 
-                            <!-- Next button -->
+                            <!--Login button-->
                             <Button Content="Login"
+                                    IsDefault="True"
                                     local:IsBusyProperty.Value="{Binding LoginIsRunning}"
                                     Command="{Binding LoginCommand}"
                                     CommandParameter="{Binding ElementName=Page}"
-                                    HorizontalAlignment="Center" />
-
+                                    HorizontalAlignment="Center"/>
                         </StackPanel>
-
                     </Border>
 
                     <Button

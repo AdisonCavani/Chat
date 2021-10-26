@@ -6,11 +6,50 @@
       xmlns:local="clr-namespace:Chat"
       xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
       mc:Ignorable="d" 
-      d:DesignHeight="700" d:DesignWidth="700"
-      Title="Chat"
+      d:DesignHeight="700"
+      d:DesignWidth="700"
       x:Name="Page">
 
-    <Border>
-        <local:ChatMessageListControl/>
-    </Border>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <!--Title bar-->
+            <RowDefinition Height="Auto"/>
+            <!--Chat list-->
+            <RowDefinition Height="*"/>
+            <!--Message Send Text Box-->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Title bar-->
+        <Grid Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Title text-->
+            <TextBlock Text="Parnell"
+                       Grid.ColumnSpan="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="{StaticResource LatoRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       Foreground="{StaticResource ForegroundLightBrush}"/>
+
+            <!--Main buttons-->
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                
+                <!--Search button-->
+                <Button Style="{StaticResource IconButton}"
+                        Content="{StaticResource FontAwesomeSearchIcon}"/>
+                
+                <!--Ellipsis button-->
+                <Button Style="{StaticResource IconButton}"
+                        Content="{StaticResource FontAwesomeEllipsisVerticalIcon}"/>
+            </StackPanel>
+        </Grid>
+        <!--Chat list-->
+        <local:ChatMessageListControl Grid.Row="1"/>
+    </Grid>
 </local:BasePage>

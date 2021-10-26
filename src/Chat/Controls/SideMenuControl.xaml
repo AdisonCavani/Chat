@@ -11,7 +11,7 @@
     <UserControl.Template>
         <ControlTemplate TargetType="UserControl">
             <!--Main Background-->
-            <Border Background="{StaticResource ForegroundLightBrush}">
+            <Border>
                 <!--Content-->
                 <Grid>
                     <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
                     </Grid.RowDefinitions>
 
                     <!--Top Menu-->
-                    <Grid Height="50" Background="{StaticResource WordBlueBrush}">
+                    <Grid Height="50">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -37,12 +37,14 @@
                         <!--Settings button-->
                         <Button Grid.Column="2" Content="{StaticResource FontAwesomeCogIcon}" Style="{StaticResource IconButton}"/>
                     </Grid>
-                    
+
                     <!--The user content-->
-                    <ContentPresenter Grid.Row="1"/>
+                    <Border Grid.Row="1" Background="{StaticResource ForegroundLightBrush}">
+                        <ContentPresenter/>
+                    </Border>
                 </Grid>
             </Border>
         </ControlTemplate>
     </UserControl.Template>
-    
+
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Chat.Core;
@@ -8,7 +9,7 @@ namespace Chat
     /// <summary>
     /// The base page for all pages to gain base functionality
     /// </summary>
-    public class BasePage : Page
+    public class BasePage : UserControl
     {
         #region Public Properties
 
@@ -42,6 +43,10 @@ namespace Chat
         /// </summary>
         public BasePage()
         {
+            // Don't bother animating in design time
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
             // If we are animating in, hide to begin with
             if (PageLoadAnimation != PageAnimation.None)
                 Visibility = Visibility.Collapsed;
@@ -61,6 +66,7 @@ namespace Chat
         /// <param name="e"></param>
         private async void BasePage_LoadedAsync(object sender, System.Windows.RoutedEventArgs e)
         {
+
             // If we are setup to animate out on load
             if (ShouldAnimateOut)
                 // Animate out the page
@@ -86,7 +92,7 @@ namespace Chat
                 case PageAnimation.SlideAndFadeInFromRight:
 
                     // Start the animation
-                    await this.SlideAndFadeInFromRightAsync(SlideSeconds);
+                    await this.SlideAndFadeInFromRightAsync(SlideSeconds, width: (int)Application.Current.MainWindow.Width);
 
                     break;
             }

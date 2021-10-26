@@ -60,7 +60,15 @@ namespace Chat.Core
         {
             await RunCommandAsync(() => RegisterIsRunning, async () =>
             {
-                await Task.Delay(5000);
+                await Task.Delay(3000);
+
+                // Go to chat page
+                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);
+
+                //var email = Email;
+
+                //// IMPORTANT: Never store unsecure password in variable like this
+                //var pass = (parameter as IHavePassword).SecurePassword.Unsecue();
             });
         }
 

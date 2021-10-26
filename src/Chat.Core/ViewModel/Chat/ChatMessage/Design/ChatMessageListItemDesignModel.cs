@@ -27,7 +27,7 @@ namespace Chat.Core
             SenderName = "Luke";
             Message = "Some design time visual text";
             ProfilePictureRGB = "3099c5";
-            SentByMy = true;
+            SentByMe = true;
             MessageSentTime = System.DateTimeOffset.UtcNow;
             MessageReadTime = System.DateTimeOffset.UtcNow.Subtract(TimeSpan.FromDays(1.3));
         }

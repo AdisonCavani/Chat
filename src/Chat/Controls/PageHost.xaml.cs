@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using Chat.Core;
 
 namespace Chat
 {
@@ -35,6 +38,11 @@ namespace Chat
         public PageHost()
         {
             InitializeComponent();
+
+            // If we are in DesignMode, show the current page
+            // as the dependency property does not fire
+            if (DesignerProperties.GetIsInDesignMode(this))
+                NewPage.Content = (BasePage)new ApplicationPageValueConverter().Convert(IoC.Get<ApplicationViewModel>().CurrentPage);
         }
 
         #endregion
@@ -64,7 +72,16 @@ namespace Chat
             // Animate out previous page when the Loaded event fires
             // right after this call due to moving frames
             if (oldPageContent is BasePage oldPage)
+            {
+                // Tell old page to animate out
                 oldPage.ShouldAnimateOut = true;
+
+                // Once it's done, remove it
+                Task.Delay((int)(oldPage.SlideSeconds * 1000)).ContinueWith((t) =>
+                {
+                    Application.Current.Dispatcher.Invoke(() => oldPageFrame.Content = null);
+                });
+            }
 
             // Set the new page content
             newPageFrame.Content = e.NewValue;

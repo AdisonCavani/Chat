@@ -43,7 +43,7 @@
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Center"
                                                    Foreground="{StaticResource ForegroundLightBrush}"
-                                                   FontSize="{StaticResource FontSizeLarge}"
+                                                   FontSize="{StaticResource FontSizeRegular}"
                                                    FontFamily="{StaticResource LatoRegular}"/>
                                     </Border>
                                 </Border>
@@ -72,13 +72,13 @@
                         <ControlTemplate.Triggers>
 
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter Property="Background" TargetName="background" Value="{StaticResource WordVeryLightBlueBrush}"/>
+                                <Setter Property="Background" TargetName="background" Value="{StaticResource WordVeryVeryLightBlueBrush}"/>
                             </DataTrigger>
 
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="{StaticResource WordVeryLightBlue}" Duration="0:0:0.3" Storyboard.TargetName="container" Storyboard.TargetProperty="Background.Color" />
+                                        <ColorAnimation To="{StaticResource WordVeryVeryLightBlue}" Duration="0:0:0.3" Storyboard.TargetName="container" Storyboard.TargetProperty="Background.Color" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -100,6 +100,6 @@
         </Style>
     </UserControl.Resources>
 
-    <ContentControl d:DataContext="{x:Static core:ChatListItemDesignModel.Instance}" Style="{StaticResource ContentStyle}" />
+    <ContentControl d:DataContext="{x:Static core:ChatListItemDesignModel.Instance}" Style="{StaticResource ContentStyle}"/>
 
 </UserControl>

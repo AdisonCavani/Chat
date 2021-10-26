@@ -60,7 +60,7 @@ namespace Chat.Core
         {
             await RunCommandAsync(() => LoginIsRunning, async () =>
             {
-                await Task.Delay(2000);
+                await Task.Delay(1000);
 
                 // Go to chat page
                 IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);

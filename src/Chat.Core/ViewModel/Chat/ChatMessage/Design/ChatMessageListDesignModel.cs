@@ -33,7 +33,7 @@ namespace Chat.Core
                     Message = "I'm about to wipe the old server. We need to update the old server to Windows 2016",
                     ProfilePictureRGB = "3099c5",
                     MessageSentTime = DateTimeOffset.UtcNow,
-                    SentByMy = false,
+                    SentByMe = false,
                 },
                 new ChatMessageListItemViewModel
                 {
@@ -43,7 +43,7 @@ namespace Chat.Core
                     ProfilePictureRGB = "3099c5",
                     MessageSentTime = DateTimeOffset.UtcNow,
                     MessageReadTime = DateTimeOffset.UtcNow.Subtract(TimeSpan.FromDays(1.3)),
-                    SentByMy = true,
+                    SentByMe = true,
                 },
                 new ChatMessageListItemViewModel
                 {
@@ -52,7 +52,7 @@ namespace Chat.Core
                     Message = "The new server is up. Go to 192.168.1.1.\r\nUsername is admin, password is P8ssw0rd!",
                     ProfilePictureRGB = "3099c5",
                     MessageSentTime = DateTimeOffset.UtcNow,
-                    SentByMy = false,
+                    SentByMe = false,
                 },
 
             };

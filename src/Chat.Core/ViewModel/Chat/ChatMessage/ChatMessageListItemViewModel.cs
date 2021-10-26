@@ -36,7 +36,7 @@ namespace Chat.Core
         /// <summary>
         /// True if this message was send by the signed in user
         /// </summary>
-        public bool SentByMy { get; set; }
+        public bool SentByMe { get; set; }
 
         /// <summary>
         /// The time the message was read, or <see cref="DateTimeOffset.MinValue"/> if not read

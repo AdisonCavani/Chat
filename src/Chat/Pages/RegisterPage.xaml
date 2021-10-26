@@ -7,7 +7,6 @@
       xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="700"
-      Title="LoginPage"
       x:Name="Page">
 
     <Border>
@@ -33,7 +32,7 @@
                             <TextBlock Text="Sign Up"
                                    FontSize="{StaticResource FontSizeXXLarge}" 
                                    FontFamily="{StaticResource LatoRegular}"
-                                   Foreground="{StaticResource WordBlueBrush}" />
+                                   Foreground="{StaticResource WordBlueBrush}"/>
 
                             <!-- Sign up subtext-->
                             <TextBlock Text="It's about to get fun" 
@@ -42,17 +41,20 @@
                                        Margin="0 0 0 20"/>
 
                             <!-- Email -->
-                            <TextBox Text="{Binding Email}" Tag="Email" />
+                            <TextBox Text="{Binding Email}"
+                                     Tag="Email"
+                                     local:IsFocusedProperty.Value="True"/>
 
                             <!-- Password -->
                             <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30" />
 
                             <!-- Next button -->
                             <Button Content="Register"
+                                    IsDefault="True"
                                     local:IsBusyProperty.Value="{Binding RegisterIsRunning}"
                                     Command="{Binding RegisterCommand}"
                                     CommandParameter="{Binding ElementName=Page}"
-                                    HorizontalAlignment="Center" />
+                                    HorizontalAlignment="Center"/>
 
                         </StackPanel>
 

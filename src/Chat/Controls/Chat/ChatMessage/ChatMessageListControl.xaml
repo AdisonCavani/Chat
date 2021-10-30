@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
+             d:DesignHeight="600"
+             d:DesignWidth="300">
 
-    <Grid DataContext="{x:Static core:ChatMessageListDesignModel.Instance}"
-          VerticalAlignment="Bottom">
+    <Grid VerticalAlignment="Bottom" DataContext="{x:Static core:ChatMessageListDesignModel.Instance}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:ChatMessageListItemControl />
+                        <local:ChatMessageListItemControl/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

@@ -13,7 +13,7 @@ namespace Chat.Core
         /// <summary>
         /// A single instance of the design model
         /// </summary>
-        public static ChatMessageListDesignModel Instance => new();
+        public static ChatMessageListDesignModel Instance => new ChatMessageListDesignModel();
 
         #endregion
 
@@ -54,7 +54,6 @@ namespace Chat.Core
                     MessageSentTime = DateTimeOffset.UtcNow,
                     SentByMe = false,
                 },
-
             };
         }
 

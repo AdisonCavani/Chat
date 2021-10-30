@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="100"
-             d:DesignWidth="300">
+             d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,20 +16,19 @@
 
         <!--Speech bubble rectangle-->
         <Border Padding="15"
-                CornerRadius="10"
                 Margin="0,0,3,0"
+                CornerRadius="10"
+                UseLayoutRounding="True"
+                d:Background="{StaticResource ForegroundLightBrush}"
                 Background="{Binding BubbleBackground, Converter={local:StringRGBToBrushConverter}}">
 
             <Border.Effect>
-                <DropShadowEffect BlurRadius="4" ShadowDepth="2" Color="{StaticResource WordLightBlue}"/>
+                <DropShadowEffect BlurRadius="4" ShadowDepth="2" Color="{StaticResource WordLightBlue}" />
             </Border.Effect>
 
             <!--Message text-->
-            <TextBlock Text="test"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Center"
-                       FontFamily="{StaticResource LatoRegular}"
-                       Foreground="{StaticResource WordDarkBlueBrush}"/>
+            <ContentControl Content="{Binding Converter={local:PopupContentConverter}}"/>
+
         </Border>
 
         <!--Chat bubble anchor-->
@@ -39,6 +37,7 @@
               Panel.ZIndex="1"
               Margin="15,-1,15,0"
               Data="M 0,0 L 10,10 L 20,0 L 0,0"
+              d:Fill="{StaticResource ForegroundLightBrush}"
               Fill="{Binding BubbleBackground, Converter={local:StringRGBToBrushConverter}}"
               HorizontalAlignment="{Binding ArrowAlignment, Converter={local:HorizontalAlignmentConverter}}">
             <Path.Effect>

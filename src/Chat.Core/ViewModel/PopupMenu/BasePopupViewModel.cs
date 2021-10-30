@@ -5,7 +5,7 @@ namespace Chat
     /// <summary>
     /// A view model for any popup menus
     /// </summary>
-    public class BasePopupMenuViewModel : BaseViewModel
+    public class BasePopupViewModel : BaseViewModel
     {
         #region Public Properties
 
@@ -19,6 +19,11 @@ namespace Chat
         /// </summary>
         public ElementHorizontalAlignment ArrowAlignment { get; set; }
 
+        /// <summary>
+        /// The content inside of this popup menu
+        /// </summary>
+        public BaseViewModel Content { get; set; }
+
         #endregion
 
         #region Constructor
@@ -26,12 +31,12 @@ namespace Chat
         /// <summary>
         /// Default constructor
         /// </summary>
-        public BasePopupMenuViewModel()
+        public BasePopupViewModel()
         {
             // Set default values
             // TODO: Move color into Core and make use of it here
             BubbleBackground = "ffffff";
-            ArrowAlignment = ElementHorizontalAlignment.Center;
+            ArrowAlignment = ElementHorizontalAlignment.Right;
         }
 
         #endregion

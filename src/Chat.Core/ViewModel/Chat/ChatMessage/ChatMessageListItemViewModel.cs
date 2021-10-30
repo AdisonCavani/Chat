@@ -34,7 +34,7 @@ namespace Chat.Core
         public bool IsSelected { get; set; }
 
         /// <summary>
-        /// True if this message was send by the signed in user
+        /// True if this message was sent by the signed in user
         /// </summary>
         public bool SentByMe { get; set; }
 

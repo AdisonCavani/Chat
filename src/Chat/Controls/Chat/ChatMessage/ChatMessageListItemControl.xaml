@@ -8,9 +8,7 @@
              mc:Ignorable="d" 
              d:DesignWidth="300">
 
-    <Border Padding="5"
-            d:Background="{StaticResource WordBlueBrush}"
-            d:DataContext="{x:Static core:ChatMessageListItemDesignModel.Instance}">
+    <Border Padding="5" d:DataContext="{x:Static core:ChatMessageListItemDesignModel.Instance}">
         <Grid>
             
             <!--Profile picture-->

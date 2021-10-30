@@ -21,10 +21,10 @@ namespace Chat
             // If it is today...
             if (time.Date == DateTimeOffset.UtcNow.Date)
                 // Return just time
-                return $"Read {time.ToLocalTime().ToString("HH:mm")}";
+                return $"Read {time.ToLocalTime():HH:mm}";
 
             // Otherwise, return a full date
-            return $"Read {time.ToLocalTime().ToString("HH:mm, MMM yyyy")}";
+            return $"Read {time.ToLocalTime():HH:mm, MMM yyyy}";
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

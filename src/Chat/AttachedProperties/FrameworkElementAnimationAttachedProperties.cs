@@ -6,14 +6,14 @@ namespace Chat
     /// A base class to run any animation method when a boolean is set to true
     /// and a reverse animation when set to false
     /// </summary>
-    /// <typeparam name="Parrent"></typeparam>
-    public abstract class AnimateBaseProperty<Parrent> : BaseAttachedProperty<Parrent, bool>
-        where Parrent : BaseAttachedProperty<Parrent, bool>, new()
+    /// <typeparam name="Parent"></typeparam>
+    public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent, bool>
+        where Parent : BaseAttachedProperty<Parent, bool>, new()
     {
         #region Public Properties
 
         /// <summary>
-        /// A flag indicating this is the first time this property has been loaded
+        /// A flag indicating if this is the first time this property has been loaded
         /// </summary>
         public bool FirstLoad { get; set; } = true;
 
@@ -25,16 +25,16 @@ namespace Chat
             if (!(sender is FrameworkElement element))
                 return;
 
-            // Don't fire if the value doesn't changed
+            // Don't fire if the value doesn't change
             if (sender.GetValue(ValueProperty) == value && !FirstLoad)
                 return;
 
             // On first load...
             if (FirstLoad)
             {
-                // Create a single self-unhookable event
+                // Create a single self-unhookable event 
                 // for the elements Loaded event
-                RoutedEventHandler? onLoaded = null;
+                RoutedEventHandler onLoaded = null;
                 onLoaded = (ss, ee) =>
                 {
                     // Unhook ourselves
@@ -50,7 +50,6 @@ namespace Chat
                 // Hook into the Loaded event of the element
                 element.Loaded += onLoaded;
             }
-
             else
                 // Do desired animation
                 DoAnimation(element, (bool)value);
@@ -65,7 +64,7 @@ namespace Chat
     }
 
     /// <summary>
-    /// Animates a framework element sliding it in form the left on show
+    /// Animates a framework element sliding it in from the left on show
     /// and sliding out to the left on hide
     /// </summary>
     public class AnimateSlideInFromLeftProperty : AnimateBaseProperty<AnimateSlideInFromLeftProperty>
@@ -78,7 +77,6 @@ namespace Chat
             else
                 // Animate out
                 await element.SlideAndFadeOutToLeftAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
-
         }
     }
 
@@ -96,7 +94,23 @@ namespace Chat
             else
                 // Animate out
                 await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+        }
+    }
 
+    /// <summary>
+    /// Animates a framework element fading in on show
+    /// and fading out on hide
+    /// </summary>
+    public class AnimateFadeInProperty : AnimateBaseProperty<AnimateFadeInProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value)
+        {
+            if (value)
+                // Animate in
+                await element.FadeInAsync(FirstLoad ? 0 : 0.3f);
+            else
+                // Animate out
+                await element.FadeOutAsync(FirstLoad ? 0 : 0.3f);
         }
     }
 }

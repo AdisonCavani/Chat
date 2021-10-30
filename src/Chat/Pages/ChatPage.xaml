@@ -1,4 +1,4 @@
-﻿<local:BasePage x:TypeArguments="core:LoginViewModel" x:Class="Chat.ChatPage"
+﻿<local:BasePage x:TypeArguments="core:ChatMessageListViewModel" x:Class="Chat.ChatPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,10 +8,10 @@
       mc:Ignorable="d" 
       d:DesignHeight="700"
       d:DesignWidth="700"
+      d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}"
       x:Name="Page">
 
     <Grid>
-
         <Grid.RowDefinitions>
             <!--Title bar-->
             <RowDefinition Height="Auto"/>
@@ -49,8 +49,16 @@
                         Content="{StaticResource FontAwesomeEllipsisVerticalIcon}"/>
             </StackPanel>
         </Grid>
+        
         <!--Chat list-->
         <local:ChatMessageListControl Grid.Row="1"/>
+
+        <!--Attachment Menu Popup-->
+        <local:BubbleContent Grid.Row="1"
+                             DataContext="{Binding AttachmentMenu}"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Right"
+                             local:AnimateSlideInFromBottomProperty.Value="{Binding ViewModel.AttachmentMenuVisible, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ChatPage}}}"/>
 
         <!--Message Send Text box-->
         <Grid Grid.Row="2"
@@ -87,6 +95,7 @@
 
                 <!--Attach button-->
                 <Button VerticalAlignment="Top"
+                        Command="{Binding AttachmentButtonCommand}"
                         Style="{StaticResource IconGrowButton}"
                         Foreground="{StaticResource ForegroundDarkBrush}"
                         Content="{StaticResource FontAwesomePaperclipIcon}"

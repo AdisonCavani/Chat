@@ -4,9 +4,9 @@ using Chat.Core;
 namespace Chat
 {
     /// <summary>
-    /// Interaction logic for LoginPage.xaml
+    /// Interaction logic for ChatPage.xaml
     /// </summary>
-    public partial class ChatPage : BasePage<LoginViewModel>, IComponentConnector
+    public partial class ChatPage : BasePage<ChatMessageListViewModel>, IComponentConnector
     {
         public ChatPage()
         {

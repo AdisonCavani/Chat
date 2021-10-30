@@ -1,5 +1,4 @@
-﻿using System.Security;
-using System.Windows.Markup;
+﻿using System.Windows.Markup;
 using Chat.Core;
 
 namespace Chat

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}">
 
-    <Grid>
+    <Grid UseLayoutRounding="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -18,7 +18,6 @@
         <Border Padding="15"
                 Margin="0,0,3,0"
                 CornerRadius="10"
-                UseLayoutRounding="True"
                 d:Background="{StaticResource ForegroundLightBrush}"
                 Background="{Binding BubbleBackground, Converter={local:StringRGBToBrushConverter}}">
 

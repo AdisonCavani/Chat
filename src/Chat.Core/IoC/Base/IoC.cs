@@ -19,6 +19,16 @@ namespace Chat.Core
         /// </summary>
         public static IUIManager UI => IoC.Get<IUIManager>();
 
+        /// <summary>
+        /// A shortcut to access the <see cref="ApplicationViewModel"/>
+        /// </summary>
+        public static ApplicationViewModel Application => IoC.Get<ApplicationViewModel>();
+
+        /// <summary>
+        /// A shortcut to access the <see cref="ProfileViewModel"/>
+        /// </summary>
+        public static ProfileViewModel Profile => IoC.Get<ProfileViewModel>();
+
         #endregion
 
         #region Construction
@@ -41,6 +51,9 @@ namespace Chat.Core
         {
             // Bind to a single instance of Application view model
             Kernel.Bind<ApplicationViewModel>().ToConstant(new ApplicationViewModel());
+
+            // Bind to a single instance of Profile view model
+            Kernel.Bind<ProfileViewModel>().ToConstant(new ProfileViewModel());
         }
 
         #endregion

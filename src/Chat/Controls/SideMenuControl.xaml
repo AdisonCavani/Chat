@@ -35,7 +35,10 @@
                         </StackPanel>
 
                         <!--Settings button-->
-                        <Button Grid.Column="2" Content="{StaticResource FontAwesomeCogIcon}" Style="{StaticResource IconButton}"/>
+                        <Button Grid.Column="2"
+                                Style="{StaticResource IconButton}"
+                                Content="{StaticResource FontAwesomeCogIcon}"
+                                Command="{Binding ProfileViewModel.OpenCommand, Source={x:Static local:ViewModelLocator.Instance}}"/>
                     </Grid>
 
                     <!--The user content-->

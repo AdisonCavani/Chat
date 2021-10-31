@@ -34,7 +34,7 @@ namespace Chat
             {
                 // Create a single self-unhookable event 
                 // for the elements Loaded event
-                RoutedEventHandler onLoaded = null;
+                RoutedEventHandler? onLoaded = null;
                 onLoaded = (ss, ee) =>
                 {
                     // Unhook ourselves
@@ -94,6 +94,24 @@ namespace Chat
             else
                 // Animate out
                 await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: false);
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element sliding up from the bottom on show
+    /// and sliding out to the bottom on hide
+    /// NOTE: Keeps the margin
+    /// </summary>
+    public class AnimateSlideInFromBottomMarginProperty : AnimateBaseProperty<AnimateSlideInFromBottomMarginProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value)
+        {
+            if (value)
+                // Animate in
+                await element.SlideAndFadeInFromBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: true);
+            else
+                // Animate out
+                await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, keepMargin: true);
         }
     }
 

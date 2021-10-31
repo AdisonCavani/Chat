@@ -30,11 +30,15 @@
                 <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,500,500" ImageSource="/Images/Backgrounds/emoji-background.png"/>
             </Grid.Background>
             
+            <!--Profile page-->
+            <local:ProfileControl Panel.ZIndex="9"
+                                  Grid.ColumnSpan="2"
+                                  local:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.ProfileMenuVisible, Source={x:Static local:ViewModelLocator.Instance}}"/>
+
             <!--Dimmed overlay-->
-            <Border Grid.ColumnSpan="2"
-                    Panel.ZIndex="10"
-                    Opacity="0.3">
-                <Border Background="{StaticResource ForegroundVeryDarkBrush}"
+            <Border Opacity="0.3" Panel.ZIndex="10" Grid.ColumnSpan="2">
+                <Border d:Visibility="Collapsed"
+                        Background="{StaticResource ForegroundVeryDarkBrush}"
                         local:AnimateFadeInProperty.Value="{Binding DimmableOverlayVisible}"/>
             </Border>
 

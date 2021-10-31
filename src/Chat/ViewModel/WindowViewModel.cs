@@ -122,6 +122,7 @@ namespace Chat
 
             // Create commands
             CloseCommand = new RelayCommand(() => mWindow.Close());
+
         }
 
         #endregion

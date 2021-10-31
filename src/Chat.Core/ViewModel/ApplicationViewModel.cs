@@ -16,6 +16,11 @@
         public bool SideMenuVisible { get; set; } = false;
 
         /// <summary>
+        /// True if the profile menu should be shown
+        /// </summary>
+        public bool ProfileMenuVisible { get; set; } = false;
+
+        /// <summary>
         /// Navigates to the specified page
         /// </summary>
         /// <param name="page">The page to go to</param>

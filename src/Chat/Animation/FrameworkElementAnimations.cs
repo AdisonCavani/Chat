@@ -67,6 +67,9 @@ namespace Chat
 
             // Wait for it to finish
             await Task.Delay((int)(seconds * 1000));
+
+            // Make page invisible
+            element.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -129,6 +132,9 @@ namespace Chat
 
             // Wait for it to finish
             await Task.Delay((int)(seconds * 1000));
+
+            // Make page invisible
+            element.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -191,6 +197,9 @@ namespace Chat
 
             // Wait for it to finish
             await Task.Delay((int)(seconds * 1000));
+
+            // Make page invisible
+            element.Visibility = Visibility.Hidden;
         }
 
         #endregion

@@ -63,7 +63,7 @@ namespace Chat.Core
                 await Task.Delay(3000);
 
                 // Go to chat page
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat);
+                IoC.Application.GoToPage(ApplicationPage.Chat);
 
                 //var email = Email;
 
@@ -79,7 +79,7 @@ namespace Chat.Core
         private async Task LoginAsync()
         {
             // Go to login page
-            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
+            IoC.Application.GoToPage(ApplicationPage.Login);
         }
     }
 }

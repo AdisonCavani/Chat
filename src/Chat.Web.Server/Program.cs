@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore;
+
 namespace Chat.Web.Server
 {
     public class Program
@@ -9,9 +11,7 @@ namespace Chat.Web.Server
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+            return WebHost.CreateDefaultBuilder()
                 .UseStartup<Startup>()
                 .Build();
         }

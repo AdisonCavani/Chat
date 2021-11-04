@@ -47,10 +47,11 @@
                                    Margin="0,0,0,10"/>
 
                         <!--Email-->
-                        <TextBox Text="{Binding Email}"
-                                     Tag="Enter your e-mail"
-                                     local:IsFocusedProperty.Value="True"
-                                     Margin="0,0,0,30"/>
+                        <TextBox Margin="0,0,0,30"
+                                 Text="{Binding Email}"
+                                 Tag="Enter your e-mail"
+                                 local:IsFocusedProperty.Value="True"
+                                 Style="{StaticResource LoginTextBox}"/>
 
                         <Grid>
                             <TextBlock Text="Password"
@@ -72,11 +73,10 @@
                         </Grid>
 
                         <!--Password-->
-                        <TextBox Text="{Binding Password}"
-                                     Tag="Enter your password"
-                                     Margin="0,0,0,20"/>
-
-                        <!--Password-->
+                        <TextBox Margin="0,0,0,20"
+                                 Text="{Binding Password}"
+                                 Tag="Enter your password"
+                                 Style="{StaticResource LoginTextBox}"/>
 
                         <!--Login button-->
                         <Button Width="293"
@@ -86,6 +86,7 @@
                                 Padding="0"
                                 HorizontalAlignment="Center"
                                 Command="{Binding LoginCommand}"
+                                Style="{StaticResource LoginButton}"
                                 CommandParameter="{Binding ElementName=Page}"
                                 local:IsBusyProperty.Value="{Binding LoginIsRunning}"/>
 

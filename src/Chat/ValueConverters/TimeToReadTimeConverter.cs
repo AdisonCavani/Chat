@@ -27,9 +27,6 @@ namespace Chat
             return $"Read {time.ToLocalTime():HH:mm, MMM yyyy}";
         }
 
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

@@ -14,9 +14,6 @@ namespace Chat
             return (SolidColorBrush)new BrushConverter().ConvertFrom($"#{value}");
         }
 
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

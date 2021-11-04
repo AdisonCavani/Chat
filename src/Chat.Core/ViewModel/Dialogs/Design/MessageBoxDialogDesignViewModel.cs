@@ -1,7 +1,7 @@
 ﻿namespace Chat.Core
 {
     /// <summary>
-    /// Details for a message box dialog
+    /// The design-time data for a <see cref="MessageBoxDialogViewModel"/>
     /// </summary>
     public class MessageBoxDialogDesignViewModel : MessageBoxDialogViewModel
     {

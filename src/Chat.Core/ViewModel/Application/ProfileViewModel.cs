@@ -55,6 +55,12 @@ namespace Chat.Core
             // Create commands
             CloseCommand = new RelayCommand(Close);
             OpenCommand = new RelayCommand(Open);
+
+            // TODO: Remove this with real information pulled from our database in future
+            Name = new TextEntryViewModel { Label = "Name", OriginalText = "Adison Cavani" };
+            Username = new TextEntryViewModel { Label = "Username", OriginalText = "adison" };
+            Password = new TextEntryViewModel { Label = "Password", OriginalText = "*************" };
+            Email = new TextEntryViewModel { Label = "Email", OriginalText = "test@email.com" };
         }
 
         #endregion

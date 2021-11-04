@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             d:DataContext="{x:Static core:ProfileDesignModel.Instance}">
 
     <Border Padding="15" Background="{StaticResource ForegroundLightBrush}">
         <Grid>
@@ -71,11 +72,11 @@
                 </Grid>
                 
                 <!-- Profile details -->
-                <StackPanel Grid.Column="1">
-                    <local:TextEntryControl/>
-                    <local:TextEntryControl/>
-                    <local:TextEntryControl/>
-                    <local:TextEntryControl/>
+                <StackPanel Grid.Column="1" local:TextEntryWidthMatcherProperty.Value="True">
+                    <local:TextEntryControl DataContext="{Binding Name}"/>
+                    <local:TextEntryControl DataContext="{Binding Username}"/>
+                    <local:TextEntryControl DataContext="{Binding Password}"/>
+                    <local:TextEntryControl DataContext="{Binding Email}"/>
                 </StackPanel>
             </Grid>
         </Grid>

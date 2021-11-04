@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
              mc:Ignorable="d"
-             DataContext="{x:Static core:TextEntryDesignModel.Instance}">
+             d:DataContext="{x:Static core:TextEntryDesignModel.Instance}">
 
     <!-- Grey underline -->
     <Border BorderBrush="{StaticResource ForegroundDarkBrush}"
@@ -14,6 +14,11 @@
 
         <Grid Background="{StaticResource ForegroundLightBrush}" Height="40">
 
+            <!--Double click to edit-->
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding EditCommand}"/>
+            </Grid.InputBindings>
+            
             <!-- Hover over to show edit button -->
             <Grid.Triggers>
                 <EventTrigger RoutedEvent="MouseEnter">
@@ -40,19 +45,21 @@
 
             <!-- Label -> Name* -> Buttons -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Name="LabelColumnDefinition" Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <!-- Label -->
             <TextBlock Text="{Binding Label}"
+                       Name="Label"
                        Margin="15,12"
                        VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
                        FontFamily="{StaticResource LatoRegular}"/>
 
             <!-- Edit Content -->
-            <TextBox Text="{Binding EditedText}"
+            <TextBox Text="{Binding EditedText, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Column="1"
                      local:AnimateFadeInProperty.Value="{Binding Editing}"
                      local:FocusAndSelectProperty.Value="{Binding Editing}"

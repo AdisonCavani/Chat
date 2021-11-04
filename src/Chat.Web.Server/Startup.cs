@@ -1,28 +1,33 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chat.Web.Server
 {
+    /// <summary>
+    /// The startup class that handles constructing the ASP.Net server services
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            // Share the configuration
+            IoCContainer.Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add ApplicationDbContext to DI
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(IoCContainer.Configuration.GetConnectionString("DefaultConnection")));
 
             // AddIdentity adds cookie based authentication
             // Adds scoped classes for things like UserManager, SignInManager, PasswordHashes ect...
             // NOTE: Automatically adds the validated user from a cookie to the HttpContext.User
             services.AddIdentity<ApplicationUser, IdentityRole>()
+
                 // Adds UserStore and RoleStore from this context
                 // That are consumed by the UserManager and RoleManager
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -30,6 +35,32 @@ namespace Chat.Web.Server
                 // Adds a provider that generates unique keys and hashes for things like
                 // forgot password links, phone number verification codes ect...
                 .AddDefaultTokenProviders();
+
+            // Add JWT Authentication for API clients
+            services.AddAuthentication().AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // Validate issuer
+                    ValidateIssuer = true,
+                    // Validate audience
+                    ValidateAudience = true,
+                    // Validate expiration
+                    ValidateLifetime = true,
+                    // Validate signature
+                    ValidateIssuerSigningKey = true,
+
+                    // Set issuer
+                    ValidIssuer = IoCContainer.Configuration["Jwt:Issuer"],
+                    // Set audience
+                    ValidAudience = IoCContainer.Configuration["Jwt:Audience"],
+
+                    // Set signing key
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                            // Get our secret key from configuration
+                            Encoding.UTF8.GetBytes(IoCContainer.Configuration["Jwt:SecretKey"]))
+                };
+            });
 
             // Change password policy
             // TODO: revoke changes!!!
@@ -53,7 +84,7 @@ namespace Chat.Web.Server
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
             });
 
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,18 +97,24 @@ namespace Chat.Web.Server
             app.UseAuthentication();
 
             if (env.IsDevelopment())
+                // Show any exceptions in browser when they crash
                 app.UseDeveloperExceptionPage();
             else
+                // Show generic error page
                 app.UseExceptionHandler("/Home/Error");
 
+            // Serve static files
             app.UseStaticFiles();
 
+            // Setup MVC routes
             app.UseMvc(routes =>
             {
+                // Default route of /controller/action/info
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{moreInfo?}");
 
+                // Set explicit about me page route
                 routes.MapRoute(
                     name: "aboutPage",
                     template: "more",

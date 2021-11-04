@@ -20,5 +20,10 @@
         /// The service provider for this application
         /// </summary>
         public static ServiceProvider Provider { get; set; }
+
+        /// <summary>
+        /// The configuration manager for the application
+        /// </summary>
+        public static IConfiguration Configuration { get; set; }
     }
 }

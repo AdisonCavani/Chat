@@ -11,7 +11,7 @@ namespace Chat
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter == null)
+            if (parameter is null)
                 return (bool)value ? Visibility.Hidden : Visibility.Visible;
             else
                 return (bool)value ? Visibility.Visible : Visibility.Hidden;

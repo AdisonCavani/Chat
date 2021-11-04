@@ -249,6 +249,7 @@
         <Setter Property="FontSize" Value="{StaticResource FontSizeXXLarge}"/>
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Padding" Value="30"/>
         <Setter Property="Margin" Value="0"/>
 

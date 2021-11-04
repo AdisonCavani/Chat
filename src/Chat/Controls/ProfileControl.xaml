@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
 
     <Border Padding="15" Background="{StaticResource ForegroundLightBrush}">
         <Grid>
@@ -15,35 +14,95 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Settings Title-->
-            <Grid Height="50">
-                
-                <!--Back button-->
-                <Button HorizontalAlignment="Left"
-                        Command="{Binding CloseCommand}"
-                        Style="{StaticResource IconGrowButton}"
-                        FontFamily="{StaticResource FontAwesome}"
-                        Foreground="{StaticResource ForegroundDarkBrush}"
-                        Content="{StaticResource FontAwesomeArrowLeftIcon}"/>
-                
-                <!--Settings header-->
-                <TextBlock VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontSize="{StaticResource FontSizeLarge}"
-                           Foreground="{StaticResource ForegroundVeryDarkBrush}">
-                    
-                <!--Cog icon-->
+            <!-- Settings Title -->
+            <Grid Height="40" Margin="0 0 0 20">
+
+                <!-- Back button -->
+                <Button Style="{StaticResource IconGrowButton}"
+                    Height="40"
+                    Content="{StaticResource FontAwesomeArrowLeftIcon}"
+                    FontFamily="{StaticResource FontAwesome}"
+                    Foreground="{StaticResource ForegroundDarkBrush}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Command="{Binding CloseCommand}"/>
+
+                <!-- Settings header -->
+                <TextBlock FontSize="{StaticResource FontSizeLarge}"
+                       Foreground="{StaticResource ForegroundVeryDarkBrush}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <!-- Cog icon -->
                 <Run FontFamily="{StaticResource FontAwesome}"
                      Text="{StaticResource FontAwesomeCogIcon}"
                      Foreground="{StaticResource WordOrangeBrush}"/>
-                    
-                <!--Settings text-->
-                <Run Text="Settings" FontFamily="{StaticResource LatoRegular}"/>
+                <!-- Settings text -->
+                <Run Text="Settings"
+                     FontFamily="{StaticResource LatoRegular}"/>
                 </TextBlock>
-            </Grid>
-            
-            <!--Main content-->
 
+            </Grid>
+
+            <!-- Main Content -->
+            <Grid Grid.Row="1" Width="700" VerticalAlignment="Top">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!-- Profile Picture -->
+                <Grid Margin="0 0 10 0"
+                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+
+                    <!-- Mask for rounded corners-->
+                    <Border CornerRadius="8"
+                            Name="Mask"
+                            Background="White"/>
+
+                    <!-- Image -->
+                    <Grid>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=Mask}"/>
+                        </Grid.OpacityMask>
+
+                        <Image Source="/Images/Samples/rusty.jpg" Stretch="UniformToFill"/>
+                    </Grid>
+
+                </Grid>
+
+                <!-- Profile details -->
+                <Grid Grid.Column="1" local:PanelChildMarginProperty.Value="15,8">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Labels -->
+                    <TextBlock Text="Name" FontFamily="{StaticResource LatoRegular}"/>
+                    <TextBlock Text="Username" Grid.Row="1" FontFamily="{StaticResource LatoRegular}"/>
+                    <TextBlock Text="Password" Grid.Row="2" FontFamily="{StaticResource LatoRegular}"/>
+                    <TextBlock Text="Email" Grid.Row="3" FontFamily="{StaticResource LatoRegular}"/>
+
+                    <!-- Content -->
+                    <TextBlock Text="Luke Malpass" Grid.Column="1"/>
+                    <TextBlock Text="luke" Grid.Column="1" Grid.Row="1"/>
+                    <TextBlock Text="********" Grid.Column="1" Grid.Row="2"/>
+                    <TextBlock Text="contact@angelsix.com" Grid.Column="1" Grid.Row="3"/>
+
+                </Grid>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

@@ -17,7 +17,7 @@ namespace Chat.Core
         public static string Unsecue(this SecureString secureString)
         {
             // <ale sire we have a secure string
-            if (secureString == null)
+            if (secureString is null)
                 return string.Empty;
 
             // Get a pointer for an unsecure string in memory

@@ -14,7 +14,7 @@ namespace Chat
             var passwordBox = sender as PasswordBox;
 
             // Make sure it's a password box
-            if (passwordBox == null)
+            if (passwordBox is null)
                 return;
 
             // Remove any previous events

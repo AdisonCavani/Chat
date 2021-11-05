@@ -19,14 +19,14 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity" />
+                                    <DoubleAnimation To="1" Duration="0:0:0.3" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="0.2" Duration="0:0:0.3" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity" />
+                                    <DoubleAnimation To="0.2" Duration="0:0:0.3" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -55,13 +55,13 @@
                                Width="6"
                                HorizontalAlignment="Center">
                                 <Track.DecreaseRepeatButton>
-                                    <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}" />
+                                    <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}"/>
                                 </Track.DecreaseRepeatButton>
                                 <Track.IncreaseRepeatButton>
-                                    <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageDownCommand}" />
+                                    <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageDownCommand}"/>
                                 </Track.IncreaseRepeatButton>
                                 <Track.Thumb>
-                                    <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                    <Thumb Style="{StaticResource ScrollBarThumb}"/>
                                 </Track.Thumb>
                             </Track>
                         </Border>
@@ -92,7 +92,7 @@
                                         <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageRightCommand}"/>
                                     </Track.IncreaseRepeatButton>
                                     <Track.Thumb>
-                                        <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                        <Thumb Style="{StaticResource ScrollBarThumb}"/>
                                     </Track.Thumb>
                                 </Track>
                             </Grid>

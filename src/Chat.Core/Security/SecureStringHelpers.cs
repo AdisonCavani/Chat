@@ -14,7 +14,7 @@ namespace Chat.Core
         /// </summary>
         /// <param name="secureString"></param>
         /// <returns></returns>
-        public static string Unsecue(this SecureString secureString)
+        public static string Unsecure(this SecureString secureString)
         {
             // <ale sire we have a secure string
             if (secureString is null)

@@ -14,7 +14,9 @@
                    Text="{Binding Message}"
                    Foreground="{StaticResource ForegroundVeryDarkBrush}"/>
 
-        <Button Content="{Binding OkText}"
+        <Button IsCancel="True"
+                IsDefault="True"
+                Content="{Binding OkText}"
                 HorizontalAlignment="Center"
                 Style="{StaticResource RegularButton}"
                 FontSize="{StaticResource FontSizeRegular}"

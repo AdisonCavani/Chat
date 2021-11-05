@@ -1,10 +1,14 @@
-﻿namespace Chat.Core
+﻿using System.Windows.Input;
+
+namespace Chat.Core
 {
     /// <summary>
     /// A view model for each chat list item in the overview chat list
     /// </summary>
     public class ChatListItemViewModel : BaseViewModel
     {
+        #region Public Properties
+
         /// <summary>
         /// The display name of this chat list
         /// </summary>
@@ -35,5 +39,38 @@
         /// True if this item is currently selected
         /// </summary>
         public bool IsSelected { get; set; }
+
+        #endregion
+
+        #region Public Commands
+
+        /// <summary>
+        /// Opens the current message thread
+        /// </summary>
+        public ICommand OpenMessageCommand { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ChatListItemViewModel()
+        {
+            // Create commands
+            OpenMessageCommand = new RelayCommand(OpenMessage);
+        }
+
+        #endregion
+
+        #region Command Methods
+
+        public void OpenMessage()
+        {
+
+        }
+
+        #endregion
     }
 }

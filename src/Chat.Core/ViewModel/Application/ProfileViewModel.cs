@@ -22,16 +22,26 @@ namespace Chat.Core
         /// <summary>
         /// The current users password
         /// </summary>
-        public TextEntryViewModel Password { get; set; }
+        public PasswordEntryViewModel Password { get; set; }
 
         /// <summary>
         /// The current users email
         /// </summary>
         public TextEntryViewModel Email { get; set; }
 
+        /// <summary>
+        /// The text for the logout button
+        /// </summary>
+        public string LogoutButtonText { get; set; }
+
         #endregion
 
         #region Public Commands
+
+        /// <summary>
+        /// The command to open the profile menu
+        /// </summary>
+        public ICommand OpenCommand { get; set; }
 
         /// <summary>
         /// The command to close the profile menu
@@ -39,9 +49,14 @@ namespace Chat.Core
         public ICommand CloseCommand { get; set; }
 
         /// <summary>
-        /// The command to open the profile menu
+        /// The command to logout of the application
         /// </summary>
-        public ICommand OpenCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
+
+        /// <summary>
+        /// The command to clear the users data from the view model
+        /// </summary>
+        public ICommand ClearUserDataCommand { get; set; }
 
         #endregion
 
@@ -53,17 +68,31 @@ namespace Chat.Core
         public ProfileViewModel()
         {
             // Create commands
-            CloseCommand = new RelayCommand(Close);
             OpenCommand = new RelayCommand(Open);
+            CloseCommand = new RelayCommand(Close);
+            LogoutCommand = new RelayCommand(Logout);
+            ClearUserDataCommand = new RelayCommand(ClearUserData);
 
-            // TODO: Remove this with real information pulled from our database in future
-            Name = new TextEntryViewModel { Label = "Name", OriginalText = "Adison Cavani" };
+            // TODO: Remove this once th real back-end is ready
+            Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Adison Cavani" };
             Username = new TextEntryViewModel { Label = "Username", OriginalText = "adison" };
-            Password = new TextEntryViewModel { Label = "Password", OriginalText = "*************" };
+            Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
             Email = new TextEntryViewModel { Label = "Email", OriginalText = "test@email.com" };
+
+            // TODO: Get from localization
+            LogoutButtonText = "Logout";
         }
 
         #endregion
+
+        /// <summary>
+        /// Closes the profile menu
+        /// </summary>
+        public void Open()
+        {
+            // Open the profile menu
+            IoC.Application.ProfileMenuVisible = true;
+        }
 
         /// <summary>
         /// Closes the profile menu
@@ -75,12 +104,32 @@ namespace Chat.Core
         }
 
         /// <summary>
-        /// Closes the profile menu
+        /// Logs the user out
         /// </summary>
-        public void Open()
+        public void Logout()
         {
-            // Open the profile menu
-            IoC.Application.ProfileMenuVisible = true;
+            // TODO: Confirm the user wants to logout
+
+            // TODO: Clear any user data/cache
+
+            // Clean all application level view models that contain
+            // any information about the current user
+            ClearUserData();
+
+            // Go to login page
+            IoC.Application.GoToPage(ApplicationPage.Login);
+        }
+
+        /// <summary>
+        /// Clears any data specific to the current user
+        /// </summary>
+        public void ClearUserData()
+        {
+            // Clear all view models containing the users info
+            Name = null;
+            Username = null;
+            Password = null;
+            Email = null;
         }
     }
 }

@@ -8,10 +8,25 @@ namespace Chat
     /// </summary>
     public partial class RegisterPage : BasePage<RegisterViewModel>, IComponentConnector
     {
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public RegisterPage()
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Constructor with specific view model
+        /// </summary>
+        public RegisterPage(RegisterViewModel specificViewModel) : base(specificViewModel)
+        {
+            InitializeComponent();
+        }
+
+        #endregion
 
         /// <summary>
         /// The secure password for this login page

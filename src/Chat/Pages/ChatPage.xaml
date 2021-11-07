@@ -69,7 +69,7 @@
         <Border Grid.Row="1"
                 Panel.ZIndex="2"
                 VerticalAlignment="Bottom"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
                 local:AnimateSlideInFromBottomProperty.Value="{Binding AttachmentMenuVisible}">
             <local:BubbleContent DataContext="{Binding AttachmentMenu}"/>
         </Border>
@@ -90,21 +90,29 @@
             </Grid.ColumnDefinitions>
 
             <!--Emoji button-->
-            <Button VerticalAlignment="Top"
+            <Button IsDefault="True"
+                    Focusable="False"
+                    VerticalAlignment="Top"
                     Command="{Binding SendCommand}"
                     Style="{StaticResource IconGrowButtonOnHover}"
                     Content="{StaticResource FontAwesomeEmojiIcon}"
                     Foreground="{StaticResource ForegroundDarkBrush}"
                     Height="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=Grid}}"/>
 
+            <!--Message box-->
             <TextBox FontSize="12"
                      MaxHeight="80"
                      Grid.Column="1"
                      AcceptsTab="True"
                      TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     x:Name="MessageText"
                      Tag="Write a message..."
                      VerticalScrollBarVisibility="Auto"
-                     Style="{StaticResource TextBoxInput}"/>
+                     local:IsFocusedProperty.Value="True"
+                     Style="{StaticResource TextBoxInput}"
+                     PreviewKeyDown="MessageText_PreviewKeyDown"
+                     Text="{Binding PendingMessageText, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!--Additional buttons-->
             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">

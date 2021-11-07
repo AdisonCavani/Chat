@@ -18,19 +18,19 @@ namespace Chat
         /// True if this is the very first time the value has been updated
         /// Used to make sure we run the logic at least once during first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> mAlreadyLoaded = new Dictionary<DependencyObject, bool>();
+        protected Dictionary<DependencyObject, bool> mAlreadyLoaded = new();
 
         /// <summary>
         /// The most recent value used if we get a value changed before we do the first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> mFirstLoadValue = new Dictionary<DependencyObject, bool>();
+        protected Dictionary<DependencyObject, bool> mFirstLoadValue = new();
 
         #endregion
 
         public override void OnValueUpdated(DependencyObject sender, object value)
         {
             // Get the framework element
-            if (!(sender is FrameworkElement element))
+            if (sender is not FrameworkElement element)
                 return;
 
             // Don't fire if the value doesn't change

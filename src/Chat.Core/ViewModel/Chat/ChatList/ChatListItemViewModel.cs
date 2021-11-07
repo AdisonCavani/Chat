@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Chat.Core
 {
-        /// <summary>
+    /// <summary>
     /// A view model for each chat list item in the overview chat list
     /// </summary>
     public class ChatListItemViewModel : BaseViewModel
@@ -31,7 +30,7 @@ namespace Chat.Core
         /// The RGB values (in hex) for the background color of the profile picture
         /// For example FF00FF for Red and Blue mixed
         /// </summary>
-        public string ProfilePictureRGB { get; set; } 
+        public string ProfilePictureRGB { get; set; }
 
         /// <summary>
         /// True if there are unread messages in this chat 
@@ -127,15 +126,20 @@ namespace Chat.Core
                         ProfilePictureRGB = "FF0000",
                         SenderName = "Parnell",
                         SentByMe = false,
-                    },                    new ChatMessageListItemViewModel
+                    },
+                    new ChatMessageListItemViewModel
                     {
                         Message = "A received message",
+                        ImageAttachment = new ChatMessageListItemImageAttachmentViewModel
+                        {
+                            ThumbnailUrl = "https://test.com"
+                        },
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",
                         SenderName = "Parnell",
                         SentByMe = false,
-                    },
+                    }
                 }
             });
         }

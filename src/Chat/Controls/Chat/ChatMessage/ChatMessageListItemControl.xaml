@@ -54,35 +54,62 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Grid.Triggers>
-                
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <!-- Message text/attachments grid -->
+                <Grid>
 
-                <!--Speech bubble rectangle-->
-                <Border Padding="15"
-                        CornerRadius="10"
-                        Background="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <!--Message text-->
-                    <TextBlock Text="{Binding Message}"
-                               TextWrapping="Wrap"
-                               VerticalAlignment="Center"
-                               FontFamily="{StaticResource LatoRegular}"
-                               Foreground="{StaticResource WordDarkBlueBrush}"/>
-                </Border>
+                    <!-- Image attachment -->
+                    <Border CornerRadius="10" Margin="0,0,0,15">
+                        <Image MaxWidth="600"
+                               Source="{Binding LocalFilePath}"
+                               DataContext="{Binding ImageAttachment}"
+                               local:ClipFromBorderProperty.Value="True"/>
+                    </Border>
 
-                <!--Chat bubble anchor-->
-                <Path Grid.Row="1"
-                      StrokeThickness="0"
-                      Margin="15,-1,15,0"
-                      Data="M 0,0 L 10,10 L 20,0 L 0,0"
-                      Fill="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}"
-                      HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeToAlignmentConverter}}"/>
+                    <!-- Chat Message Text Bubble -->
+                    <Grid Grid.Row="1"
+                          Visibility="{Binding HasMessage, Converter={local:BooleanToVisiblityGoneConverter}}">
 
-                <!--Time containers-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Speech bubble rectangle -->
+                        <Border Padding="15"
+                                CornerRadius="10"
+                                Background="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}">
+
+                            <!-- Message text -->
+                            <TextBlock TextWrapping="Wrap"
+                                       Text="{Binding Message}"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource LatoRegular}"
+                                       Foreground="{StaticResource WordDarkBlueBrush}"/>
+                        </Border>
+
+                        <!-- Chat bubble anchor -->
+                        <Path Grid.Row="1" 
+                              Stroke="Black"
+                              Panel.ZIndex="1"
+                              Margin="15 -1 15 0"
+                              StrokeThickness="0"
+                              Data="M 0,0 L 10,10 L 20,0 L 0,0"
+                              Fill="{Binding SentByMe, Converter={local:SentByMeToBackgroundConverter}}"
+                              HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeToAlignmentConverter}}"/>
+                    </Grid>
+            </Grid>
+
+            <!--Time containers-->
                 <StackPanel Opacity="0"
                             Grid.Row="2"
                             x:Name="ExtraDetails"

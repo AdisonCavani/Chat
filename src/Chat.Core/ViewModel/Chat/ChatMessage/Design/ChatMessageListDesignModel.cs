@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Chat.Core
@@ -14,7 +13,7 @@ namespace Chat.Core
         /// <summary>
         /// A single instance of the design model
         /// </summary>
-        public static ChatMessageListDesignModel Instance => new ChatMessageListDesignModel();
+        public static ChatMessageListDesignModel Instance => new();
 
         #endregion
 

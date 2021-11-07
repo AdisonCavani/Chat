@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Chat
 {
@@ -18,21 +19,21 @@ namespace Chat
         /// True if this is the very first time the value has been updated
         /// Used to make sure we run the logic at least once during first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> mAlreadyLoaded = new();
+        protected Dictionary<DependencyObject, bool> mAlreadyLoaded = new Dictionary<DependencyObject, bool>();
 
         /// <summary>
         /// The most recent value used if we get a value changed before we do the first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> mFirstLoadValue = new();
+        protected Dictionary<DependencyObject, bool> mFirstLoadValue = new Dictionary<DependencyObject, bool>();
 
         #endregion
 
         public override void OnValueUpdated(DependencyObject sender, object value)
         {
             // Get the framework element
-            if (sender is not FrameworkElement element)
+            if (!(sender is FrameworkElement element))
                 return;
-
+            
             // Don't fire if the value doesn't change
             if ((bool)sender.GetValue(ValueProperty) == (bool)value && mAlreadyLoaded.ContainsKey(sender))
                 return;
@@ -82,6 +83,34 @@ namespace Chat
         /// <param name="element">The element</param>
         /// <param name="value">The new value</param>
         protected virtual void DoAnimation(FrameworkElement element, bool value, bool firstLoad) { }
+    }
+
+    /// <summary>
+    /// Fades in an image once the source changes
+    /// </summary>
+    public class FadeInImageOnLoadProperty : AnimateBaseProperty<FadeInImageOnLoadProperty>
+    {
+        public override void OnValueUpdated(DependencyObject sender, object value)
+        {
+            // Make sure we have an image
+            if (!(sender is Image image))
+                return;
+
+            // If we want to animate in...
+            if ((bool)value)
+                // Listen for target change
+                image.TargetUpdated += Image_TargetUpdatedAsync;
+            // Otherwise
+            else
+                // Make sure we unhooked
+                image.TargetUpdated -= Image_TargetUpdatedAsync;
+        }
+
+        private async void Image_TargetUpdatedAsync(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            // Fade in image
+            await (sender as Image).FadeInAsync(false);
+        }
     }
 
     /// <summary>
@@ -165,7 +194,7 @@ namespace Chat
                 await element.FadeOutAsync(firstLoad ? 0 : 0.3f);
         }
     }
-
+    
     /// <summary>
     /// Animates a framework element sliding it from right to left and repeating forever
     /// </summary>

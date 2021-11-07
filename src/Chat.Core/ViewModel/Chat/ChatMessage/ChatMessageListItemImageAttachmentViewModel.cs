@@ -1,4 +1,6 @@
-﻿namespace Chat.Core
+﻿using System.Threading.Tasks;
+
+namespace Chat.Core
 {
     /// <summary>
     /// A view model for each chat message thread item's attachment (image) in a chat thread
@@ -50,7 +52,7 @@
                 //       Set LocalFilePath value
                 //
                 //       For now, just set the file path directly
-                LocalFilePath = "/Images/Samples/rusty.jpg";
+                Task.Delay(2000).ContinueWith(t => LocalFilePath = "/Images/Samples/rusty.jpg");
             }
         }
 
@@ -58,5 +60,10 @@
         /// The local file path on this machine to the downloaded thumbnail
         /// </summary>
         public string LocalFilePath { get; set; }
+
+        /// <summary>
+        /// Indicates if an image has loaded
+        /// </summary>
+        public bool ImageLoaded => LocalFilePath is not null;
     }
 }

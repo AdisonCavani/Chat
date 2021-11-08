@@ -17,13 +17,14 @@ namespace Chat
         private void AppWindow_Deactivated(object sender, System.EventArgs e)
         {
             // Show overlay if we are focused
-            (DataContext as WindowViewModel).DimmableOverlayVisible = true;
+            // TODO: Revert changes!
+            //(DataContext as WindowViewModel).DimmableOverlayVisible = true;
         }
 
         private void AppWindow_Activated(object sender, System.EventArgs e)
         {
             // Hide overlay if we are focused
-            (DataContext as WindowViewModel).DimmableOverlayVisible = false;
+            //(DataContext as WindowViewModel).DimmableOverlayVisible = false;
         }
     }
 }

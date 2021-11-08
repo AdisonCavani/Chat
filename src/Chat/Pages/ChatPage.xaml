@@ -32,7 +32,7 @@
         </Border>
 
         <!--Title bar-->
-        <Grid Height="50">
+        <Grid Height="50" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -40,21 +40,21 @@
 
             <!-- Example Marquee Title -->
             <!--<Border ClipToBounds="True">
-                <Border local:AnimateMarqueeProperty.Value="True">
-                    <TextBlock Text="Parnell" 
-                       Foreground="{StaticResource ForegroundLightBrush}"
-                       FontSize="{StaticResource FontSizeXLarge}"
-                       FontFamily="{StaticResource LatoRegular}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"/>
-                </Border>
-            </Border>-->
+                 <Border local:AnimateMarqueeProperty.Value="True">
+                 <TextBlock Text="Parnell" 
+                 Foreground="{StaticResource ForegroundLightBrush}"
+                 FontSize="{StaticResource FontSizeXLarge}"
+                 FontFamily="{StaticResource LatoRegular}"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"/>
+                 </Border>
+                 </Border>-->
 
             <!--Title text-->
-            <TextBlock Text="{Binding DisplayTitle}"
-                       Grid.ColumnSpan="2"
+            <TextBlock Grid.ColumnSpan="2"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
+                       Text="{Binding DisplayTitle}"
                        FontFamily="{StaticResource LatoRegular}"
                        FontSize="{StaticResource FontSizeXLarge}"
                        Foreground="{StaticResource ForegroundLightBrush}"/>
@@ -63,9 +63,9 @@
             <StackPanel Orientation="Horizontal" Grid.Column="1">
 
                 <!--Search button-->
-                <Button Command="{Binding OpenSearchCommand}"
-                        Style="{StaticResource IconGrowButton}"
-                        Content="{StaticResource FontAwesomeSearchIcon}"/>
+                <!--<Button Command="{Binding OpenSearchCommand}"
+                     Style="{StaticResource IconGrowButton}"
+                     Content="{StaticResource FontAwesomeSearchIcon}"/>-->
 
                 <!--Ellipsis button-->
                 <Button Style="{StaticResource IconGrowButton}"
@@ -73,28 +73,26 @@
             </StackPanel>
 
             <!-- Search Overlay -->
-            <Grid Grid.ColumnSpan="2"
-                  local:AnimateSlideInFromRightMarginProperty.Value="{Binding SearchIsOpen}">
+            <Grid HorizontalAlignment="Right">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Close search button -->
-                <Button Style="{StaticResource IconGrowButton}" 
-                        Content="{StaticResource FontAwesomeCloseIcon}"
-                        Command="{Binding CloseSearchCommand}"
-                        Foreground="{StaticResource WordOrangeBrush}"/>
+                <!-- Search button -->
+                <Button Grid.Column="0"
+                        Command="{Binding SearchCommand}"
+                        Style="{StaticResource IconSearchButton}"
+                        Content="{StaticResource FontAwesomeSearchIcon}"/>
 
                 <!-- Search box -->
-                <TextBox 
-                    Grid.Column="1" 
-                    Tag="Search text..."
-                    local:FocusProperty.Value="{Binding SearchIsOpen}"
-                    Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="0 5 5 5"
-                    FontSize="{StaticResource FontSizeRegular}">
+                <TextBox Grid.Column="1"
+                         Tag="Search emails"
+                         Style="{StaticResource SearchTextBox}"
+                         local:FocusProperty.Value="{Binding SearchIsOpen}"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
                         <!-- Clear text on Esc -->
                         <KeyBinding Command="{Binding ClearSearchCommand}" Key="Esc"/>
@@ -102,6 +100,19 @@
                         <KeyBinding Command="{Binding SearchCommand}" Key="Return"/>
                     </TextBox.InputBindings>
                 </TextBox>
+
+                <!-- Close search button -->
+                <Button Grid.Column="2"
+                        Command="{Binding ClearSearchCommand}"
+                        Style="{StaticResource IconCloseSearchButton}"
+                        Content="{StaticResource FontAwesomeCloseIcon}"/>
+                
+                <!--Bottom line-->
+                <Rectangle Height="2"
+                           Fill="#005885"
+                           Margin="0,0,0,8"
+                           Grid.ColumnSpan="3"
+                           VerticalAlignment="Bottom"/>
             </Grid>
         </Grid>
 

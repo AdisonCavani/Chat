@@ -15,12 +15,12 @@ namespace Chat.Core
         /// <summary>
         /// The last searched text in this list
         /// </summary>
-        protected string mLastSearchText;
+        protected string mLastSearchText = string.Empty;
 
         /// <summary>
         /// The text to search for in the search command
         /// </summary>
-        protected string mSearchText;
+        protected string mSearchText = string.Empty;
 
 
         /// <summary>
@@ -88,6 +88,8 @@ namespace Chat.Core
         /// </summary>
         public string PendingMessageText { get; set; }
 
+        private char[] separators = new char[] { ' ', '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '=', '+', '_', '/', ':', '.', '?' };
+
         /// <summary>
         /// The text to search for when we do a search
         /// </summary>
@@ -103,9 +105,8 @@ namespace Chat.Core
                 // Update value
                 mSearchText = value;
 
-                // If the search text is empty
-                if (string.IsNullOrEmpty(SearchText))
-                    // Search to restore messages
+                // Don't search for white-space characters
+                if (!string.IsNullOrWhiteSpace(SearchText) || string.IsNullOrEmpty(SearchText))
                     Search();
             }
         }
@@ -166,11 +167,6 @@ namespace Chat.Core
         /// </summary>
         public ICommand CloseSearchCommand { get; set; }
 
-        /// <summary>
-        /// The command for when the user wants to clear the search text
-        /// </summary>
-        public ICommand ClearSearchCommand { get; set; }
-
         #endregion
 
         #region Constructor
@@ -187,7 +183,6 @@ namespace Chat.Core
             SearchCommand = new RelayCommand(Search);
             OpenSearchCommand = new RelayCommand(OpenSearch);
             CloseSearchCommand = new RelayCommand(CloseSearch);
-            ClearSearchCommand = new RelayCommand(ClearSearch);
 
             // Make a default menu
             AttachmentMenu = new ChatAttachmentPopupMenuViewModel();
@@ -280,26 +275,12 @@ namespace Chat.Core
             }
 
             // Find all items that contain the given text
-            // TODO: Make more efficient search
+            // TODO: Tweak searching parameters
             FilteredItems = new ObservableCollection<ChatMessageListItemViewModel>(
-                Items.Where(item => item.Message.Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
+                Items.Where(item => SearchText.Split(separators, StringSplitOptions.RemoveEmptyEntries).All(s2 => item.Message.Split(separators, StringSplitOptions.RemoveEmptyEntries).Any(s1 => s1.Contains(s2)))));
 
             // Set last search text
             mLastSearchText = SearchText;
-        }
-
-        /// <summary>
-        /// Clears the search text
-        /// </summary>
-        public void ClearSearch()
-        {
-            if (!string.IsNullOrEmpty(SearchText))
-                // Clear the text
-                SearchText = string.Empty;
-
-            else
-                // Close search dialog
-                SearchIsOpen = false;
         }
 
         /// <summary>
@@ -310,7 +291,16 @@ namespace Chat.Core
         /// <summary>
         /// Closes the search dialog
         /// </summary>
-        public void CloseSearch() => SearchIsOpen = false;
+        public void CloseSearch()
+        {
+            if (!string.IsNullOrEmpty(SearchText))
+                // Clear the text
+                SearchText = string.Empty;
+
+            else
+                // Close search dialog
+                SearchIsOpen = false;
+        }
 
         #endregion
     }

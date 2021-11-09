@@ -62,58 +62,12 @@
             <!--Main buttons-->
             <StackPanel Orientation="Horizontal" Grid.Column="1">
 
-                <!--Search button-->
-                <!--<Button Command="{Binding OpenSearchCommand}"
-                     Style="{StaticResource IconGrowButton}"
-                     Content="{StaticResource FontAwesomeSearchIcon}"/>-->
-
                 <!--Ellipsis button-->
                 <Button Style="{StaticResource IconGrowButton}"
                         Content="{StaticResource FontAwesomeEllipsisVerticalIcon}"/>
             </StackPanel>
 
-            <!-- Search Overlay -->
-            <Grid HorizontalAlignment="Right">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Search button -->
-                <Button Grid.Column="0"
-                        Command="{Binding SearchCommand}"
-                        Style="{StaticResource IconSearchButton}"
-                        Content="{StaticResource FontAwesomeSearchIcon}"/>
-
-                <!-- Search box -->
-                <TextBox Grid.Column="1"
-                         Tag="Search emails"
-                         Style="{StaticResource SearchTextBox}"
-                         local:FocusProperty.Value="{Binding SearchIsOpen}"
-                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
-                    <TextBox.InputBindings>
-                        <!-- Clear text on Esc -->
-                        <KeyBinding Command="{Binding ClearSearchCommand}" Key="Esc"/>
-                        <!-- Search on enter -->
-                        <KeyBinding Command="{Binding SearchCommand}" Key="Return"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-
-                <!-- Close search button -->
-                <Button Grid.Column="2"
-                        Command="{Binding ClearSearchCommand}"
-                        Style="{StaticResource IconCloseSearchButton}"
-                        Content="{StaticResource FontAwesomeCloseIcon}"/>
-                
-                <!--Bottom line-->
-                <Rectangle Height="2"
-                           Fill="#005885"
-                           Margin="0,0,0,8"
-                           Grid.ColumnSpan="3"
-                           VerticalAlignment="Bottom"/>
-            </Grid>
+            <local:SearchControl HorizontalAlignment="Right"/>
         </Grid>
 
         <!--Chat list-->

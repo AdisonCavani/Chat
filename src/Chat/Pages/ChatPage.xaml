@@ -8,8 +8,8 @@
                 mc:Ignorable="d" 
                 d:DesignHeight="700"
                 d:DesignWidth="700"
-                d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}"
-                x:Name="Page">
+                x:Name="Page"
+                d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}">
 
     <Grid>
         <Grid.RowDefinitions>

@@ -20,6 +20,9 @@ namespace Chat
             // Setup the main application
             ApplicationSetup();
 
+            // Log it
+            IoC.Logger.Log("Application starting...", LogLevel.Informative);
+
             // Show the main window
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
@@ -35,6 +38,9 @@ namespace Chat
 
             // Bind a UI Manager
             IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
+
+            // Bind a logger
+            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory());
         }
     }
 }

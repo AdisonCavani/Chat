@@ -88,7 +88,7 @@ namespace Chat.Core
         /// </summary>
         public string PendingMessageText { get; set; }
 
-        private char[] separators = new char[] { ' ', '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '=', '+', '_', '/', ':', '.', '?' };
+        private char[] separators = new char[] { ' ', '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', '\\', '|', '\'', '"', ';', ':', '/', '?', '.', '>', ',', '<' };
 
         /// <summary>
         /// The text to search for when we do a search
@@ -277,7 +277,7 @@ namespace Chat.Core
             // Find all items that contain the given text
             // TODO: Tweak searching parameters
             FilteredItems = new ObservableCollection<ChatMessageListItemViewModel>(
-                Items.Where(item => SearchText.Split(separators, StringSplitOptions.RemoveEmptyEntries).All(s2 => item.Message.Split(separators, StringSplitOptions.RemoveEmptyEntries).Any(s1 => s1.Contains(s2)))));
+                Items.Where(item => SearchText.ToLower().Split(separators, StringSplitOptions.RemoveEmptyEntries).All(s2 => item.Message.ToLower().Split(separators, StringSplitOptions.RemoveEmptyEntries).Any(s1 => s1.Contains(s2)))));
 
             // Set last search text
             mLastSearchText = SearchText;

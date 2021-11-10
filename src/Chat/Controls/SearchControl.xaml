@@ -21,16 +21,17 @@
 
         <!-- Search button -->
         <Button Grid.Column="0"
-                        Command="{Binding SearchCommand}"
-                        Style="{StaticResource IconSearchButton}"
-                        Content="{StaticResource FontAwesomeSearchIcon}"/>
+                Command="{Binding SearchCommand}"
+                Style="{StaticResource IconSearchButton}"
+                Content="{StaticResource FontAwesomeSearchIcon}"/>
 
         <!-- Search box -->
         <TextBox Grid.Column="1"
-                         Tag="Search emails"
-                         Style="{StaticResource SearchTextBox}"
-                         local:FocusProperty.Value="{Binding SearchIsOpen}"
-                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                 MaxLength="255"
+                 Tag="Search emails"
+                 Style="{StaticResource SearchTextBox}"
+                 local:FocusProperty.Value="{Binding SearchIsOpen}"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
                 <!-- Clear text on Esc -->
                 <KeyBinding Command="{Binding CloseSearchCommand}" Key="Esc"/>
@@ -41,15 +42,15 @@
 
         <!-- Close search button -->
         <Button Grid.Column="2"
-                        Command="{Binding CloseSearchCommand}"
-                        Style="{StaticResource IconCloseSearchButton}"
-                        Content="{StaticResource FontAwesomeCloseIcon}"/>
+                Command="{Binding CloseSearchCommand}"
+                Style="{StaticResource IconCloseSearchButton}"
+                Content="{StaticResource FontAwesomeCloseIcon}"/>
 
         <!--Bottom line-->
         <Rectangle Height="2"
-                           Fill="#005885"
-                           Margin="0,0,0,8"
-                           Grid.ColumnSpan="3"
-                           VerticalAlignment="Bottom"/>
+                   Fill="#005885"
+                   Margin="0,0,0,8"
+                   Grid.ColumnSpan="3"
+                   VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

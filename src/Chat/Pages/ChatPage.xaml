@@ -32,7 +32,7 @@
         </Border>
 
         <!--Title bar-->
-        <Grid Height="50" Background="White">
+        <Grid Height="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>

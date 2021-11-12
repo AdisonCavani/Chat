@@ -54,7 +54,7 @@ namespace Chat
 
             // Alert developer of issue
             Debugger.Break();
-            return default(ApplicationPage);
+            return default;
         }
     }
 }

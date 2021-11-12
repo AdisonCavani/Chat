@@ -48,7 +48,7 @@ namespace Chat
         /// <summary>
         /// The size of the resize border around the window, taking into account the outer margin
         /// </summary>
-        public Thickness ResizeBorderThickness => new Thickness(ResizeBorder + OuterMarginSize);
+        public Thickness ResizeBorderThickness => new(ResizeBorder + OuterMarginSize);
 
         /// <summary>
         /// The padding of the inner content of the main window
@@ -68,7 +68,7 @@ namespace Chat
         /// <summary>
         /// The margin around the window to allow for a drop shadow
         /// </summary>
-        public Thickness OuterMarginSizeThickness => new Thickness(OuterMarginSize);
+        public Thickness OuterMarginSizeThickness => new(OuterMarginSize);
 
         /// <summary>
         /// The radius of the edges of the window
@@ -83,7 +83,7 @@ namespace Chat
         /// <summary>
         /// The radius of the edges of the window
         /// </summary>
-        public CornerRadius WindowCornerRadius => new CornerRadius(WindowRadius);
+        public CornerRadius WindowCornerRadius => new(WindowRadius);
 
         /// <summary>
         /// The height of the title bar / caption of the window
@@ -92,7 +92,7 @@ namespace Chat
         /// <summary>
         /// The height of the title bar / caption of the window
         /// </summary>
-        public GridLength TitleHeightGridLength => new GridLength(TitleHeight + ResizeBorder);
+        public GridLength TitleHeightGridLength => new(TitleHeight + ResizeBorder);
 
         /// <summary>
         /// True if we should have a dimmed overlay on the window

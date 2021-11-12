@@ -30,7 +30,7 @@ namespace Chat
         /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return mConverter ?? (mConverter = new T());
+            return mConverter ??= new T();
         }
 
         #endregion

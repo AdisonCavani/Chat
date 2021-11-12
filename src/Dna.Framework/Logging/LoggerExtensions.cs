@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace Dna
 {
@@ -17,8 +19,8 @@ namespace Dna
         /// <param name="lineNumber">The line number in the code file of the caller</param>
         /// <param name="args">The additional arguments</param>
         public static void LogCriticalSource(
-            this ILogger logger, 
-            string message, 
+            this ILogger logger,
+            string message,
             EventId eventId = new EventId(),
             Exception exception = null,
             [CallerMemberName] string origin = "",

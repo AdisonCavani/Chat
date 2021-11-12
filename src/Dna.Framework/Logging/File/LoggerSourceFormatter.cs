@@ -1,4 +1,7 @@
-﻿namespace Dna
+﻿using System;
+using System.IO;
+
+namespace Dna
 {
     /// <summary>
     /// Formats a message when the callers source information is provided first in the arguments

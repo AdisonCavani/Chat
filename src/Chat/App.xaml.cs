@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Chat.Core;
 
 namespace Chat
@@ -9,7 +10,7 @@ namespace Chat
     public partial class App : Application
     {
         /// <summary>
-        /// Custom startup, so we load our IoC immedietaly before anything else
+        /// Custom startup, so we load our IoC immediately before anything else
         /// </summary>
         /// <param name="e"></param>
         protected override void OnStartup(StartupEventArgs e)
@@ -36,11 +37,22 @@ namespace Chat
             // Setup IoC
             IoC.Setup();
 
+            // Bind a logger
+            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
+            {
+                // TODO: Add ApplicationSettings, so we can set/edit a log location
+                //       For now just log to the path where this application is running
+                new FileLogger("log.txt")
+            }));
+
+            // Bind a task manager
+            IoC.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());
+
+            // Bind a file manager
+            IoC.Kernel.Bind<IFileManager>().ToConstant(new FileManager());
+
             // Bind a UI Manager
             IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
-
-            // Bind a logger
-            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory());
         }
     }
 }

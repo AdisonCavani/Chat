@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Chat.Core;
+using Dna;
 
 namespace Chat
 {
@@ -33,6 +34,9 @@ namespace Chat
         /// </summary>
         private void ApplicationSetup()
         {
+            // Setup the Dna Framework
+            Framework.Startup();
+
             // Setup IoC
             IoC.Setup();
 
@@ -41,7 +45,7 @@ namespace Chat
             {
                 // TODO: Add ApplicationSettings, so we can set/edit a log location
                 //       For now just log to the path where this application is running
-                new FileLogger("log.txt")
+                new Core.FileLogger("log.txt")
             }));
 
             // Bind a task manager

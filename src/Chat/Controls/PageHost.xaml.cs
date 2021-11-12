@@ -74,7 +74,7 @@ namespace Chat
         private static object CurrentPagePropertyChanged(DependencyObject d, object value)
         {
             // Get current values
-            var currentPage = (ApplicationPage)d.GetValue(CurrentPageProperty);
+            var currentPage = (ApplicationPage)value;
             var currentPageViewModel = d.GetValue(CurrentPageViewModelProperty);
 
             // Get the frames
@@ -85,7 +85,7 @@ namespace Chat
             // just update the view model
             if (newPageFrame.Content is BasePage page && page.ToApplicationPage() == currentPage)
             {
-                // Just update the view modelf
+                // Just update the view model
                 page.ViewModelObject = currentPageViewModel;
 
                 return value;

@@ -156,7 +156,7 @@ namespace Chat.Web.Server.Controllers
         }
 
         [Route("test")]
-        public SettingsDataModel Test([FromForm] SettingsDataModel model)
+        public SettingsDataModel Test(SettingsDataModel model)
         {
             return new SettingsDataModel { Id = "some id", Name = "Luke", Value = "10" };
         }

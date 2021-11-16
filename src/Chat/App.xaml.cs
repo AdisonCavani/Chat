@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using Chat.Core;
 using Dna;
 
@@ -39,6 +40,18 @@ namespace Chat
                 .UseFileLogger()
                 .Build();
 
+            Task.Run(async () =>
+            {
+                var result = await WebRequests.PostAsync<SettingsDataModel>("https://localhost:7283/test", new SettingsDataModel
+                {
+                    Id = "from client",
+                    Name = "chat",
+                    Value = "123"
+                }, returnType: KnownContentSerializers.Xml);
+
+                var a = result;
+            });
+
             // Setup IoC
             IoC.Setup();
 
@@ -59,5 +72,14 @@ namespace Chat
             // Bind a UI Manager
             IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
         }
+    }
+
+    public class SettingsDataModel
+    {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Value { get; set; }
     }
 }

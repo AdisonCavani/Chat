@@ -1,4 +1,5 @@
-﻿using System.Windows.Markup;
+﻿using System.Security;
+using System.Windows.Markup;
 using Chat.Core;
 
 namespace Chat
@@ -6,7 +7,7 @@ namespace Chat
     /// <summary>
     /// Interaction logic for LoginPage.xaml
     /// </summary>
-    public partial class LoginPage : BasePage<LoginViewModel>, IComponentConnector
+    public partial class LoginPage : BasePage<LoginViewModel>, IComponentConnector, IHavePassword
     {
         #region Constructor
 
@@ -31,6 +32,6 @@ namespace Chat
         /// <summary>
         /// The secure password for this login page
         /// </summary>
-        //public SecureString SecurePassword => PasswordText.SecurePassword;
+        public SecureString SecurePassword => PasswordText.SecurePassword;
     }
 }

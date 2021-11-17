@@ -73,10 +73,13 @@
                         </Grid>
 
                         <!--Password-->
-                        <TextBox Margin="0,0,0,20"
+                        <!--<TextBox Margin="0,0,0,20"
                                  Text="{Binding Password}"
                                  Tag="Enter your password"
-                                 Style="{StaticResource LoginTextBox}"/>
+                                 Style="{StaticResource LoginTextBox}"/>-->
+                        <PasswordBox Tag="Password"
+                                     Margin="0,0,0,30"
+                                     x:Name="PasswordText"/>
 
                         <!--Login button-->
                         <Button Width="293"

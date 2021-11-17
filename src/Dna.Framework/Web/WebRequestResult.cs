@@ -10,7 +10,7 @@ public class WebRequestResult
     /// <summary>
     /// If the call was successful
     /// </summary>
-    public bool Successful => ErrorMessage is null;
+    public bool Successful => ErrorMessage == null;
 
     /// <summary>
     /// If something failed, this is the error message
@@ -62,5 +62,5 @@ public class WebRequestResult<T> : WebRequestResult
     /// <summary>
     /// Casts the underlying object to the specified type
     /// </summary>
-    public new T ServerResponse { get; set; }
+    public new T ServerResponse { get => (T)base.ServerResponse; set => base.ServerResponse = value; }
 }

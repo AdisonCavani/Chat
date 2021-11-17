@@ -1,6 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Chat.Core;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,17 +14,99 @@ namespace Chat.Web.Server.Controllers
     /// </summary>
     public class ApiController : Controller
     {
+        #region Protected Members
+
+        /// <summary>
+        /// The scoped Application context
+        /// </summary>
+        protected ApplicationDbContext mContext;
+
+        /// <summary>
+        /// The manager for handling user creation, deletion, searching, roles etc...
+        /// </summary>
+        protected UserManager<ApplicationUser> mUserManager;
+
+        /// <summary>
+        /// The manager for handling signing in and out for our users
+        /// </summary>
+        protected SignInManager<ApplicationUser> mSignInManager;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="context">The injected context</param>
+        /// <param name="userManager">The identity user manager</param>
+        /// <param name="signInManager">The identity sign in manager</param>
+        public ApiController(
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager)
+        {
+            mContext = context;
+            mUserManager = userManager;
+            mSignInManager = signInManager;
+        }
+
+        #endregion
+
         /// <summary>
         /// Logs in a user using token-based authentication
         /// </summary>
         /// <returns></returns>
         [Route("api/login")]
-        public IActionResult LogIn()
+        public async Task<ApiResponse<LoginResultApiModel>> LogInAsync([FromBody] LoginCredentialsApiModel loginCredentials)
         {
-            // TODO: Get users login information and check it is correct
+            // TODO: Localize all strings
+            // The message when we fail to login
+            var invalidErrorMessage = "Invalid username/email or password";
 
-            // For now set username
-            var username = "adison";
+            // The error response for a failed login
+            var errorResponse = new ApiResponse<LoginResultApiModel>
+            {
+                // TODO: Localize all strings
+                // Set error message
+                ErrorMessage = invalidErrorMessage
+            };
+
+            // Make sure  we have a username
+            if (loginCredentials?.UsernameOrEmail is null || string.IsNullOrWhiteSpace(loginCredentials.UsernameOrEmail))
+                // Return error message to user
+                return errorResponse;
+
+            // Validate if the user credentials are correct
+
+            // TODO: Improved method
+            // Is this an email?
+            var isEmail = new EmailAddressAttribute().IsValid(loginCredentials.UsernameOrEmail);
+
+            // Get the user details
+            var user = isEmail ?
+                // Find by email
+                await mUserManager.FindByEmailAsync(loginCredentials.UsernameOrEmail) :
+                // Find by username
+                await mUserManager.FindByNameAsync(loginCredentials.UsernameOrEmail);
+
+            // If we failed to find a user
+            if (user is null)
+                // Return error message to user
+                return errorResponse;
+
+            // We have a user, validate a password
+            var isValidPassword = await mUserManager.CheckPasswordAsync(user, loginCredentials.Password);
+
+            // Password was wrong
+            if (!isValidPassword)
+                // Return error message to user
+                return errorResponse;
+
+            // Validated username and password
+
+            // Get username
+            var username = user.UserName;
 
             // Set our tokens claims
             var claims = new[]
@@ -51,10 +136,18 @@ namespace Chat.Web.Server.Controllers
                 );
 
             // Return token to user
-            return Ok(new
+            return new ApiResponse<LoginResultApiModel>
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token)
-            });
+                // Pass back the user details and the token
+                Response = new LoginResultApiModel
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    Token = new JwtSecurityTokenHandler().WriteToken(token)
+                }
+            };
         }
 
         /// <summary>

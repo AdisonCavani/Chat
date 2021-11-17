@@ -1,5 +1,5 @@
-﻿namespace Chat.Core
-{
+﻿namespace Chat.Core;
+
     /// <summary>
     /// The types of icons to use within the application
     /// </summary>
@@ -20,4 +20,4 @@
         /// </summary>
         File = 2
     }
-}
+

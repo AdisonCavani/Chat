@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace Chat.Core
-{
-    /// <summary>
-    /// A view model for any popup menus
-    /// </summary>
-    public class ChatAttachmentPopupMenuViewModel : BasePopupViewModel
-    {
-        #region Constructor
+namespace Chat.Core;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ChatAttachmentPopupMenuViewModel()
+/// <summary>
+/// A view model for any popup menus
+/// </summary>
+public class ChatAttachmentPopupMenuViewModel : BasePopupViewModel
+{
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public ChatAttachmentPopupMenuViewModel()
+    {
+        Content = new MenuViewModel
         {
-            Content = new MenuViewModel
+            Items = new List<MenuItemViewModel>(new[]
             {
-                Items = new List<MenuItemViewModel>(new[]
-                {
                     new MenuItemViewModel { Text = "Attach a file...", Type = MenuItemType.Header },
                     new MenuItemViewModel { Text = "From Computer", Icon = IconType.File },
                     new MenuItemViewModel { Text = "From Pictures", Icon = IconType.Picture },
                 })
-            };
-        }
-
-        #endregion
+        };
     }
+
+    #endregion
 }

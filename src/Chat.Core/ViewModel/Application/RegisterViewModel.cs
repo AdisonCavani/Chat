@@ -2,84 +2,83 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Chat.Core
+namespace Chat.Core;
+
+/// <summary>
+/// The View Model for a register screen
+/// </summary>
+public class RegisterViewModel : BaseViewModel
 {
+    #region Public Properties
+
     /// <summary>
-    /// The View Model for a register screen
+    /// The email of the user
     /// </summary>
-    public class RegisterViewModel : BaseViewModel
+    public string Email { get; set; }
+
+    /// <summary>
+    /// A flag indicating if the register command is running
+    /// </summary>
+    public bool RegisterIsRunning { get; set; }
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// The command to login
+    /// </summary>
+    public ICommand LoginCommand { get; set; }
+
+    /// <summary>
+    /// The command to register
+    /// </summary>
+    public ICommand RegisterCommand { get; set; }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public RegisterViewModel()
     {
-        #region Public Properties
+        // Create commands
+        RegisterCommand = new RelayParameterizedCommand(async (parameter) => await RegisterAsync(parameter));
+        LoginCommand = new RelayCommand(async () => await LoginAsync());
+    }
 
-        /// <summary>
-        /// The email of the user
-        /// </summary>
-        public string Email { get; set; }
+    #endregion
 
-        /// <summary>
-        /// A flag indicating if the register command is running
-        /// </summary>
-        public bool RegisterIsRunning { get; set; }
-
-        #endregion
-
-        #region Commands
-
-        /// <summary>
-        /// The command to login
-        /// </summary>
-        public ICommand LoginCommand { get; set; }
-
-        /// <summary>
-        /// The command to register
-        /// </summary>
-        public ICommand RegisterCommand { get; set; }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public RegisterViewModel()
+    /// <summary>
+    /// Attempts to register a new user
+    /// </summary>
+    /// <param name="parameter">The <see cref="SecureString"/> passed in from the view for the users password</param>
+    /// <returns></returns>
+    private async Task RegisterAsync(object parameter)
+    {
+        await RunCommandAsync(() => RegisterIsRunning, async () =>
         {
-            // Create commands
-            RegisterCommand = new RelayParameterizedCommand(async (parameter) => await RegisterAsync(parameter));
-            LoginCommand = new RelayCommand(async () => await LoginAsync());
-        }
+            await Task.Delay(3000);
 
-        #endregion
+            // Go to chat page
+            IoC.Application.GoToPage(ApplicationPage.Chat);
 
-        /// <summary>
-        /// Attempts to register a new user
-        /// </summary>
-        /// <param name="parameter">The <see cref="SecureString"/> passed in from the view for the users password</param>
-        /// <returns></returns>
-        private async Task RegisterAsync(object parameter)
-        {
-            await RunCommandAsync(() => RegisterIsRunning, async () =>
-            {
-                await Task.Delay(3000);
+            //var email = Email;
 
-                // Go to chat page
-                IoC.Application.GoToPage(ApplicationPage.Chat);
+            //// IMPORTANT: Never store unsecure password in variable like this
+            //var pass = (parameter as IHavePassword).SecurePassword.Unsecue();
+        });
+    }
 
-                //var email = Email;
-
-                //// IMPORTANT: Never store unsecure password in variable like this
-                //var pass = (parameter as IHavePassword).SecurePassword.Unsecue();
-            });
-        }
-
-        /// <summary>
-        /// Takes the user to the login page
-        /// </summary>
-        /// <returns></returns>
-        private async Task LoginAsync()
-        {
-            // Go to login page
-            IoC.Application.GoToPage(ApplicationPage.Login);
-        }
+    /// <summary>
+    /// Takes the user to the login page
+    /// </summary>
+    /// <returns></returns>
+    private async Task LoginAsync()
+    {
+        // Go to login page
+        IoC.Application.GoToPage(ApplicationPage.Login);
     }
 }

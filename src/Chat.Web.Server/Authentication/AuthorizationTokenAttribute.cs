@@ -1,24 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Chat.Web.Server
+namespace Chat.Web.Server;
+
+/// <summary>
+/// The authorization policy for token-based authentication
+/// </summary>
+public class AuthorizeTokenAttribute : AuthorizeAttribute
 {
+    #region Constructor
+
     /// <summary>
-    /// The authorization policy for token-based authentication
+    /// Default constructor
     /// </summary>
-    public class AuthorizeTokenAttribute : AuthorizeAttribute
+    public AuthorizeTokenAttribute()
     {
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public AuthorizeTokenAttribute()
-        {
-            // Add the JWT bearer authentication scheme
-            AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme;
-        }
-
-        #endregion
+        // Add the JWT bearer authentication scheme
+        AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme;
     }
+
+    #endregion
 }

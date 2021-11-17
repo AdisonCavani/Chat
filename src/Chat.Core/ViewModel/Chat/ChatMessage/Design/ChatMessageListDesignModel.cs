@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Chat.Core
+namespace Chat.Core;
+
+/// <summary>
+/// The design-time data for a <see cref="ChatMessageListViewModel"/>
+/// </summary>
+public class ChatMessageListDesignModel : ChatMessageListViewModel
 {
+    #region Singleton
+
     /// <summary>
-    /// The design-time data for a <see cref="ChatMessageListViewModel"/>
+    /// A single instance of the design model
     /// </summary>
-    public class ChatMessageListDesignModel : ChatMessageListViewModel
+    public static ChatMessageListDesignModel Instance => new();
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public ChatMessageListDesignModel()
     {
-        #region Singleton
+        DisplayTitle = "Parnell";
 
-        /// <summary>
-        /// A single instance of the design model
-        /// </summary>
-        public static ChatMessageListDesignModel Instance => new();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ChatMessageListDesignModel()
-        {
-            DisplayTitle = "Parnell";
-
-            Items = new ObservableCollection<ChatMessageListItemViewModel>
+        Items = new ObservableCollection<ChatMessageListItemViewModel>
             {
                 new ChatMessageListItemViewModel
                 {
@@ -57,8 +57,7 @@ namespace Chat.Core
                     SentByMe = false,
                 },
             };
-        }
-
-        #endregion
     }
+
+    #endregion
 }

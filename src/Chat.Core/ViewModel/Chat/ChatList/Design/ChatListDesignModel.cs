@@ -1,29 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace Chat.Core
+namespace Chat.Core;
+
+/// <summary>
+/// The design-time data for a <see cref="ChatListItemViewModel"/>
+/// </summary>
+public class ChatListDesignModel : ChatListViewModel
 {
+    #region Singleton
+
     /// <summary>
-    /// The design-time data for a <see cref="ChatListItemViewModel"/>
+    /// A single instance of the design model
     /// </summary>
-    public class ChatListDesignModel : ChatListViewModel
+    public static ChatListDesignModel Instance => new();
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public ChatListDesignModel()
     {
-        #region Singleton
-
-        /// <summary>
-        /// A single instance of the design model
-        /// </summary>
-        public static ChatListDesignModel Instance => new();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ChatListDesignModel()
-        {
-            Items = new List<ChatListItemViewModel>
+        Items = new List<ChatListItemViewModel>
             {
                 new ChatListItemViewModel
                 {
@@ -93,8 +93,7 @@ namespace Chat.Core
                 },
 
             };
-        }
-
-        #endregion
     }
+
+    #endregion
 }

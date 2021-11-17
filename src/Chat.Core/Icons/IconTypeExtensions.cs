@@ -1,29 +1,28 @@
-﻿namespace Chat.Core
+﻿namespace Chat.Core;
+
+/// <summary>
+/// Helper functions for <see cref="IconType"/>
+/// </summary>
+public static class IconTypeExtensions
 {
     /// <summary>
-    /// Helper functions for <see cref="IconType"/>
+    /// Converts see <see cref="IconType"/> to a FontAwesome string
     /// </summary>
-    public static class IconTypeExtensions
+    /// <param name="type">The type to convert</param>
+    /// <returns></returns>
+    public static string ToFontAwesome(this IconType type)
     {
-        /// <summary>
-        /// Converts see <see cref="IconType"/> to a FontAwesome string
-        /// </summary>
-        /// <param name="type">The type to convert</param>
-        /// <returns></returns>
-        public static string ToFontAwesome(this IconType type)
+        switch (type)
         {
-            switch (type)
-            {
-                case IconType.File:
-                    return "\uf15b";
+            case IconType.File:
+                return "\uf15b";
 
-                case IconType.Picture:
-                    return "\uf03e";
+            case IconType.Picture:
+                return "\uf03e";
 
-                // If none found, return null
-                default:
-                    return null;
-            }
+            // If none found, return null
+            default:
+                return null;
         }
     }
 }

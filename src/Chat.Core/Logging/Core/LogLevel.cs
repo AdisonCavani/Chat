@@ -1,38 +1,37 @@
-﻿namespace Chat.Core
+﻿namespace Chat.Core;
+
+/// <summary>
+/// The severity of the log message
+/// </summary>
+public enum LogLevel
 {
     /// <summary>
-    /// The severity of the log message
+    /// Developer-specific information
     /// </summary>
-    public enum LogLevel
-    {
-        /// <summary>
-        /// Developer-specific information
-        /// </summary>
-        Debug = 1,
+    Debug = 1,
 
-        /// <summary>
-        /// Verbose information
-        /// </summary>
-        Verbose = 2,
+    /// <summary>
+    /// Verbose information
+    /// </summary>
+    Verbose = 2,
 
-        /// <summary>
-        /// General information
-        /// </summary>
-        Informative = 3,
+    /// <summary>
+    /// General information
+    /// </summary>
+    Informative = 3,
 
-        /// <summary>
-        /// A warning
-        /// </summary>
-        Warning = 4,
+    /// <summary>
+    /// A warning
+    /// </summary>
+    Warning = 4,
 
-        /// <summary>
-        /// An error
-        /// </summary>
-        Error = 5,
+    /// <summary>
+    /// An error
+    /// </summary>
+    Error = 5,
 
-        /// <summary>
-        /// A success
-        /// </summary>
-        Success = 6,
-    }
+    /// <summary>
+    /// A success
+    /// </summary>
+    Success = 6,
 }

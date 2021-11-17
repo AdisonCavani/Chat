@@ -1,23 +1,23 @@
 ﻿namespace Chat.Core;
 
+/// <summary>
+/// The types of icons to use within the application
+/// </summary>
+public enum IconType
+{
     /// <summary>
-    /// The types of icons to use within the application
+    /// No icon
     /// </summary>
-    public enum IconType
-    {
-        /// <summary>
-        /// No icon
-        /// </summary>
-        None = 0,
+    None = 0,
 
-        /// <summary>
-        /// A picture frame
-        /// </summary>
-        Picture = 1,
+    /// <summary>
+    /// A picture frame
+    /// </summary>
+    Picture = 1,
 
-        /// <summary>
-        /// A file icon
-        /// </summary>
-        File = 2
-    }
+    /// <summary>
+    /// A file icon
+    /// </summary>
+    File = 2
+}
 

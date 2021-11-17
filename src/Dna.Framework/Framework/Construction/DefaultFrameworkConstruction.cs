@@ -1,24 +1,23 @@
-﻿namespace Dna
+﻿namespace Dna;
+
+/// <summary>
+/// Creates a default framework construction containing all
+/// the default configuration and services
+/// </summary>
+public class DefaultFrameworkConstruction : FrameworkConstruction
 {
+    #region Constructor
+
     /// <summary>
-    /// Creates a default framework construction containing all
-    /// the default configuration and services
+    /// Default construction
     /// </summary>
-    public class DefaultFrameworkConstruction : FrameworkConstruction
+    public DefaultFrameworkConstruction()
     {
-        #region Constructor
-
-        /// <summary>
-        /// Default construction
-        /// </summary>
-        public DefaultFrameworkConstruction()
-        {
-            // Configure
-            this.Configure()
-                // Add default services
-                .UseDefaultServices();
-        }
-
-        #endregion
+        // Configure
+        this.Configure()
+            // Add default services
+            .UseDefaultServices();
     }
+
+    #endregion
 }

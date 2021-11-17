@@ -1,15 +1,14 @@
 ﻿using System.Security;
 
-namespace Chat.Core
+namespace Chat.Core;
+
+/// <summary>
+/// An interface for a class that can provide a secure password
+/// </summary>
+public interface IHavePassword
 {
     /// <summary>
-    /// An interface for a class that can provide a secure password
+    /// The secure password
     /// </summary>
-    public interface IHavePassword
-    {
-        /// <summary>
-        /// The secure password
-        /// </summary>
-        SecureString SecurePassword { get; }
-    }
+    SecureString SecurePassword { get; }
 }

@@ -1,13 +1,13 @@
-﻿namespace Chat.Core
+﻿namespace Chat.Core;
+
+/// <summary>
+/// A base view model for any dialogs
+/// </summary>
+public class BaseDialogViewModel : BaseViewModel
 {
     /// <summary>
-    /// A base view model for any dialogs
+    /// The title of the message box
     /// </summary>
-    public class BaseDialogViewModel : BaseViewModel
-    {
-        /// <summary>
-        /// The title of the message box
-        /// </summary>
-        public string Title { get; set; }
-    }
+    public string Title { get; set; }
 }
+

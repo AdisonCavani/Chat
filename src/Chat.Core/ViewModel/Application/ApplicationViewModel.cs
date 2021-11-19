@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using System.Threading.Tasks;
+
+namespace Chat.Core;
 
 /// <summary>
 /// The application state as a view model
@@ -54,5 +56,29 @@ public class ApplicationViewModel : BaseViewModel
 
         // Show side menu or not?
         SideMenuVisible = page == ApplicationPage.Chat;
+    }
+
+    /// <summary>
+    /// Handles what happens when we have successfully logged in
+    /// </summary>
+    /// <param name="loginResult">The results from the successful login</param>
+    /// <returns></returns>
+    public async Task HandleSuccessfulLoginAsync(LoginResultApiModel loginResult)
+    {
+        // Store this in the client data store
+        await IoC.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
+        {
+            Email = loginResult.Email,
+            Username = loginResult.Email,
+            FirstName = loginResult.FirstName,
+            LastName = loginResult.LastName,
+            Token = loginResult.Token
+        });
+
+        // Load new settings
+        await IoC.Profile.LoadAsync();
+
+        // Go to chat page
+        IoC.Application.GoToPage(ApplicationPage.Chat);
     }
 }

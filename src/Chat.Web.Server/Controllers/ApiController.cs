@@ -6,6 +6,7 @@ using Chat.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 
 namespace Chat.Web.Server.Controllers;
 
@@ -54,6 +55,83 @@ public class ApiController : Controller
     #endregion
 
     /// <summary>
+    /// Tries to register for a new account on the server
+    /// </summary>
+    /// <param name="registerCredentials">The registration details</param>
+    /// <returns>Returns the result of the register request</returns>
+    [Route("api/register")]
+    public async Task<ApiResponse<RegisterResultApiModel>> RegisterAsync([FromBody] RegisterCredentialsApiModel registerCredentials)
+    {
+        // TODO: Localize all strings
+        // The message when we fail to login
+        var invalidErrorMessage = "Please provide all required details to register for an account";
+
+        // The error response for a failed login
+        var errorResponse = new ApiResponse<RegisterResultApiModel>
+        {
+            // TODO: Localize all strings
+            // Set error message
+            ErrorMessage = invalidErrorMessage
+        };
+
+        // Check, if credentials exist
+        if (registerCredentials is null)
+            // Return failed response
+            return errorResponse;
+
+        // Make sure we have a email
+        if (string.IsNullOrWhiteSpace(registerCredentials.Email))
+            // Return error message to user
+            return errorResponse;
+
+        // Create the desired user from the given details
+        var user = new ApplicationUser
+        {
+            FirstName = registerCredentials.FirstName,
+            LastName = registerCredentials.LastName,
+            UserName = registerCredentials.Email,
+            Email = registerCredentials.Email
+        };
+
+        // Try and create a user
+        var result = await mUserManager.CreateAsync(user, registerCredentials.Password);
+
+        if (result.Succeeded)
+        {
+            // Get the user details
+            var userIdentity = await mUserManager.FindByEmailAsync(registerCredentials.Email);
+
+            // Generate an email verification code
+            var emailVerificationCode = mUserManager.GenerateEmailConfirmationTokenAsync(user);
+
+            // TODO: Email the user the verification code
+
+            // Return valid response containing all users details
+            return new ApiResponse<RegisterResultApiModel>
+            {
+                Response = new RegisterResultApiModel
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Username = user.Email,
+                    Token = user.GenerateJwtToken()
+                }
+            };
+        }
+
+        else
+            // Return failed response
+            return new ApiResponse<RegisterResultApiModel>
+            {
+                // Aggregate all errors into a single error string
+                ErrorMessage = result.Errors.ToList()
+                .Select(f => f.Description)
+                .Aggregate((a, b) => $"{a}{Environment.NewLine}{b}")
+            };
+    }
+
+    /// <summary>
     /// Logs in a user using token-based authentication
     /// </summary>
     /// <returns></returns>
@@ -62,7 +140,7 @@ public class ApiController : Controller
     {
         // TODO: Localize all strings
         // The message when we fail to login
-        var invalidErrorMessage = "Invalid username/email or password";
+        var invalidErrorMessage = "Invalid email or password";
 
         // The error response for a failed login
         var errorResponse = new ApiResponse<LoginResultApiModel>
@@ -72,23 +150,22 @@ public class ApiController : Controller
             ErrorMessage = invalidErrorMessage
         };
 
-        // Make sure  we have a username
-        if (loginCredentials?.UsernameOrEmail is null || string.IsNullOrWhiteSpace(loginCredentials.UsernameOrEmail))
+        // Make sure we have a email
+        if (string.IsNullOrWhiteSpace(loginCredentials.Email))
             // Return error message to user
             return errorResponse;
 
         // Validate if the user credentials are correct
 
         // TODO: Improved method
-        // Is this an email?
-        var isEmail = new EmailAddressAttribute().IsValid(loginCredentials.UsernameOrEmail);
+        // Is this an valid email?
+        var isEmailValid = new EmailAddressAttribute().IsValid(loginCredentials.Email);
 
-        // Get the user details
-        var user = isEmail ?
-            // Find by email
-            await mUserManager.FindByEmailAsync(loginCredentials.UsernameOrEmail) :
-            // Find by username
-            await mUserManager.FindByNameAsync(loginCredentials.UsernameOrEmail);
+        if (!isEmailValid)
+            return errorResponse;
+
+        var user = await mUserManager.FindByEmailAsync(loginCredentials.Email);
+
 
         // If we failed to find a user
         if (user is null)
@@ -103,37 +180,7 @@ public class ApiController : Controller
             // Return error message to user
             return errorResponse;
 
-        // Validated username and password
-
-        // Get username
-        var username = user.UserName;
-
-        // Set our tokens claims
-        var claims = new[]
-        {
-                // Unique ID for this token
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-
-                // The username using the Identity name so it fills out the HttpContext.User.Identity.Name value
-                new Claim(ClaimsIdentity.DefaultNameClaimType, username),
-            };
-
-        // Create the credentials used to generate the token
-        var credentials = new SigningCredentials(
-            // Get the secret key from configuration
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["Jwt:SecretKey"])),
-            // Use HS256 algorithm
-            SecurityAlgorithms.HmacSha256);
-
-        // Generate the Jwt Token
-        var token = new JwtSecurityToken(
-            issuer: IoCContainer.Configuration["Jwt:Issuer"],
-            audience: IoCContainer.Configuration["Jwt:Audience"],
-            claims: claims,
-            signingCredentials: credentials,
-            // Expire if not used for 3 months
-            expires: DateTime.Now.AddMonths(3)
-            );
+        // Validated email and password
 
         // Return token to user
         return new ApiResponse<LoginResultApiModel>
@@ -144,8 +191,8 @@ public class ApiController : Controller
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Username = user.UserName,
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
+                Username = user.Email,
+                Token = user.GenerateJwtToken()
             }
         };
     }

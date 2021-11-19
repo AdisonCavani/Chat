@@ -23,7 +23,7 @@ public class LoginCredentialsDataModel
     /// <summary>
     /// The users last name
     /// </summary>
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     /// <summary>
     /// The users email

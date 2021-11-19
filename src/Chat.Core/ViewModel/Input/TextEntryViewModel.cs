@@ -25,6 +25,11 @@ public class TextEntryViewModel : BaseViewModel
     public string EditedText { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public string TagText { get; set; }
+
+    /// <summary>
     /// Indicates if the current text is in edit mode
     /// </summary>
     public bool Editing { get; set; }

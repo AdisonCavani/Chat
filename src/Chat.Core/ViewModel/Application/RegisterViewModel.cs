@@ -1,6 +1,7 @@
 ﻿using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Dna;
 
 namespace Chat.Core;
 
@@ -60,15 +61,28 @@ public class RegisterViewModel : BaseViewModel
     {
         await RunCommandAsync(() => RegisterIsRunning, async () =>
         {
-            await Task.Delay(3000);
+            // TODO: Move all URLs and API routes to static class in core
+            // Call the server and attempt to register with provided credentials
+            var result = await WebRequests.PostAsync<ApiResponse<RegisterResultApiModel>>(
+            "https://localhost:7283/api/register",
+            new RegisterCredentialsApiModel
+            {
+                Email = Email,
+                FirstName = "siema",
+                LastName = string.Empty,
+                Password = (parameter as IHavePassword).SecurePassword.Unsecure(),
+            });
 
-            // Go to chat page
-            IoC.Application.GoToPage(ApplicationPage.Chat);
+            // Response has an error
+            if (await result.DisplayErrorIfFailedAsync("Register failed"))
+                return;
 
-            //var email = Email;
+            // OK successfully registered and logged in... now get users data
+            var loginResult = result.ServerResponse.Response;
 
-            //// IMPORTANT: Never store unsecure password in variable like this
-            //var pass = (parameter as IHavePassword).SecurePassword.Unsecue();
+            // Let the application view model handle what happens
+            // with the successful login
+            await IoC.Application.HandleSuccessfulLoginAsync(loginResult);
         });
     }
 

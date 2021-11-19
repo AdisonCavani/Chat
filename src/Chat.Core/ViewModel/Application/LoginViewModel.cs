@@ -67,62 +67,20 @@ public class LoginViewModel : BaseViewModel
             "https://localhost:7283/api/login",
             new LoginCredentialsApiModel
             {
-                UsernameOrEmail = Email,
+                Email = Email,
                 Password = (parameter as IHavePassword).SecurePassword.Unsecure()
             });
 
-            // If there was no response, bad data or a response with a error message
-            if (result is null || result.ServerResponse is null || !result.ServerResponse.Successful)
-            {
-                // TODO: Localize strings
-                // Default error message
-                var message = "Unknown error from server call";
-
-                // If we got a response from the server
-                if (result?.ServerResponse is not null)
-                    // Set message to server response
-                    message = result.ServerResponse.ErrorMessage;
-
-                // If we have a result, but deserialize failed
-                else if (string.IsNullOrWhiteSpace(result?.RawServerResponse))
-                    // Set error message
-                    message = $"Unexpected response from server. {result.RawServerResponse}";
-
-                // If we have a result, but no server response details at all
-                else if (result is not null)
-                    // Set message to standard HTTP server response details
-                    message = $"Failed to communicate with server. Status code: {result.StatusCode}. {result.StatusDescription}";
-
-                // Display error
-                await IoC.UI.ShowMessage(new MessageBoxDialogViewModel
-                {
-                    // TODO: Localize strings
-                    Title = "Login Failed",
-                    Message = message
-                });
-
-                // We are done
+            // Response has an error
+            if (await result.DisplayErrorIfFailedAsync("Login failed"))
                 return;
-            }
 
             // OK successfully logged in... now get users data
-            var userData = result.ServerResponse.Response;
+            var loginResult = result.ServerResponse.Response;
 
-            // Store this in the client data store
-            await IoC.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
-            {
-                Email = userData.Email,
-                FirstName = userData.FirstName,
-                LastName = userData.LastName,
-                Username = userData.Username,
-                Token = userData.Token,
-            });
-
-            // Load new settings
-            await IoC.Profile.LoadAsync();
-
-            // Go to chat page
-            IoC.Application.GoToPage(ApplicationPage.Chat);
+            // Let the application view model handle what happens
+            // with the successful login
+            await IoC.Application.HandleSuccessfulLoginAsync(loginResult);
         });
     }
 

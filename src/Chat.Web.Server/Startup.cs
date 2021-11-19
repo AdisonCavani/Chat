@@ -73,6 +73,8 @@ public class Startup
             options.Password.RequireLowercase = false;
             options.Password.RequireUppercase = false;
             options.Password.RequireNonAlphanumeric = false;
+
+            options.User.RequireUniqueEmail = true;
         });
 
         // Alter application cookie info

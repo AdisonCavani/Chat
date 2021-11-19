@@ -8,9 +8,9 @@ public class LoginCredentialsApiModel
     #region Public Properties
 
     /// <summary>
-    /// The users username or email
+    /// The users email
     /// </summary>
-    public string UsernameOrEmail { get; set; }
+    public string Email { get; set; }
 
     /// <summary>
     /// The users password

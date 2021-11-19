@@ -1,7 +1,7 @@
 namespace Chat.Core;
 
 /// <summary>
-/// The result of a successful login request via API
+/// The result of a login request via API
 /// </summary>
 public class LoginResultApiModel
 {
@@ -20,17 +20,17 @@ public class LoginResultApiModel
     /// <summary>
     /// The users last name
     /// </summary>
-    public string LastName { get; set; }
-
-    /// <summary>
-    /// The users username
-    /// </summary>
-    public string Username { get; set; }
+    public string? LastName { get; set; }
 
     /// <summary>
     /// The users email
     /// </summary>
     public string Email { get; set; }
+    
+    /// <summary>
+    /// The users username
+    /// </summary>
+    public string Username { get; set; }
 
     #endregion
 

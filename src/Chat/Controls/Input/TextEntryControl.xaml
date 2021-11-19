@@ -61,6 +61,7 @@
             <!-- Edit Content -->
             <TextBox Text="{Binding EditedText, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Column="1"
+                     Tag="{Binding TagText}"
                      local:AnimateFadeInProperty.Value="{Binding Editing}"
                      local:FocusAndSelectProperty.Value="{Binding Editing}"
                      FontSize="{StaticResource FontSizeRegular}"
@@ -68,7 +69,7 @@
                      Margin="10,10,15,8"/>
 
             <!-- Content -->
-            <TextBlock Text="{Binding OriginalText}" 
+            <TextBlock Text="{Binding OriginalText}"
                        Grid.Column="1"
                        local:AnimateFadeInProperty.Value="{Binding Editing, Converter={local:BooleanInvertConverter}}"
                        Margin="15,8"

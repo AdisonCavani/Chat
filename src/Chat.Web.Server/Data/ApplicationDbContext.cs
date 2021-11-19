@@ -35,7 +35,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(modelBuilder);
 
         // Fluent API
-
+        // TODO: Customize Fluent API
         modelBuilder.Entity<SettingsDataModel>().HasIndex(a => a.Name);
+        //modelBuilder.Entity<ApplicationUser>().Ignore(a => a.UserName);
+        //modelBuilder.Entity<ApplicationUser>().Ignore(a => a.NormalizedUserName);
+        modelBuilder.Entity<ApplicationUser>().Ignore(a => a.PhoneNumber);
+        modelBuilder.Entity<ApplicationUser>().Ignore(a => a.PhoneNumberConfirmed);
     }
 }

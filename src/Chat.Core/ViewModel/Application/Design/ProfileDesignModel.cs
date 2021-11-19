@@ -21,10 +21,10 @@ public class ProfileDesignModel : ProfileViewModel
     /// </summary>
     public ProfileDesignModel()
     {
-        Name = new TextEntryViewModel { Label = "Name", OriginalText = "Adison Cavani" };
-        Username = new TextEntryViewModel { Label = "Username", OriginalText = "adison" };
-        Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "fake-design" };
-        Email = new TextEntryViewModel { Label = "Email", OriginalText = "test@email.com" };
+        FirstName = new TextEntryViewModel { Label = "First name", TagText = "First name", OriginalText = "Adison" };
+        LastName = new TextEntryViewModel { Label = "Last name", TagText = "Last name", OriginalText = null };
+        Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
+        Email = new TextEntryViewModel { Label = "Email", TagText = "Email", OriginalText = "test@email.com" };
     }
 
     #endregion

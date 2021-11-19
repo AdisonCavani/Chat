@@ -11,14 +11,14 @@ public class ProfileViewModel : BaseViewModel
     #region Public Properties
 
     /// <summary>
-    /// The current users name
+    /// The current users first name
     /// </summary>
-    public TextEntryViewModel Name { get; set; }
+    public TextEntryViewModel FirstName { get; set; }
 
     /// <summary>
-    /// The current users username
+    /// The current users last name
     /// </summary>
-    public TextEntryViewModel Username { get; set; }
+    public TextEntryViewModel? LastName { get; set; }
 
     /// <summary>
     /// The current users password
@@ -127,8 +127,8 @@ public class ProfileViewModel : BaseViewModel
     public void ClearUserData()
     {
         // Clear all view models containing the users info
-        Name = null;
-        Username = null;
+        FirstName = null;
+        LastName = null;
         Password = null;
         Email = null;
     }
@@ -141,9 +141,9 @@ public class ProfileViewModel : BaseViewModel
         // Get the stored credentials
         var storedCredentials = await IoC.ClientDataStore.GetLoginCredentialsAsync();
 
-        Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}" };
-        Username = new TextEntryViewModel { Label = "Username", OriginalText = storedCredentials?.Username };
+        FirstName = new TextEntryViewModel { Label = "First name", TagText = "First name", OriginalText = $"{storedCredentials.FirstName}" };
+        LastName = new TextEntryViewModel { Label = "Last name", TagText = "Last name", OriginalText = $"{storedCredentials?.LastName}" };
         Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-        Email = new TextEntryViewModel { Label = "Email", OriginalText = storedCredentials?.Email };
+        Email = new TextEntryViewModel { Label = "Email", TagText = "Email", OriginalText = storedCredentials.Email };
     }
 }

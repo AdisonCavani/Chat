@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Core\Chat.Core.csproj" />
+    <ProjectReference Include="..\Chat.Relational\Chat.Relational.csproj" />
     <ProjectReference Include="..\Dna.Framework\Dna.Framework.csproj" />
   </ItemGroup>
 

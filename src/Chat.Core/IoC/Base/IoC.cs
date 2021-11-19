@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using Dna;
+using Ninject;
 
 namespace Chat.Core;
 
@@ -43,6 +44,11 @@ public static class IoC
     /// A shortcut to access the <see cref="ProfileViewModel"/>
     /// </summary>
     public static ProfileViewModel Profile => IoC.Get<ProfileViewModel>();
+
+    /// <summary>
+    /// A shortcut to access the <see cref="IClientDataStore"/>
+    /// </summary>
+    public static IClientDataStore ClientDataStore => Framework.Service<IClientDataStore>();
 
     #endregion
 

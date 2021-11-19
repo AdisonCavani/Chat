@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Chat.Core;
 
@@ -58,6 +59,11 @@ public class ProfileViewModel : BaseViewModel
     /// </summary>
     public ICommand ClearUserDataCommand { get; set; }
 
+    /// <summary>
+    /// The command to load settings data from the client data store
+    /// </summary>
+    public ICommand LoadCommand { get; set; }
+
     #endregion
 
     #region Constructor
@@ -72,12 +78,7 @@ public class ProfileViewModel : BaseViewModel
         CloseCommand = new RelayCommand(Close);
         LogoutCommand = new RelayCommand(Logout);
         ClearUserDataCommand = new RelayCommand(ClearUserData);
-
-        // TODO: Remove this once th real back-end is ready
-        Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Adison Cavani" };
-        Username = new TextEntryViewModel { Label = "Username", OriginalText = "adison" };
-        Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-        Email = new TextEntryViewModel { Label = "Email", OriginalText = "test@email.com" };
+        LoadCommand = new RelayCommand(async () => await LoadAsync());
 
         // TODO: Get from localization
         LogoutButtonText = "Logout";
@@ -130,5 +131,19 @@ public class ProfileViewModel : BaseViewModel
         Username = null;
         Password = null;
         Email = null;
+    }
+
+    /// <summary>
+    /// Sets the profile view model properties based on the data in the client data store
+    /// </summary>
+    public async Task LoadAsync()
+    {
+        // Get the stored credentials
+        var storedCredentials = await IoC.ClientDataStore.GetLoginCredentialsAsync();
+
+        Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}" };
+        Username = new TextEntryViewModel { Label = "Username", OriginalText = storedCredentials?.Username };
+        Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
+        Email = new TextEntryViewModel { Label = "Email", OriginalText = storedCredentials?.Email };
     }
 }

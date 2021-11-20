@@ -18,6 +18,16 @@ public class RegisterViewModel : BaseViewModel
     public string Email { get; set; }
 
     /// <summary>
+    /// The first name of the user
+    /// </summary>
+    public string FirstName { get; set; }
+
+    /// <summary>
+    /// The last name of the user
+    /// </summary>
+    public string LastName { get; set; }
+
+    /// <summary>
     /// A flag indicating if the register command is running
     /// </summary>
     public bool RegisterIsRunning { get; set; }
@@ -68,8 +78,8 @@ public class RegisterViewModel : BaseViewModel
             new RegisterCredentialsApiModel
             {
                 Email = Email,
-                FirstName = "siema",
-                LastName = string.Empty,
+                FirstName = FirstName,
+                LastName = LastName,
                 Password = (parameter as IHavePassword).SecurePassword.Unsecure(),
             });
 

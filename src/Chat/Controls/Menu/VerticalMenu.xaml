@@ -10,7 +10,7 @@
     <!--Item template-->
     <ItemsControl Background="White"
                   ItemsSource="{Binding Items}"
-                  d:DataContext="{x:Static core:MenuDesignModel.Instance}">
+                  d:DataContext="{x:Static local:MenuDesignModel.Instance}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
 

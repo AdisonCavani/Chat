@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Chat.Core;
+using Dna;
 
 namespace Chat
 {
@@ -189,8 +189,14 @@ namespace Chat
         /// </summary>
         public BasePage() : base()
         {
-            // Create a default view model
-            ViewModel = IoC.Get<VM>();
+            // If in design time mode...
+            if (DesignerProperties.GetIsInDesignMode(this))
+                // Just use a new instance of the VM
+                ViewModel = new VM();
+
+            else
+                // Create a default view model
+                ViewModel = Framework.Service<VM>();
         }
 
         /// <summary>
@@ -203,9 +209,17 @@ namespace Chat
             if (specificViewModel is not null)
                 ViewModel = specificViewModel;
 
-            // Create a default view model
             else
-                ViewModel = IoC.Get<VM>();
+            {
+                // If in design time mode...
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    // Just use a new instance of the VM
+                    ViewModel = new VM();
+
+                else
+                    // Create a default view model
+                    ViewModel = Framework.Service<VM>() ?? new VM();
+            }
         }
 
         #endregion

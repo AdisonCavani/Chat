@@ -1,4 +1,4 @@
-﻿<local:BasePage x:TypeArguments="core:ChatMessageListViewModel" x:Class="Chat.ChatPage"
+﻿<local:BasePage x:TypeArguments="local:ChatMessageListViewModel" x:Class="Chat.ChatPage"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
                 d:DesignHeight="700"
                 d:DesignWidth="700"
                 x:Name="Page"
-                d:DataContext="{x:Static core:ChatAttachmentPopupMenuDesignViewModel.Instance}">
+                d:DataContext="{x:Static local:ChatAttachmentPopupMenuDesignViewModel.Instance}">
 
     <Grid>
         <Grid.RowDefinitions>

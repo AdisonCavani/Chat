@@ -3,6 +3,8 @@ using System.Windows;
 using Chat.Core;
 using Chat.Relational;
 using Dna;
+using static Chat.DependencyInjection;
+using static Dna.FrameworkDependencyInjection;
 
 namespace Chat;
 
@@ -24,12 +26,12 @@ public partial class App : Application
         await ApplicationSetupAsync();
 
         // Log it
-        IoC.Logger.Log("Application starting...", LogLevel.Informative);
+        Logger.LogDebugSource("Application starting...");
 
         // Setup the application view model based on if we are logged in
-        IoC.Application.GoToPage(
+        ViewModelApplication.GoToPage(
             // If we are logged in...
-            await IoC.ClientDataStore.HasCredentialsAsync() ?
+            await ViewModelClientDataStore.HasCredentialsAsync() ?
             // Go to chat page
             ApplicationPage.Chat :
             // Otherwise, go to login page
@@ -46,35 +48,17 @@ public partial class App : Application
     private async Task ApplicationSetupAsync()
     {
         // Setup the Dna Framework
-        new DefaultFrameworkConstruction()
-            .UseFileLogger()
+        Framework.Construct<DefaultFrameworkConstruction>()
+            .AddFileLogger()
             .UseClientDataStore()
+            .AddChatViewModels()
+            .AddChatClientServices()
             .Build();
 
-        // Setup IoC
-        IoC.Setup();
-
-        // Bind a logger
-        IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
-        {
-            // TODO: Add ApplicationSettings, so we can set/edit a log location
-            //       For now just log to the path where this application is running
-            new Core.FileLogger("log.txt")
-        }));
-
-        // Bind a task manager
-        IoC.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());
-
-        // Bind a file manager
-        IoC.Kernel.Bind<IFileManager>().ToConstant(new FileManager());
-
-        // Bind a UI Manager
-        IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
-
         // Ensure the client data store
-        await IoC.ClientDataStore.EnsureDataStoreAsync();
+        await ViewModelClientDataStore.EnsureDataStoreAsync();
 
         // Load new settings
-        await IoC.Profile.LoadAsync();
+        await ViewModelProfile.LoadAsync();
     }
 }

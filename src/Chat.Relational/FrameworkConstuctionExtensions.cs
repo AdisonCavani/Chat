@@ -25,7 +25,7 @@ public static class FrameworkConstuctionExtensions
 
         // Add client data store for easy access/use of the backing data store
         // Make it scoped, so we can inject the scoped DbContext
-        construction.Services.AddScoped<IClientDataStore>(provider => new ClientDataStore(provider.GetService<ClientDataStoreDbContext>()));
+        construction.Services.AddScoped<IClientDataStore>(provider => new BaseClientDataStore(provider.GetService<ClientDataStoreDbContext>()));
 
         // Return framework for chaining
         return construction;

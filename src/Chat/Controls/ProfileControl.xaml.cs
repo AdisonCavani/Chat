@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using Chat.Core;
+using static Chat.DependencyInjection;
 
 namespace Chat
 {
@@ -13,7 +13,7 @@ namespace Chat
             InitializeComponent();
 
             // Set data context to profile view model
-            DataContext = IoC.Profile;
+            DataContext = ViewModelProfile;
         }
     }
 }

@@ -26,7 +26,7 @@ public class LoginResultApiModel
     /// The users email
     /// </summary>
     public string Email { get; set; }
-    
+
     /// <summary>
     /// The users username
     /// </summary>

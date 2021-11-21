@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Chat.Core;
+using static Chat.DependencyInjection;
 
 namespace Chat
 {
@@ -59,7 +60,7 @@ namespace Chat
             // If we are in DesignMode, show the current page
             // as the dependency property does not fire
             if (DesignerProperties.GetIsInDesignMode(this))
-                NewPage.Content = IoC.Application.CurrentPage.ToBasePage();
+                NewPage.Content = ViewModelApplication.CurrentPage.ToBasePage();
         }
 
         #endregion

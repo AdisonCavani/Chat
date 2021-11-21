@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
              mc:Ignorable="d"
-             d:DataContext="{x:Static core:ProfileDesignModel.Instance}">
+             d:DataContext="{x:Static local:ProfileDesignModel.Instance}">
 
     <Border Padding="15" Background="{StaticResource ForegroundLightBrush}">
         <Grid>

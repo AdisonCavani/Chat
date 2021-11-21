@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using Chat.Core;
+using static Chat.Core.CoreDependencyInjection;
 
 namespace Chat
 {
@@ -202,7 +202,7 @@ namespace Chat
             element.Unloaded += (s, e) => unloaded = true;
 
             // Run a loop off the caller thread
-            IoC.Task.Run(async () =>
+            TaskManager.Run(async () =>
             {
                 // While the element is still available, recheck the size
                 // after every loop in case the container was resized

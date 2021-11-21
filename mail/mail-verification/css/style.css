@@ -1,0 +1,107 @@
+body {
+  font-family: sans-serif;
+  font-family: "Arial";
+}
+
+h1 {
+  font-size: 46px;
+}
+
+.container {
+  font-family: sans-serif;
+  font-family: "Arial";
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  width: 100% !important;
+  height: 100% !important;
+  font-size: 22px;
+  line-height: 1.4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrapper {
+  display: block;
+  padding: 32px;
+}
+
+.content-image {
+  padding: 0;
+}
+
+.content-title {
+  padding: 24px;
+  color: black;
+  opacity: 0.87;
+  font-family: "Google Sans";
+}
+
+.content-item {
+  padding: 24px;
+  color: black;
+  opacity: 0.87;
+}
+
+.content-button {
+  padding: 24px;
+  color: black;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.page-behind-1, .page-behind-2 {
+  font-size: 0;
+  line-height: 0;
+}
+
+.page-behind-1 table > tbody > tr > td, .page-behind-2 table > tbody > tr > td {
+  font-size: 0;
+  line-height: 0;
+  padding: 0;
+  width: 100%;
+  margin-bottom: 4px;
+  display: inline-block;
+  border-top: 4px solid white;
+}
+
+.page-behind-1 table {
+  width: 75%;
+}
+
+.page-behind-2 table {
+  width: 90%;
+}
+
+.page-content {
+  background: white;
+  padding: 12px;
+}
+
+.button td {
+  border-radius: 8px;
+  background-color: #4184f3;
+  text-align: center;
+  font-family: "Google Sans";
+}
+
+.button td a {
+  border-radius: 8px;
+  border: solid 1px #4184f3;
+  color: white;
+  padding: 12px 32px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.text-log {
+  padding-top: 96px;
+  padding-bottom: 32px;
+}
+/*# sourceMappingURL=style.css.map */

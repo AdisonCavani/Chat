@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Chat.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,9 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        // Add email sender
+        services.AddEmailSender();
+
         // Add ApplicationDbContext to DI
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(IoCContainer.Configuration.GetConnectionString("DefaultConnection")));
@@ -128,5 +132,16 @@ public class Startup
             template: "more",
             defaults: new { controller = "About", action = "TellMeMore" });
         });
+
+        //IoCContainer.Provider.GetService<IEmailSender>().SendEmailAsync(new SendEmailDetails
+        //{
+        //    Content = "This is our first HTML email <b> with some bold text</b>",
+        //    IsHTML = true,
+        //    FromName = "Some Guy",
+        //    FromEmail = "secret@website.com",
+        //    ToEmail = "adisoncavani@tuta.io",
+        //    ToName = "Adison Cavani",
+        //    Subject = "This is sent from Chat"
+        //});
     }
 }

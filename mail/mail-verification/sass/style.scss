@@ -4,13 +4,12 @@ $text-color: black;
 $text-opacity: 0.87;
 $button-background-color: #4184f3;
 $button-text-color: white;
-$default-font-family: sans-serif;
 $web-font-family: 'Arial';
-$web-font-family-header: 'Google Sans';
-$font-size-normal: 22px;
-$font-size-large: 46px;
+$web-font-family-header: 'Google Sans', 'Arial';
+$font-size-normal: 16px;
+$font-size-large: 24px;
 $line-height: 1.4;
-$base-size: 16px;
+$base-size: 10px;
 
 $spacing-small: $base-size * 0.5;
 $spacing-regular: $base-size * 0.75;
@@ -22,24 +21,23 @@ $spacing-huge: $base-size * 3;
 
 body {
     // Round font by default
-    font-family: $default-font-family;
     font-family: $web-font-family;
 }
 
 // Main Header
-h1 {
+h2 {
     font-size: $font-size-large;
+    font-weight: normal;
 }
 
 // Top-most table inside body
 .container {    
     // Web-font if supported
-    font-family: $default-font-family;
     font-family: $web-font-family;
 
     // Reset margins/padding
-    margin:0;
-    padding:0;
+    margin-top: 50px;
+    margin-bottom: 50px;
 
     // Set background color
     background-color: $background-color;
@@ -60,12 +58,12 @@ h1 {
 }
 
 // Wraps contents to email width
-.wrapper {
+.wrapper {    
     // Block display
     display: block;
 
     // Padding around all content
-    padding: $spacing-larger;
+    padding: 0;
 }
 
 // Content image
@@ -108,51 +106,13 @@ h1 {
     display: inline-block;
 }
 
-// Page behind visuals
-.page-behind-1, .page-behind-2 {
-    // Remove any whitespace oversize
-    font-size: 0;
-    line-height: 0;
-
-    table > tbody > tr > td {
-        // Remove any whitespace oversize
-        font-size: 0;
-        line-height: 0;
-
-        // Clear padding
-        padding: 0;
-
-        // Set inner column to take all width
-        width: 100%;
-
-        // Margin below
-        margin-bottom: $spacing-tiny;
-
-        // Display inline block
-        display: inline-block;
-
-        // Solid bar of color
-        border-top: $spacing-tiny solid $content-background-color;
-    }
-}
-
-// Page behind visual
-.page-behind-1 table {
-    width: 75%;
-}
-
-// Page behind visual
-.page-behind-2 table {
-    width: 90%;
-}
-
 // Main page content
 .page-content {
     // Set background color
     background: $content-background-color;
-
-    // Add some padding
-    padding: $spacing-regular;
+    
+    max-width: 520px;
+    min-width: 220px;
 }
 
 // Button table container
@@ -192,9 +152,4 @@ h1 {
             display: inline-block;
         }
     }
-}   
-
-.text-log {
-    padding-top: $spacing-huge * 2;
-    padding-bottom: $spacing-larger;
 }

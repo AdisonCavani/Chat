@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using Chat.Core;
+using static Dna.FrameworkDependencyInjection;
 
 namespace Chat.Web.Server;
 
@@ -11,7 +12,7 @@ public class EmailSender : IEmailSender
     public async Task<SendEmailResponse> SendEmailAsync(SendEmailDetails details)
     {
         // Get the API key
-        var apiKey = IoCContainer.Configuration["EmailKey"];
+        var apiKey = Configuration["EmailKey"];
 
         // TODO: Create a new Email Client
         //var client = new SendGridClient(apiKey);

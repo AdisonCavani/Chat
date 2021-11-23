@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using Chat.Core;
+using Dna;
+using Dna.AspNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +16,7 @@ public class Startup
 {
     public Startup(IConfiguration configuration)
     {
-        // Share the configuration
-        IoCContainer.Configuration = configuration;
+
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -26,7 +27,7 @@ public class Startup
 
         // Add ApplicationDbContext to DI
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(IoCContainer.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Framework.Construction.Configuration.GetConnectionString("DefaultConnection")));
 
         // AddIdentity adds cookie based authentication
         // Adds scoped classes for things like UserManager, SignInManager, PasswordHashes ect...
@@ -56,14 +57,14 @@ public class Startup
                 ValidateIssuerSigningKey = true,
 
                 // Set issuer
-                ValidIssuer = IoCContainer.Configuration["Jwt:Issuer"],
+                ValidIssuer = Framework.Construction.Configuration["Jwt:Issuer"],
                 // Set audience
-                ValidAudience = IoCContainer.Configuration["Jwt:Audience"],
+                ValidAudience = Framework.Construction.Configuration["Jwt:Audience"],
 
                 // Set signing key
                 IssuerSigningKey = new SymmetricSecurityKey(
                         // Get our secret key from configuration
-                        Encoding.UTF8.GetBytes(IoCContainer.Configuration["Jwt:SecretKey"]))
+                        Encoding.UTF8.GetBytes(Framework.Construction.Configuration["Jwt:SecretKey"]))
             };
         });
 
@@ -102,8 +103,8 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
     {
-        // Store instance of the DI service provider so our application can access it anywhere
-        IoCContainer.Provider = serviceProvider as ServiceProvider;
+        // Use Dna Framework
+        app.UseDnaFramework();
 
         // Setup Identity
         app.UseAuthentication();

@@ -10,10 +10,6 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
@@ -23,6 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Core\Chat.Core.csproj" />
+    <ProjectReference Include="..\Dna.Framework.AspNet\Dna.Framework.AspNet.csproj" />
+    <ProjectReference Include="..\Dna.Framework\Dna.Framework.csproj" />
   </ItemGroup>
 
 </Project>

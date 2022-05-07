@@ -1,51 +1,50 @@
 ﻿using System.Windows;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// Interaction logic for DialogWindow.xaml
+/// </summary>
+public partial class DialogWindow : Window
 {
+    #region Private Members
+
     /// <summary>
-    /// Interaction logic for DialogWindow.xaml
+    /// The view model for this window
     /// </summary>
-    public partial class DialogWindow : Window
+    private DialogWindowViewModel mViewModel;
+
+    #endregion
+
+    #region Public Properties
+
+    /// <summary>
+    /// The view model for this window
+    /// </summary>
+    public DialogWindowViewModel ViewModel
     {
-        #region Private Members
-
-        /// <summary>
-        /// The view model for this window
-        /// </summary>
-        private DialogWindowViewModel mViewModel;
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// The view model for this window
-        /// </summary>
-        public DialogWindowViewModel ViewModel
+        get => mViewModel;
+        set
         {
-            get => mViewModel;
-            set
-            {
-                // Set new value
-                mViewModel = value;
+            // Set new value
+            mViewModel = value;
 
-                // Update data context
-                DataContext = mViewModel;
-            }
+            // Update data context
+            DataContext = mViewModel;
         }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public DialogWindow()
-        {
-            InitializeComponent();
-        }
-
-        #endregion
     }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public DialogWindow()
+    {
+        InitializeComponent();
+    }
+
+    #endregion
 }

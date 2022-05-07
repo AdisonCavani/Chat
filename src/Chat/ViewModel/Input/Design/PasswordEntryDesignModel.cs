@@ -1,30 +1,29 @@
-﻿namespace Fasetto.Word
+﻿namespace Fasetto.Word;
+
+/// <summary>
+/// The design-time data for a <see cref="PasswordEntryViewModel"/>
+/// </summary>
+public class PasswordEntryDesignModel : PasswordEntryViewModel
 {
+    #region Singleton
+
     /// <summary>
-    /// The design-time data for a <see cref="PasswordEntryViewModel"/>
+    /// A single instance of the design model
     /// </summary>
-    public class PasswordEntryDesignModel : PasswordEntryViewModel
+    public static PasswordEntryDesignModel Instance => new();
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default Constructor
+    /// </summary>
+    public PasswordEntryDesignModel()
     {
-        #region Singleton
-
-        /// <summary>
-        /// A single instance of the design model
-        /// </summary>
-        public static PasswordEntryDesignModel Instance => new PasswordEntryDesignModel();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public PasswordEntryDesignModel()
-        {
-            Label = "Name";
-            FakePassword = "********";
-        }
-
-        #endregion
+        Label = "Name";
+        FakePassword = "********";
     }
+
+    #endregion
 }

@@ -1,31 +1,30 @@
-﻿using Fasetto.Word.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fasetto.Word.Core;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// A view model for any popup menus
+/// </summary>
+public class ChatAttachmentPopupMenuViewModel : BasePopupViewModel
 {
+    #region Constructor
+
     /// <summary>
-    /// A view model for any popup menus
+    /// Default constructor
     /// </summary>
-    public class ChatAttachmentPopupMenuViewModel : BasePopupViewModel
+    public ChatAttachmentPopupMenuViewModel()
     {
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ChatAttachmentPopupMenuViewModel()
+        Content = new MenuViewModel
         {
-            Content = new MenuViewModel
+            Items = new List<MenuItemViewModel>(new[]
             {
-                Items = new List<MenuItemViewModel>(new[]
-                {
-                    new MenuItemViewModel { Text = "Attach a file...", Type = MenuItemType.Header },
-                    new MenuItemViewModel { Text = "From Computer", Icon = IconType.File },
-                    new MenuItemViewModel { Text = "From Pictures", Icon = IconType.Picture },
-                })
-            };
-        }
-
-        #endregion
+                new MenuItemViewModel { Text = "Attach a file...", Type = MenuItemType.Header },
+                new MenuItemViewModel { Text = "From Computer", Icon = IconType.File },
+                new MenuItemViewModel { Text = "From Pictures", Icon = IconType.Picture },
+            })
+        };
     }
+
+    #endregion
 }

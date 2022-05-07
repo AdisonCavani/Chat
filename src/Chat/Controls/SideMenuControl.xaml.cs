@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// Interaction logic for SideMenuControl.xaml
+/// </summary>
+public partial class SideMenuControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SideMenuControl.xaml
-    /// </summary>
-    public partial class SideMenuControl : UserControl
+    public SideMenuControl()
     {
-        public SideMenuControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

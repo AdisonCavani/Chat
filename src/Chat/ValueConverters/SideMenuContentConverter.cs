@@ -1,42 +1,34 @@
-﻿using Fasetto.Word.Core;
-using System;
+﻿using System;
 using System.Globalization;
+using Fasetto.Word.Core;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// A converter that takes a <see cref="SideMenuContent"/> and converts it to the 
+/// correct UI element
+/// </summary>
+public class SideMenuContentConverter : BaseValueConverter<SideMenuContentConverter>
 {
     /// <summary>
-    /// A converter that takes a <see cref="SideMenuContent"/> and converts it to the 
-    /// correct UI element
+    /// An instance of the current chat list control
     /// </summary>
-    public class SideMenuContentConverter : BaseValueConverter<SideMenuContentConverter>
+    protected ChatListControl mChatListControl = new();
+
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        #region Protected Members
+        // Get the side menu type
+        var sideMenuType = (SideMenuContent)value;
 
-        /// <summary>
-        /// An instance of the current chat list control
-        /// </summary>
-        protected ChatListControl mChatListControl = new ChatListControl();
-
-        #endregion
-
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        // Switch based on type
+        return sideMenuType switch
         {
-            // Get the side menu type
-            var sideMenuType = (SideMenuContent)value;
-
-            // Switch based on type
-            switch (sideMenuType)
-            {
-                // Chat 
-                case SideMenuContent.Chat:
-                    return mChatListControl;
-
-                // Unknown
-                default:
-                    return "No UI yet, sorry :)";
-            }
-        }
-
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+            // Chat 
+            SideMenuContent.Chat => mChatListControl,
+            // Unknown
+            _ => "No UI yet, sorry :)",
+        };
     }
+
+    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 }

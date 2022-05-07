@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// Interaction logic for ChatListControl.xaml
+/// </summary>
+public partial class ChatListControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ChatListControl.xaml
-    /// </summary>
-    public partial class ChatListControl : UserControl
+    public ChatListControl()
     {
-        public ChatListControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

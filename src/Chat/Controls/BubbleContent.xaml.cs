@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// Interaction logic for BubbleContent.xaml
+/// </summary>
+public partial class BubbleContent : UserControl
 {
-    /// <summary>
-    /// Interaction logic for BubbleContent.xaml
-    /// </summary>
-    public partial class BubbleContent : UserControl
+    public BubbleContent()
     {
-        public BubbleContent()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

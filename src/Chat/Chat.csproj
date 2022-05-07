@@ -56,4 +56,12 @@
     <Resource Include="Images\Samples\rusty.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Adison\repos\Chat\src\Chat\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Adison\repos\Chat\src\Chat\.editorconfig" />
+  </ItemGroup>
+
 </Project>

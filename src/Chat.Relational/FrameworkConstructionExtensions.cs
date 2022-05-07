@@ -4,33 +4,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fasetto.Word.Relational
+namespace Fasetto.Word.Relational;
+
+/// <summary>
+/// Extension methods for the <see cref="FrameworkConstruction"/>
+/// </summary>
+public static class FrameworkConstructionExtensions
 {
     /// <summary>
-    /// Extension methods for the <see cref="FrameworkConstruction"/>
+    /// Default constructor
     /// </summary>
-    public static class FrameworkConstructionExtensions
+    public static FrameworkConstruction AddClientDataStore(this FrameworkConstruction construction)
     {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public static FrameworkConstruction AddClientDataStore(this FrameworkConstruction construction)
+        // Inject our SQLite EF data store
+        construction.Services.AddDbContext<ClientDataStoreDbContext>(options =>
         {
-            // Inject our SQLite EF data store
-            construction.Services.AddDbContext<ClientDataStoreDbContext>(options =>
-            {
-                var connectionString = construction.Configuration.GetConnectionString("ClientDataStoreConnection") ?? "Data Source=FasettoWord.db";
-                // Setup connection string
-                options.UseSqlite(connectionString);
-            }, contextLifetime: ServiceLifetime.Transient);
+            var connectionString = construction.Configuration.GetConnectionString("ClientDataStoreConnection") ?? "Data Source=FasettoWord.db";
+            // Setup connection string
+            options.UseSqlite(connectionString);
+        }, contextLifetime: ServiceLifetime.Transient);
 
-            // Add client data store for easy access/use of the backing data store
-            // Make it scoped so we can inject the scoped DbContext
-            construction.Services.AddTransient<IClientDataStore>(
-                provider => new BaseClientDataStore(provider.GetService<ClientDataStoreDbContext>()));
+        // Add client data store for easy access/use of the backing data store
+        // Make it scoped so we can inject the scoped DbContext
+        construction.Services.AddTransient<IClientDataStore>(
+            provider => new BaseClientDataStore(provider.GetService<ClientDataStoreDbContext>()));
 
-            // Return framework for chaining
-            return construction;
-        }
+        // Return framework for chaining
+        return construction;
     }
 }

@@ -2,25 +2,24 @@
 using System.Windows.Controls;
 using static Fasetto.Word.DI;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// Interaction logic for SettingsControl.xaml
+/// </summary>
+public partial class SettingsControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SettingsControl.xaml
-    /// </summary>
-    public partial class SettingsControl : UserControl
+    public SettingsControl()
     {
-        public SettingsControl()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            // Set data context to settings view model
+        // Set data context to settings view model
 
-            // If we are in design mode...
-            if (DesignerProperties.GetIsInDesignMode(this))
-                // Create new instance of settings view model
-                DataContext = new SettingsViewModel();
-            else
-                DataContext = ViewModelSettings;
-        }
+        // If we are in design mode...
+        if (DesignerProperties.GetIsInDesignMode(this))
+            // Create new instance of settings view model
+            DataContext = new SettingsViewModel();
+        else
+            DataContext = ViewModelSettings;
     }
 }

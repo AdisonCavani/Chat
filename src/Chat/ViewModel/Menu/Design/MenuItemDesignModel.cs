@@ -1,32 +1,31 @@
 ﻿using Fasetto.Word.Core;
 
-namespace Fasetto.Word
+namespace Fasetto.Word;
+
+/// <summary>
+/// The design-time data for a <see cref="MenuItemViewModel"/>
+/// </summary>
+public class MenuItemDesignModel : MenuItemViewModel
 {
+    #region Singleton
+
     /// <summary>
-    /// The design-time data for a <see cref="MenuItemViewModel"/>
+    /// A single instance of the design model
     /// </summary>
-    public class MenuItemDesignModel : MenuItemViewModel
+    public static MenuItemDesignModel Instance => new();
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public MenuItemDesignModel()
     {
-        #region Singleton
-
-        /// <summary>
-        /// A single instance of the design model
-        /// </summary>
-        public static MenuItemDesignModel Instance => new MenuItemDesignModel();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public MenuItemDesignModel()
-        {
-            Text = "Hello World";
-            Icon = IconType.File;
-        }
-
-        #endregion
+        Text = "Hello World";
+        Icon = IconType.File;
     }
+
+    #endregion
 }

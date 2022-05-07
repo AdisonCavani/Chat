@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using Chat.Animation;
 using Chat.ViewModel.Chat.ChatMessage;
@@ -11,14 +10,14 @@ namespace Chat.Pages;
 /// <summary>
 /// Interaction logic for ChatPage.xaml
 /// </summary>
-public partial class ChatPage : BasePage<ChatMessageListViewModel>, IComponentConnector
+public partial class ChatPage
 {
     #region Constructor
 
     /// <summary>
     /// Default constructor
     /// </summary>
-    public ChatPage() : base()
+    public ChatPage()
     {
         InitializeComponent();
     }

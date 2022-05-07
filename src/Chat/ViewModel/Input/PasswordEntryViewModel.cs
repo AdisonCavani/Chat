@@ -8,7 +8,7 @@ namespace Chat.ViewModel.Input;
 
 /// <summary>
 /// The view model for a password entry to edit a password 
-/// <summary>
+/// </summary>
 public class PasswordEntryViewModel : BaseViewModel
 {
     #region Public Properties
@@ -149,9 +149,9 @@ public class PasswordEntryViewModel : BaseViewModel
             Editing = false;
 
             // Try and do the work
-            result = CommitAction == null ? true : await CommitAction();
+            result = CommitAction is null ? true : await CommitAction();
 
-        }).ContinueWith(t =>
+        }).ContinueWith(_ =>
         {
             // If we succeeded...
             // Nothing to do

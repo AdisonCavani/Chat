@@ -16,14 +16,13 @@ public static class WebRequestResultExtensions
     /// Checks the web request result for any errors, displaying them if there are any,
     /// or if we are unauthorized automatically logging us out
     /// </summary>
-    /// <typeparam name="T">The type of Api Response</typeparam>
     /// <param name="response">The response to check</param>
     /// <param name="title">The title of the error dialog if there is an error</param>
     /// <returns>Returns true if there was an error, or false if all was OK</returns>
     public static async Task<bool> HandleErrorIfFailedAsync(this WebRequestResult response, string title)
     {
         // If there was no response, bad data, or a response with a error message...
-        if (response == null || response.ServerResponse == null || (response.ServerResponse as ApiResponse)?.Successful == false)
+        if (response is null || response.ServerResponse == null || (response.ServerResponse as ApiResponse)?.Successful == false)
         {
             // Default error message
             // TODO: Localize strings
@@ -58,7 +57,7 @@ public static class WebRequestResultExtensions
                 {
                     // TODO: Localize strings
                     Title = title,
-                    Message = message
+                    Message = message ?? string.Empty
                 });
             }
 

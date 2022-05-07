@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Chat.Controls.Chat.ChatList;
+﻿namespace Chat.Controls.Chat.ChatList;
 
 /// <summary>
 /// Interaction logic for ChatListControl.xaml
 /// </summary>
-public partial class ChatListControl : UserControl
+public partial class ChatListControl
 {
     public ChatListControl()
     {

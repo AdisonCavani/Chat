@@ -3,7 +3,7 @@ using Chat.Core.DI.Interfaces;
 using Dna;
 using static Dna.FrameworkDI;
 
-namespace Chat.Core.Task;
+namespace Chat.Core.Task2;
 
 /// <summary>
 /// Handles anything to do with Tasks
@@ -12,12 +12,12 @@ public class BaseTaskManager : ITaskManager
 {
     #region Task Methods
 
-    public async System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async Task Run(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await System.Threading.Tasks.Task.Run(function);
+            await Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -29,13 +29,16 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async void RunAndForget(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async void RunAndForget(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             await Run(function, origin, filePath, lineNumber);
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
     public async Task<TResult> Run<TResult>(Func<Task<TResult>> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
@@ -43,7 +46,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await System.Threading.Tasks.Task.Run(function, cancellationToken);
+            return await Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -60,7 +63,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await System.Threading.Tasks.Task.Run(function);
+            return await Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -77,7 +80,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await System.Threading.Tasks.Task.Run(function, cancellationToken);
+            return await Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -94,7 +97,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await System.Threading.Tasks.Task.Run(function);
+            return await Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -106,12 +109,12 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async Task Run(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await System.Threading.Tasks.Task.Run(function, cancellationToken);
+            await Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -123,21 +126,24 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async void RunAndForget(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async void RunAndForget(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             await Run(function, origin, filePath, lineNumber);
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
-    public async System.Threading.Tasks.Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await System.Threading.Tasks.Task.Run(action, cancellationToken);
+            await Task.Run(action, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -154,15 +160,18 @@ public class BaseTaskManager : ITaskManager
         {
             await Run(action, origin, filePath, lineNumber);
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
-    public async System.Threading.Tasks.Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await System.Threading.Tasks.Task.Run(action);
+            await Task.Run(action);
         }
         catch (Exception ex)
         {
@@ -180,7 +189,10 @@ public class BaseTaskManager : ITaskManager
         {
             await Run(action, origin, filePath, lineNumber);
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
     #endregion

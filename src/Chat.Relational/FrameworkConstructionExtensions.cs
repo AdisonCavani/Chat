@@ -1,5 +1,4 @@
-﻿using Chat.Core;
-using Chat.Core.DI.Interfaces;
+﻿using Chat.Core.DI.Interfaces;
 using Dna;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

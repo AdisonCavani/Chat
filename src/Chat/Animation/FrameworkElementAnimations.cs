@@ -150,7 +150,6 @@ public static class FrameworkElementAnimations
     /// </summary>
     /// <param name="element">The element to animate</param>
     /// <param name="seconds">The time the animation will take</param>
-    /// <param name="firstLoad">Indicates if this is the first load</param>
     /// <returns></returns>
     public static async Task FadeOutAsync(this FrameworkElement element, float seconds = 0.3f)
     {
@@ -199,14 +198,14 @@ public static class FrameworkElementAnimations
         var unloaded = false;
 
         // Monitor for element unloading
-        element.Unloaded += (s, e) => unloaded = true;
+        element.Unloaded += (_, _) => unloaded = true;
 
         // Run a loop off the caller thread
         TaskManager.Run(async () =>
         {
             // While the element is still available, recheck the size
             // after every loop in case the container was resized
-            while (element != null && !unloaded)
+            while (element is not null && !unloaded)
             {
                 // Create width variables
                 var width = 0d;
@@ -215,7 +214,7 @@ public static class FrameworkElementAnimations
                 try
                 {
                     // Check if element is still loaded
-                    if (element == null || unloaded)
+                    if (element is null || unloaded)
                         break;
 
                     // Try and get current width

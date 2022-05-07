@@ -18,6 +18,6 @@ public class NoFrameHistory : BaseAttachedProperty<NoFrameHistory, bool>
         frame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
         // Clear history on navigate
-        frame.Navigated += (ss, ee) => ((Frame)ss).NavigationService.RemoveBackEntry();
+        frame.Navigated += (ss, _) => ((Frame)ss).NavigationService.RemoveBackEntry();
     }
 }

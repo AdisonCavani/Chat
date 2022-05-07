@@ -19,8 +19,8 @@ public class TextEntryWidthMatcherProperty : BaseAttachedProperty<TextEntryWidth
         SetWidths(panel);
 
         // Wait for panel to load
-        RoutedEventHandler onLoaded = null;
-        onLoaded = (s, ee) =>
+        RoutedEventHandler? onLoaded = null;
+        onLoaded = (_, _) =>
         {
             // Unhook
             panel.Loaded -= onLoaded;
@@ -40,7 +40,7 @@ public class TextEntryWidthMatcherProperty : BaseAttachedProperty<TextEntryWidth
                 // Get the label from the text entry or password entry
                 var label = child is TextEntryControl ? (child as TextEntryControl).Label : (child as PasswordEntryControl).Label;
 
-                label.SizeChanged += (ss, eee) =>
+                label.SizeChanged += (_, _) =>
                 {
                     // Update widths
                     SetWidths(panel);

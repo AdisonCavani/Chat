@@ -56,12 +56,12 @@ public class WindowResizer
     /// <summary>
     /// The window to handle the resizing for
     /// </summary>
-    private System.Windows.Window mWindow;
+    private Window mWindow;
 
     /// <summary>
     /// The last calculated available screen size
     /// </summary>
-    private Rect mScreenSize = new();
+    private Rect mScreenSize;
 
     /// <summary>
     /// How close to the edge the window has to be to be detected as at the edge of the screen
@@ -86,7 +86,7 @@ public class WindowResizer
     /// <summary>
     /// A flag indicating if the window is currently being moved/dragged
     /// </summary>
-    private bool mBeingMoved = false;
+    private bool mBeingMoved;
 
     #endregion
 
@@ -112,7 +112,7 @@ public class WindowResizer
     /// <summary>
     /// Called when the window dock position changes
     /// </summary>
-    public event Action<WindowDockPosition> WindowDockChanged = (dock) => { };
+    public event Action<WindowDockPosition> WindowDockChanged = (_) => { };
 
     /// <summary>
     /// Called when the window starts being moved/dragged
@@ -131,13 +131,13 @@ public class WindowResizer
     /// <summary>
     /// The size and position of the current monitor the window is on
     /// </summary>
-    public Rectangle CurrentMonitorSize { get; set; } = new Rectangle();
+    public Rectangle CurrentMonitorSize { get; set; }
 
     /// <summary>
     /// The margin around the window for the current window to compensate for any non-usable area
     /// such as the task bar
     /// </summary>
-    public Thickness CurrentMonitorMargin { get; private set; } = new Thickness();
+    public Thickness CurrentMonitorMargin { get; private set; }
 
     /// <summary>
     /// The size and position of the current screen in relation to the multi-screen desktop
@@ -154,8 +154,7 @@ public class WindowResizer
     /// Default constructor
     /// </summary>
     /// <param name="window">The window to monitor and correctly maximize</param>
-    /// <param name="adjustSize">The callback for the host to adjust the maximum available size if needed</param>
-    public WindowResizer(System.Windows.Window window)
+    public WindowResizer(Window window)
     {
         mWindow = window;
 
@@ -176,7 +175,7 @@ public class WindowResizer
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Window_SourceInitialized(object sender, System.EventArgs e)
+    private void Window_SourceInitialized(object sender, EventArgs e)
     {
         // Get the handle of this window
         var handle = (new WindowInteropHelper(mWindow)).Handle;
@@ -322,7 +321,7 @@ public class WindowResizer
     /// </summary>
     /// <param name="hwnd"></param>
     /// <param name="lParam"></param>
-    private void WmGetMinMaxInfo(System.IntPtr hwnd, System.IntPtr lParam)
+    private void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
         // Get the point position to determine what screen we are on
         GetCursorPos(out var lMousePosition);
@@ -360,13 +359,6 @@ public class WindowResizer
         var currentY = lCurrentScreenInfo.RCWork.Top - lCurrentScreenInfo.RCMonitor.Top;
         var currentWidth = (lCurrentScreenInfo.RCWork.Right - lCurrentScreenInfo.RCWork.Left);
         var currentHeight = (lCurrentScreenInfo.RCWork.Bottom - lCurrentScreenInfo.RCWork.Top);
-        var currentRatio = (float)currentWidth / (float)currentHeight;
-
-        var primaryX = lPrimaryScreenInfo.RCWork.Left - lPrimaryScreenInfo.RCMonitor.Left;
-        var primaryY = lPrimaryScreenInfo.RCWork.Top - lPrimaryScreenInfo.RCMonitor.Top;
-        var primaryWidth = (lPrimaryScreenInfo.RCWork.Right - lPrimaryScreenInfo.RCWork.Left);
-        var primaryHeight = (lPrimaryScreenInfo.RCWork.Bottom - lPrimaryScreenInfo.RCWork.Top);
-        var primaryRatio = (float)primaryWidth / (float)primaryHeight;
 
         if (lParam != IntPtr.Zero)
         {

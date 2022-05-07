@@ -1,12 +1,11 @@
-﻿using System.Windows;
-using Chat.WPFViewModels;
+﻿using Chat.WPFViewModels;
 
 namespace Chat;
 
 /// <summary>
 /// Interaction logic for DialogWindow.xaml
 /// </summary>
-public partial class DialogWindow : Window
+public partial class DialogWindow
 {
     #region Private Members
 

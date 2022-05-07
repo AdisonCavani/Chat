@@ -7,7 +7,7 @@ namespace Chat.ViewModel.Input;
 
 /// <summary>
 /// The view model for a text entry to edit a string value
-/// <summary>
+/// </summary>
 public class TextEntryViewModel : BaseViewModel
 {
     #region Public Properties
@@ -125,7 +125,7 @@ public class TextEntryViewModel : BaseViewModel
             // Try and do the work
             result = CommitAction == null ? true : await CommitAction();
 
-        }).ContinueWith(t =>
+        }).ContinueWith(_ =>
         {
             // If we succeeded...
             // Nothing to do

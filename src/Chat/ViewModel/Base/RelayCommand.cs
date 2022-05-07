@@ -22,7 +22,7 @@ public class RelayCommand : ICommand
     /// <summary>
     /// The event thats fired when the <see cref="CanExecute(object)"/> value has changed
     /// </summary>
-    public event EventHandler CanExecuteChanged = (sender, e) => { };
+    public event EventHandler? CanExecuteChanged = (_, _) => { };
 
     #endregion
 
@@ -45,7 +45,7 @@ public class RelayCommand : ICommand
     /// </summary>
     /// <param name="parameter"></param>
     /// <returns></returns>
-    public bool CanExecute(object parameter)
+    public bool CanExecute(object? parameter)
     {
         return true;
     }
@@ -54,7 +54,7 @@ public class RelayCommand : ICommand
     /// Executes the commands Action
     /// </summary>
     /// <param name="parameter"></param>
-    public void Execute(object parameter)
+    public void Execute(object? parameter)
     {
         mAction();
     }

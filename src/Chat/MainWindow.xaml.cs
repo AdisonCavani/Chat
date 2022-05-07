@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Chat.WPFViewModels;
 
 namespace Chat;
@@ -7,7 +6,7 @@ namespace Chat;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     public MainWindow()
     {

@@ -56,8 +56,8 @@ public class AutoScrollToBottomProperty : BaseAttachedProperty<AutoScrollToBotto
         var scroll = sender as ScrollViewer;
 
         // If we are close enough to the bottom...
-        if (scroll.ScrollableHeight - scroll.VerticalOffset < 20)
+        if (scroll?.ScrollableHeight - scroll?.VerticalOffset < 20)
             // Scroll to the bottom
-            scroll.ScrollToEnd();
+            scroll?.ScrollToEnd();
     }
 }

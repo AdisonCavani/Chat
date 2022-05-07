@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Chat.Controls.Input;
 
 /// <summary>
 /// Interaction logic for TextEntryControl.xaml
 /// </summary>
-public partial class TextEntryControl : UserControl
+public partial class TextEntryControl
 {
     #region Dependency Properties
 
@@ -55,9 +54,7 @@ public partial class TextEntryControl : UserControl
         }
 
         // Making ex available for developer on break
-#pragma warning disable CS0168
-        catch (Exception ex)
-#pragma warning restore CS0168
+        catch (Exception)
         {
             // Make developer aware of potential issue
             Debugger.Break();

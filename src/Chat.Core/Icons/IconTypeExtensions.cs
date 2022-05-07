@@ -20,7 +20,7 @@ public static class IconTypeExtensions
             IconType.File => "\uf0f6",
             IconType.Picture => "\uf1c5",
             // If none found, return null
-            _ => null,
+            _ => string.Empty,
         };
     }
 }

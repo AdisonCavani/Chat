@@ -50,11 +50,11 @@ public class BaseFileManager : IFileManager
         // If on Windows...
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             // Replace any / with \
-            return path?.Replace('/', '\\').Trim();
+            return path.Replace('/', '\\').Trim();
         // If on Linux/Mac
         else
             // Replace any \ with /
-            return path?.Replace('\\', '/').Trim();
+            return path.Replace('\\', '/').Trim();
     }
 
     /// <summary>

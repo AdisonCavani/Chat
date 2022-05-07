@@ -225,7 +225,7 @@
 
             <!--  Dimmed overlay  -->
             <Border
-                Grid.ColumnSpan="2"
+                Grid.ColumnSpan="2" Grid.Column="0"
                 Panel.ZIndex="10"
                 Opacity="0.3">
                 <Border
@@ -240,7 +240,7 @@
 
             <!--  Side Menu  -->
             <controls:SideMenuControl
-                Width="300"
+                Grid.Column="0" Width="300"
                 attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding SideMenuVisible}"
                 Content="{Binding CurrentSideMenuContent, Converter={valueConverters:SideMenuContentConverter}}"
                 DataContext="{Binding ApplicationViewModel, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />

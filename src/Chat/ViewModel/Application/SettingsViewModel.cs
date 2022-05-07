@@ -494,16 +494,16 @@ public class SettingsViewModel : BaseViewModel
         var storedCredentials = await clientDataStore.GetLoginCredentialsAsync();
 
         // Set first name
-        FirstName.OriginalText = storedCredentials?.FirstName;
+        FirstName.OriginalText = storedCredentials?.FirstName ?? string.Empty;
 
         // Set last name
-        LastName.OriginalText = storedCredentials?.LastName;
+        LastName.OriginalText = storedCredentials?.LastName ?? string.Empty;
 
         // Set username
-        Username.OriginalText = storedCredentials?.Username;
+        Username.OriginalText = storedCredentials?.Username ?? string.Empty;
 
         // Set email
-        Email.OriginalText = storedCredentials?.Email;
+        Email.OriginalText = storedCredentials?.Email ?? string.Empty;
     }
 
     /// <summary>

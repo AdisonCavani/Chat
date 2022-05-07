@@ -13,10 +13,10 @@ public static class SecureStringHelpers
     /// </summary>
     /// <param name="secureString">The secure string</param>
     /// <returns></returns>
-    public static string Unsecure(this SecureString secureString)
+    public static string Unsecure(this SecureString? secureString)
     {
         // Make sure we have a secure string
-        if (secureString == null)
+        if (secureString is null)
             return string.Empty;
 
         // Get a pointer for an unsecure string in memory
@@ -24,9 +24,9 @@ public static class SecureStringHelpers
 
         try
         {
-            // Unsecures the password
+            // Convert to string
             unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(secureString);
-            return Marshal.PtrToStringUni(unmanagedString);
+            return Marshal.PtrToStringUni(unmanagedString) ?? string.Empty;
         }
         finally
         {

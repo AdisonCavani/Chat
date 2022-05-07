@@ -17,7 +17,7 @@ public static class ApplicationPageHelpers
     /// <param name="page"></param>
     /// <param name="viewModel"></param>
     /// <returns></returns>
-    public static BasePage ToBasePage(this ApplicationPage page, object viewModel = null)
+    public static BasePage? ToBasePage(this ApplicationPage page, object? viewModel = null)
     {
         // Find the appropriate page
         switch (page)

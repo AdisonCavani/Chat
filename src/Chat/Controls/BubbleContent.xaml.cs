@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Chat.Controls;
+﻿namespace Chat.Controls;
 
 /// <summary>
 /// Interaction logic for BubbleContent.xaml
 /// </summary>
-public partial class BubbleContent : UserControl
+public partial class BubbleContent
 {
     public BubbleContent()
     {

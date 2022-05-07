@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using Chat.Core.DataModels;
 using Chat.Pages;
 using Chat.ValueConverters;
@@ -13,7 +12,7 @@ namespace Chat.Controls;
 /// <summary>
 /// Interaction logic for PageHost.xaml
 /// </summary>
-public partial class PageHost : UserControl
+public partial class PageHost
 {
     #region Dependency Properties
 
@@ -75,7 +74,7 @@ public partial class PageHost : UserControl
     /// Called when the <see cref="CurrentPage"/> value has changed
     /// </summary>
     /// <param name="d"></param>
-    /// <param name="e"></param>
+    /// <param name="value"></param>
     private static object CurrentPagePropertyChanged(DependencyObject d, object value)
     {
         // Get current values
@@ -114,7 +113,7 @@ public partial class PageHost : UserControl
             oldPage.ShouldAnimateOut = true;
 
             // Once it is done, remove it
-            Task.Delay((int)(oldPage.SlideSeconds * 1000)).ContinueWith((t) =>
+            Task.Delay((int)(oldPage.SlideSeconds * 1000)).ContinueWith((_) =>
             {
                 // Remove old page
                 Application.Current.Dispatcher.Invoke(() => oldPageFrame.Content = null);

@@ -1,5 +1,4 @@
 ﻿using System.Security;
-using System.Windows.Markup;
 using Chat.ViewModel.Application;
 using Chat.ViewModel.Base;
 
@@ -8,7 +7,7 @@ namespace Chat.Pages;
 /// <summary>
 /// Interaction logic for RegisterPage.xaml
 /// </summary>
-public partial class RegisterPage : BasePage<RegisterViewModel>, IHavePassword, IComponentConnector
+public partial class RegisterPage : IHavePassword
 {
     #region Constructor
 

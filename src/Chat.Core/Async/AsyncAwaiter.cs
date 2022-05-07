@@ -147,7 +147,7 @@ public static class AsyncAwaiter
 
             // Log message to debug level 
             // (may not be an issue but we don't want to miss anything in debug)
-            Logger.LogDebugSource($"Crash in {nameof(AwaitAsync)}. {ex.Message}");
+            Logger.LogDebugSource($"Crash in {nameof(AwaitAsync)}. {error}");
 
             // Break debugger
             Debugger.Break();

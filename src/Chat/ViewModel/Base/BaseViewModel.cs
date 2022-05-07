@@ -24,15 +24,15 @@ public class BaseViewModel : INotifyPropertyChanged
     /// <summary>
     /// The event that is fired when any child property changes its value
     /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+    public event PropertyChangedEventHandler? PropertyChanged = (_, _) => { };
 
     /// <summary>
     /// Call this to fire a <see cref="PropertyChanged"/> event
     /// </summary>
     /// <param name="name"></param>
-    public void OnPropertyChanged(string name)
+    protected void OnPropertyChanged(string name)
     {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     #region Command Helpers
@@ -79,9 +79,10 @@ public class BaseViewModel : INotifyPropertyChanged
     /// </summary>
     /// <param name="updatingFlag">The boolean property flag defining if the command is already running</param>
     /// <param name="action">The action to run if the command is not already running</param>
+    /// <param name="defaultValue"></param>
     /// <typeparam name="T">The type the action returns</typeparam>
     /// <returns></returns>
-    protected async Task<T> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default)
+    protected async Task<T?> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T? defaultValue = default)
     {
         // Lock to ensure single access to check
         lock (mPropertyValueCheckLock)

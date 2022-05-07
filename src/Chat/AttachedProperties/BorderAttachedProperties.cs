@@ -31,17 +31,17 @@ public class ClipFromBorderProperty : BaseAttachedProperty<ClipFromBorderPropert
         var self = (sender as FrameworkElement);
 
         // Check we have a parent Border
-        if (!(self.Parent is Border border))
+        if (!(self?.Parent is Border border))
         {
             Debugger.Break();
             return;
         }
 
         // Setup loaded event
-        mBorder_Loaded = (s1, e1) => Border_OnChange(s1, e1, self);
+        mBorder_Loaded = (s1, _) => Border_OnChange(s1, self);
 
         // Setup size changed event
-        mBorder_SizeChanged = (s1, e1) => Border_OnChange(s1, e1, self);
+        mBorder_SizeChanged = (s1, _) => Border_OnChange(s1, self);
 
         // If true, hook into events
         if ((bool)e.NewValue)
@@ -61,9 +61,8 @@ public class ClipFromBorderProperty : BaseAttachedProperty<ClipFromBorderPropert
     /// Called when the border is loaded and changed size
     /// </summary>
     /// <param name="sender">The border</param>
-    /// <param name="e"></param>
     /// <param name="child">The child element (our selves)</param>
-    private void Border_OnChange(object sender, RoutedEventArgs e, FrameworkElement child)
+    private void Border_OnChange(object sender, FrameworkElement child)
     {
         // Get border
         var border = (Border)sender;

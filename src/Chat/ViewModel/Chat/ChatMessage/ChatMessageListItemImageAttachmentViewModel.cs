@@ -53,17 +53,17 @@ public class ChatMessageListItemImageAttachmentViewModel : BaseViewModel
             //       Set LocalFilePath value
             //
             //       For now, just set the file path directly
-            Task.Delay(2000).ContinueWith(t => LocalFilePath = "/Images/Samples/rusty.jpg");
+            Task.Delay(2000).ContinueWith(_ => LocalFilePath = "/Images/Samples/rusty.jpg");
         }
     }
 
     /// <summary>
     /// The local file path on this machine to the downloaded thumbnail
     /// </summary>
-    public string LocalFilePath { get; set; }
+    public string? LocalFilePath { get; set; }
 
     /// <summary>
     /// Indicates if an image has loaded
     /// </summary>
-    public bool ImageLoaded => LocalFilePath != null;
+    public bool ImageLoaded => LocalFilePath is not null;
 }

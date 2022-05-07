@@ -15,7 +15,7 @@ public class PanelChildMarginProperty : BaseAttachedProperty<PanelChildMarginPro
         var panel = (sender as Panel);
 
         // Wait for panel to load
-        panel.Loaded += (s, ee) =>
+        panel.Loaded += (_, _) =>
         {
             // Loop each child
             foreach (var child in panel.Children)

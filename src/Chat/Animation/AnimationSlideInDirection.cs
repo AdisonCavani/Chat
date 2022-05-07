@@ -2,7 +2,7 @@
 
 /// <summary>
 /// The direction an animation slides in (the slide out direction is reversed)
-/// <summary>
+/// </summary>
 public enum AnimationSlideInDirection
 {
     /// <summary>

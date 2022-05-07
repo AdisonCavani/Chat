@@ -5,7 +5,7 @@ using System.Windows.Media.Animation;
 namespace Chat.Animation;
 
 /// <summary>
-/// Animation helpers for <see cref="StoryBoard"/>
+/// Animation helpers for <see cref="Storyboard"/>
 /// </summary>
 public static class StoryboardHelpers
 {
@@ -240,6 +240,7 @@ public static class StoryboardHelpers
     /// </summary>
     /// <param name="storyboard">The storyboard to add the animation to</param>
     /// <param name="seconds">The time the animation will take</param>
+    /// <param name="from"></param>
     public static void AddFadeIn(this Storyboard storyboard, float seconds, bool from = false)
     {
         // Create the margin animate from right 

@@ -62,7 +62,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
             // Create a single self-unhookable event 
             // for the elements Loaded event
             RoutedEventHandler onLoaded = null;
-            onLoaded = async (ss, ee) =>
+            onLoaded = async (_, _) =>
             {
                 // Unhook ourselves
                 element.Loaded -= onLoaded;

@@ -16,12 +16,12 @@ public abstract class BaseAttachedProperty<Parent, Property>
     /// <summary>
     /// Fired when the value changes
     /// </summary>
-    public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (sender, e) => { };
+    public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (_, _) => { };
 
     /// <summary>
     /// Fired when the value changes, even when the value is the same
     /// </summary>
-    public event Action<DependencyObject, object> ValueUpdated = (sender, value) => { };
+    public event Action<DependencyObject, object> ValueUpdated = (_, _) => { };
 
     #endregion
 
@@ -45,8 +45,8 @@ public abstract class BaseAttachedProperty<Parent, Property>
         typeof(BaseAttachedProperty<Parent, Property>),
         new UIPropertyMetadata(
             default(Property),
-            new PropertyChangedCallback(OnValuePropertyChanged),
-            new CoerceValueCallback(OnValuePropertyUpdated)
+            OnValuePropertyChanged,
+            OnValuePropertyUpdated
             ));
 
     /// <summary>
@@ -67,7 +67,7 @@ public abstract class BaseAttachedProperty<Parent, Property>
     /// The callback event when the <see cref="ValueProperty"/> is changed, even if it is the same value
     /// </summary>
     /// <param name="d">The UI element that had it's property changed</param>
-    /// <param name="e">The arguments for the event</param>
+    /// <param name="value">The arguments for the event</param>
     private static object OnValuePropertyUpdated(DependencyObject d, object value)
     {
         // Call the parent function
@@ -109,7 +109,7 @@ public abstract class BaseAttachedProperty<Parent, Property>
     /// The method that is called when any attached property of this type is changed, even if the value is the same
     /// </summary>
     /// <param name="sender">The UI element that this property was changed for</param>
-    /// <param name="e">The arguments for this event</param>
+    /// <param name="value">The arguments for this event</param>
     public virtual void OnValueUpdated(DependencyObject sender, object value) { }
 
     #endregion

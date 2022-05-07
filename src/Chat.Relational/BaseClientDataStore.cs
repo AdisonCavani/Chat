@@ -1,5 +1,4 @@
-﻿using Chat.Core;
-using Chat.Core.DataModels;
+﻿using Chat.Core.DataModels;
 using Chat.Core.DI.Interfaces;
 
 namespace Chat.Relational;
@@ -16,7 +15,7 @@ public class BaseClientDataStore : IClientDataStore
     /// <summary>
     /// The database context for the client data store
     /// </summary>
-    protected ClientDataStoreDbContext mDbContext;
+    private readonly ClientDataStoreDbContext mDbContext;
 
     #endregion
 
@@ -41,7 +40,7 @@ public class BaseClientDataStore : IClientDataStore
     /// </summary>
     public async Task<bool> HasCredentialsAsync()
     {
-        return await GetLoginCredentialsAsync() != null;
+        return await GetLoginCredentialsAsync() is not null;
     }
 
     /// <summary>

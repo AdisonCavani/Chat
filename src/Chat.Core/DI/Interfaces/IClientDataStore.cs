@@ -17,7 +17,7 @@ public interface IClientDataStore
     /// Makes sure the client data store is correctly set up
     /// </summary>
     /// <returns>Returns a task that will finish once setup is complete</returns>
-    System.Threading.Tasks.Task EnsureDataStoreAsync();
+    Task EnsureDataStoreAsync();
 
     /// <summary>
     /// Gets the stored login credentials for this client
@@ -30,11 +30,11 @@ public interface IClientDataStore
     /// </summary>
     /// <param name="loginCredentials">The login credentials to save</param>
     /// <returns>Returns a task that will finish once the save is complete</returns>
-    System.Threading.Tasks.Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
+    Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
 
     /// <summary>
     /// Removes all login credentials stored in the data store
     /// </summary>
     /// <returns></returns>
-    System.Threading.Tasks.Task ClearAllLoginCredentialsAsync();
+    Task ClearAllLoginCredentialsAsync();
 }

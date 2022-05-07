@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using Chat.ViewModel.Input;
 
 namespace Chat.Controls.Input;
@@ -9,7 +8,7 @@ namespace Chat.Controls.Input;
 /// <summary>
 /// Interaction logic for PasswordEntryControl.xaml
 /// </summary>
-public partial class PasswordEntryControl : UserControl
+public partial class PasswordEntryControl
 {
     #region Dependency Properties
 

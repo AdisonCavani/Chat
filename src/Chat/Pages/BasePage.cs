@@ -98,7 +98,7 @@ public class BasePage : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void BasePage_LoadedAsync(object sender, System.Windows.RoutedEventArgs e)
+    private async void BasePage_LoadedAsync(object sender, RoutedEventArgs e)
     {
         // If we are setup to animate out on load
         if (ShouldAnimateOut)
@@ -187,7 +187,7 @@ public class BasePage<VM> : BasePage
     /// <summary>
     /// Default constructor
     /// </summary>
-    public BasePage() : base()
+    public BasePage()
     {
         // If in design time mode...
         if (DesignerProperties.GetIsInDesignMode(this))
@@ -202,10 +202,10 @@ public class BasePage<VM> : BasePage
     /// Constructor with specific view model
     /// </summary>
     /// <param name="specificViewModel">The specific view model to use, if any</param>
-    public BasePage(VM specificViewModel = null) : base()
+    public BasePage(VM specificViewModel = null)
     {
         // Set specific view model
-        if (specificViewModel != null)
+        if (specificViewModel is not null)
             ViewModel = specificViewModel;
         else
         {

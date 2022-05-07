@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Chat.Core.ApiModels;
 using Chat.Core.ApiModels.LoginRegister;

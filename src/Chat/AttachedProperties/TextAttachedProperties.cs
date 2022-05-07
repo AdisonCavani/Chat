@@ -16,7 +16,7 @@ public class IsFocusedProperty : BaseAttachedProperty<IsFocusedProperty, bool>
             return;
 
         // Focus this control once loaded
-        control.Loaded += (s, se) => control.Focus();
+        control.Loaded += (_, _) => control.Focus();
     }
 }
 

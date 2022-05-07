@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
-using Chat.Core;
 using Chat.Core.DataModels;
 using Chat.DI;
 using Chat.Relational;
@@ -16,7 +15,7 @@ namespace Chat;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App
 {
     /// <summary>
     /// Custom startup so we load our IoC immediately before anything else
@@ -71,13 +70,13 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// Monitors the fasetto website is up, running and reachable
+    /// Monitors if the website is up, running and reachable
     /// by periodically hitting it up
     /// </summary>
     private void MonitorServerStatus()
     {
         // Create a new endpoint watcher
-        var httpWatcher = new HttpEndpointChecker(
+        new HttpEndpointChecker(
             // Checking fasetto.chat
             // Configuration["FasettoWordServer:HostUrl"],
             "https://google.com",

@@ -15,7 +15,7 @@ public class WindowViewModel : BaseViewModel
     /// <summary>
     /// The window this view model controls
     /// </summary>
-    private System.Windows.Window mWindow;
+    private Window mWindow;
 
     /// <summary>
     /// The window resizer helper that keeps the window size correct in various states
@@ -156,12 +156,12 @@ public class WindowViewModel : BaseViewModel
     /// <summary>
     /// Default constructor
     /// </summary>
-    public WindowViewModel(System.Windows.Window window)
+    public WindowViewModel(Window window)
     {
         mWindow = window;
 
         // Listen out for the window resizing
-        mWindow.StateChanged += (sender, e) =>
+        mWindow.StateChanged += (_, _) =>
         {
             // Fire off events for all properties that are affected by a resize
             WindowResized();

@@ -10,17 +10,17 @@ public class ApiResponse
     /// <summary>
     /// Indicates if the API call was successful
     /// </summary>
-    public bool Successful => ErrorMessage == null;
+    public bool Successful => ErrorMessage is null;
 
     /// <summary>
     /// The error message for a failed API call
     /// </summary>
-    public string ErrorMessage { get; set; }
+    public string? ErrorMessage { get; set; }
 
     /// <summary>
     /// The API response object
     /// </summary>
-    public object Response { get; set; }
+    public object? Response { get; set; }
 
     #endregion
 
@@ -42,10 +42,10 @@ public class ApiResponse
 /// with a specific type of known response
 /// </summary>
 /// <typeparam name="T">The specific type of server response</typeparam>
-public class ApiResponse<T> : ApiResponse
+public abstract class ApiResponse<T> : ApiResponse
 {
     /// <summary>
     /// The API response object as T
     /// </summary>
-    public new T Response { get => (T)base.Response; set => base.Response = value; }
+    public new T? Response { get => (T?)base.Response; set => base.Response = value; }
 }

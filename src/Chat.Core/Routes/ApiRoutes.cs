@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word.Core;
+﻿namespace Chat.Core;
 
 /// <summary>
 /// The relative routes to all Api calls in the server

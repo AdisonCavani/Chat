@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using Chat.Core;
+using Chat.Relational;
 using Dna;
-using Fasetto.Word.Core;
-using Fasetto.Word.Relational;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using static Chat.Core.CoreDI;
+using static Chat.DI;
 using static Dna.FrameworkDI;
-using static Fasetto.Word.Core.CoreDI;
-using static Fasetto.Word.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for App.xaml

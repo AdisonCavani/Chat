@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using Fasetto.Word.Core;
+using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes in a <see cref="MenuItemType"/> and returns a <see cref="Visibility"/> 

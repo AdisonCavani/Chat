@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word.Core;
+﻿namespace Chat.Core;
 
 /// <summary>
 /// Stores and retrieves information about the client application 

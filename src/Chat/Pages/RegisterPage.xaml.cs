@@ -1,7 +1,7 @@
 ﻿using System.Security;
 using System.Windows.Markup;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for RegisterPage.xaml

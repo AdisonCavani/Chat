@@ -1,6 +1,6 @@
 ﻿using static Dna.FrameworkDI;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// Helper methods for getting and working with web routes

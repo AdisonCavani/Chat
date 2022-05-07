@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// A helper for expressions

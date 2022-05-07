@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Scroll an items control to the bottom when the data context changes

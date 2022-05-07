@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word.Core;
+﻿namespace Chat.Core;
 
 /// <summary>
 /// The results of searching for users with specific details

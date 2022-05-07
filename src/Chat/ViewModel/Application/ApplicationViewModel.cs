@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Fasetto.Word.Core;
-using static Fasetto.Word.Core.CoreDI;
-using static Fasetto.Word.DI;
+using Chat.Core;
+using static Chat.Core.CoreDI;
+using static Chat.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The application state as a view model

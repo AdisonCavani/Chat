@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Fasetto.Word.Core;
+using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes a <see cref="SideMenuContent"/> and converts it to the 

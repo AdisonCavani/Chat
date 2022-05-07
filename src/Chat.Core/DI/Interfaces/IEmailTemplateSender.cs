@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word.Core;
+﻿namespace Chat.Core;
 
 /// <summary>
 /// Sends emails using the <see cref="IEmailSender"/> and creating the HTML

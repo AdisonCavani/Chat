@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// An interface for a class that can provide a secure password

@@ -1,7 +1,7 @@
-﻿using Dna;
-using Fasetto.Word.Core;
+﻿using Chat.Core;
+using Dna;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A shorthand access class to get DI services with nice clean short code

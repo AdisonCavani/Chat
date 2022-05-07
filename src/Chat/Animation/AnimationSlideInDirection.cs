@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word;
+﻿namespace Chat;
 
 /// <summary>
 /// The direction an animation slides in (the slide out direction is reversed)

@@ -2,12 +2,12 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Chat.Core;
 using Dna;
-using Fasetto.Word.Core;
+using static Chat.DI;
 using static Dna.FrameworkDI;
-using static Fasetto.Word.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The settings state as a view model

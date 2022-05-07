@@ -1,7 +1,7 @@
-﻿using Fasetto.Word.Core;
+﻿using Chat.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fasetto.Word.Relational;
+namespace Chat.Relational;
 
 /// <summary>
 /// The database context for the client data store

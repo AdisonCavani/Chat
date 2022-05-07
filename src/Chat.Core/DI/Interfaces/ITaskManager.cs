@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// Handles anything to do with Tasks

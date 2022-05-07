@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for each chat message thread item in a chat thread

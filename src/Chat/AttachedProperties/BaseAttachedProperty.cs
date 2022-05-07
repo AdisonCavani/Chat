@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A base attached property to replace the vanilla WPF attached property

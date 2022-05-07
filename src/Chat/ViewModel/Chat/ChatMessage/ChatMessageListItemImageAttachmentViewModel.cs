@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for each chat message thread item's attachment

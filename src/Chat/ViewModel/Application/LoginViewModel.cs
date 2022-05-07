@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using Chat.Core;
 using Dna;
-using Fasetto.Word.Core;
-using static Fasetto.Word.DI;
+using static Chat.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The View Model for a login screen

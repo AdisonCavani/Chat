@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes in the core horizontal alignment enum and converts it to a WPF alignment

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The base class for any content that is being used inside of a <see cref="DialogWindow"/>

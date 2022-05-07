@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for DialogWindow.xaml

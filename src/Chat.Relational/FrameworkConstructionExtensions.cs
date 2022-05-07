@@ -1,10 +1,10 @@
-﻿using Dna;
-using Fasetto.Word.Core;
+﻿using Chat.Core;
+using Dna;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fasetto.Word.Relational;
+namespace Chat.Relational;
 
 /// <summary>
 /// Extension methods for the <see cref="FrameworkConstruction"/>

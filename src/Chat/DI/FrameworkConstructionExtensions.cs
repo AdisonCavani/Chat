@@ -1,8 +1,8 @@
-﻿using Dna;
-using Fasetto.Word.Core;
+﻿using Chat.Core;
+using Dna;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Extension methods for the <see cref="FrameworkConstruction"/>

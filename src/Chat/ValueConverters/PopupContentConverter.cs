@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes in a <see cref="BaseViewModel"/>and returns the specific UI control 

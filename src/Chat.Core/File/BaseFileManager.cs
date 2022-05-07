@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using static Fasetto.Word.Core.CoreDI;
+using static Chat.Core.CoreDI;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// Handles reading/writing and querying the file system

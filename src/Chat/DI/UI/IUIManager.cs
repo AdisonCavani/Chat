@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The UI manager that handles any UI interaction in the application

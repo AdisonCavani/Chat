@@ -2,7 +2,7 @@
 using Dna;
 using static Dna.FrameworkDI;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// Handles anything to do with Tasks

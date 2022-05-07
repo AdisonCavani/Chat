@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word;
+﻿namespace Chat;
 
 /// <summary>
 /// A base view model for any dialogs

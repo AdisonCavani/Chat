@@ -1,6 +1,6 @@
-﻿using static Fasetto.Word.DI;
+﻿using static Chat.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Locates view models from the IoC for use in binding in Xaml files

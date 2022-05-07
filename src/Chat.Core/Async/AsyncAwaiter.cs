@@ -2,7 +2,7 @@
 using Dna;
 using static Dna.FrameworkDI;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// Adds the ability to safely await on tasks to be complete that need limited access

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for a chat message thread list

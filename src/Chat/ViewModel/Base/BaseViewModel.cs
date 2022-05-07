@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Fasetto.Word.Core;
+using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A base view model that fires Property Changed events as needed

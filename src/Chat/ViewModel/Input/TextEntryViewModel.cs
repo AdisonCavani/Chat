@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The view model for a text entry to edit a string value

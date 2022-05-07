@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word;
+﻿namespace Chat;
 
 /// <summary>
 /// Details for a message box dialog

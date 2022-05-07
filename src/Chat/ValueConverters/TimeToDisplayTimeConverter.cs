@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes in date and converts it to a user friendly time

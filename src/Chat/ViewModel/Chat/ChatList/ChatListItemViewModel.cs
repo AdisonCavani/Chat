@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Fasetto.Word.Core;
-using static Fasetto.Word.DI;
+using Chat.Core;
+using static Chat.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for each chat list item in the overview chat list

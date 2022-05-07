@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Chat.Core;
 using Dna;
-using Fasetto.Word.Core;
+using static Chat.DI;
 using static Dna.FrameworkDI;
-using static Fasetto.Word.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Extension methods for the <see cref="WebRequestResultExtensions"/> class

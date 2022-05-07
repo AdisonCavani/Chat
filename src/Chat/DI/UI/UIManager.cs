@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The applications implementation of the <see cref="IUIManager"/>

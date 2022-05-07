@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
-using static Fasetto.Word.DI;
+using static Chat.DI;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for SettingsControl.xaml

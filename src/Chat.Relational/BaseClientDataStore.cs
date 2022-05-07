@@ -1,6 +1,6 @@
-﻿using Fasetto.Word.Core;
+﻿using Chat.Core;
 
-namespace Fasetto.Word.Relational;
+namespace Chat.Relational;
 
 /// <summary>
 /// Stores and retrieves information about the client application 

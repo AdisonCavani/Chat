@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Fasetto.Word.Core;
+using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for PageHost.xaml

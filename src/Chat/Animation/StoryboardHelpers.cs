@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Animation helpers for <see cref="StoryBoard"/>

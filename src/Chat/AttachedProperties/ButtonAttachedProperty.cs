@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word;
+﻿namespace Chat;
 
 /// <summary>
 /// The IsBusy attached property for a anything that wants to flag if the control is busy

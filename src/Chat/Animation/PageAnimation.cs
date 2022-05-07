@@ -1,4 +1,4 @@
-﻿namespace Fasetto.Word;
+﻿namespace Chat;
 
 /// <summary>
 /// Styles of page animations for appearing/disappearing

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A converter that takes in a boolean if a message was sent by me, and aligns to the right

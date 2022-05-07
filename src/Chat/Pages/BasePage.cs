@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Dna;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The base page for all pages to gain base functionality

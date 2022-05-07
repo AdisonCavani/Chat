@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The design-time data for a <see cref="ChatMessageListItemViewModel"/>

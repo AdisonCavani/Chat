@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

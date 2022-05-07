@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The View Model for the custom flat window

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for a menu

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Focuses (keyboard focus) this element on load

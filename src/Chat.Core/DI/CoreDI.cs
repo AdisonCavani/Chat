@@ -1,6 +1,6 @@
 ﻿using Dna;
 
-namespace Fasetto.Word.Core;
+namespace Chat.Core;
 
 /// <summary>
 /// The IoC container for our application

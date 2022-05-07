@@ -1,6 +1,6 @@
-﻿using Fasetto.Word.Core;
+﻿using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// A view model for a menu item

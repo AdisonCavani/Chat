@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Fasetto.Word.Core;
+using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Converts the <see cref="ApplicationPage"/> to an actual view/page

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Interaction logic for BubbleContent.xaml

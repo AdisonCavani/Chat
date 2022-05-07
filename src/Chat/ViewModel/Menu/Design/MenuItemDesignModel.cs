@@ -1,6 +1,6 @@
-﻿using Fasetto.Word.Core;
+﻿using Chat.Core;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The design-time data for a <see cref="MenuItemViewModel"/>

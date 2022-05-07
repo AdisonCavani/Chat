@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// Creates a clipping region from the parent <see cref="Border"/> <see cref="CornerRadius"/>

@@ -3,7 +3,7 @@ using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Fasetto.Word;
+namespace Chat;
 
 /// <summary>
 /// The view model for a password entry to edit a password 

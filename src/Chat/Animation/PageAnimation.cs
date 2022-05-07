@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.Animation;
 
 /// <summary>
 /// Styles of page animations for appearing/disappearing

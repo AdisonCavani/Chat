@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.ApiModels.Contacts;
 
 /// <summary>
 /// A single result of searching for users with specific details

@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.DataModels;
+
+namespace Chat.Core.Icons;
 
 /// <summary>
 /// Helper functions for <see cref="IconType"/>

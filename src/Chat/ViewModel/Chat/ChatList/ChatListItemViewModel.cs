@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Chat.Core;
-using static Chat.DI;
+using Chat.Core.DataModels;
+using Chat.ViewModel.Application;
+using Chat.ViewModel.Base;
+using Chat.ViewModel.Chat.ChatMessage;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.ViewModel.Chat.ChatList;
 
 /// <summary>
 /// A view model for each chat list item in the overview chat list

@@ -1,8 +1,12 @@
-﻿using Chat.Core;
+﻿using Chat.Core.DI.Interfaces;
+using Chat.Core.File;
+using Chat.Core.Task;
+using Chat.DI.UI;
+using Chat.ViewModel.Application;
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Chat;
+namespace Chat.DI;
 
 /// <summary>
 /// Extension methods for the <see cref="FrameworkConstruction"/>

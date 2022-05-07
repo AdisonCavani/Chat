@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in the core horizontal alignment enum and converts it to a WPF alignment

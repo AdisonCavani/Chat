@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Chat.ViewModel.Base;
+using Chat.ViewModel.Dialogs;
+using Chat.WPFViewModels;
 
-namespace Chat;
+namespace Chat.Dialogs;
 
 /// <summary>
 /// The base class for any content that is being used inside of a <see cref="DialogWindow"/>

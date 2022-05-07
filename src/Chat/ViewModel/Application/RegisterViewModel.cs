@@ -1,10 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Chat.Core;
-using Dna;
-using static Chat.DI;
+using Chat.Core.ApiModels;
+using Chat.Core.ApiModels.LoginRegister;
+using Chat.Core.DataModels;
+using Chat.Core.Routes;
+using Chat.Core.Security;
+using Chat.ViewModel.Base;
+using Chat.WebRequests;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.ViewModel.Application;
 
 /// <summary>
 /// The View Model for a register screen
@@ -68,7 +73,7 @@ public class RegisterViewModel : BaseViewModel
         await RunCommandAsync(() => RegisterIsRunning, async () =>
         {
             // Call the server and attempt to register with the provided credentials
-            var result = await WebRequests.PostAsync<ApiResponse<RegisterResultApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<RegisterResultApiModel>>(
             // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Register),
                 // Create api model

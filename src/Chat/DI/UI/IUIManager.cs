@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Chat.ViewModel.Dialogs;
 
-namespace Chat;
+namespace Chat.DI.UI;
 
 /// <summary>
 /// The UI manager that handles any UI interaction in the application

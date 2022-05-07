@@ -2,12 +2,22 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Chat.Core;
+using Chat.Core.ApiModels;
+using Chat.Core.ApiModels.UserProfile;
+using Chat.Core.DataModels;
+using Chat.Core.DI.Interfaces;
+using Chat.Core.Expressions;
+using Chat.Core.Routes;
+using Chat.Core.Security;
+using Chat.ViewModel.Base;
+using Chat.ViewModel.Dialogs;
+using Chat.ViewModel.Input;
+using Chat.WebRequests;
 using Dna;
-using static Chat.DI;
+using static Chat.DI.DI;
 using static Dna.FrameworkDI;
 
-namespace Chat;
+namespace Chat.ViewModel.Application;
 
 /// <summary>
 /// The settings state as a view model
@@ -286,7 +296,7 @@ public class SettingsViewModel : BaseViewModel
                 return;
 
             // Load user profile details form server
-            var result = await WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
                 // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
                 // Pass in user Token
@@ -437,7 +447,7 @@ public class SettingsViewModel : BaseViewModel
             }
 
             // Update the server with the new password
-            var result = await WebRequests.PostAsync<ApiResponse>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse>(
                 // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.UpdateUserPassword),
                 // Create API model
@@ -540,7 +550,7 @@ public class SettingsViewModel : BaseViewModel
         setApiModel(updateApiModel, newValue);
 
         // Update the server with the details
-        var result = await WebRequests.PostAsync<ApiResponse>(
+        var result = await Dna.WebRequests.PostAsync<ApiResponse>(
             // Set URL
             RouteHelpers.GetAbsoluteRoute(ApiRoutes.UpdateUserProfile),
             // Pass the Api model

@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
-using static Chat.Core.CoreDI;
+using Chat.Core.Async;
+using Chat.Core.DI.Interfaces;
+using static Chat.Core.DI.CoreDI;
 
-namespace Chat.Core;
+namespace Chat.Core.File;
 
 /// <summary>
 /// Handles reading/writing and querying the file system
@@ -15,7 +17,7 @@ public class BaseFileManager : IFileManager
     /// <param name="path">The path of the file to write to</param>
     /// <param name="append">If true, writes the text to the end of the file, otherwise overrides any existing file</param>
     /// <returns></returns>
-    public async Task WriteTextToFileAsync(string text, string path, bool append = false)
+    public async System.Threading.Tasks.Task WriteTextToFileAsync(string text, string path, bool append = false)
     {
         // TODO: Add exception catching
 
@@ -32,7 +34,7 @@ public class BaseFileManager : IFileManager
             await TaskManager.Run(() =>
             {
                 // Write the log message to file
-                using (var fileStream = (TextWriter)new StreamWriter(File.Open(path, append ? FileMode.Append : FileMode.Create)))
+                using (var fileStream = (TextWriter)new StreamWriter(System.IO.File.Open(path, append ? FileMode.Append : FileMode.Create)))
                     fileStream.Write(text);
             });
         });

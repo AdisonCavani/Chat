@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace Chat;
+namespace Chat.Window2;
 
 /// <summary>
 /// The dock position of the window
@@ -56,7 +56,7 @@ public class WindowResizer
     /// <summary>
     /// The window to handle the resizing for
     /// </summary>
-    private Window mWindow;
+    private System.Windows.Window mWindow;
 
     /// <summary>
     /// The last calculated available screen size
@@ -155,7 +155,7 @@ public class WindowResizer
     /// </summary>
     /// <param name="window">The window to monitor and correctly maximize</param>
     /// <param name="adjustSize">The callback for the host to adjust the maximum available size if needed</param>
-    public WindowResizer(Window window)
+    public WindowResizer(System.Windows.Window window)
     {
         mWindow = window;
 

@@ -1,6 +1,6 @@
 ﻿using static Dna.FrameworkDI;
 
-namespace Chat.Core;
+namespace Chat.Core.Routes;
 
 /// <summary>
 /// Helper methods for getting and working with web routes

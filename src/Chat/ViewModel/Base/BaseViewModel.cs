@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Chat.Core;
+using Chat.Core.Expressions;
 
-namespace Chat;
+namespace Chat.ViewModel.Base;
 
 /// <summary>
 /// A base view model that fires Property Changed events as needed

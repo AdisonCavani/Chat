@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.Email;
+
+namespace Chat.Core.DI.Interfaces;
 
 /// <summary>
 /// Sends emails using the <see cref="IEmailSender"/> and creating the HTML

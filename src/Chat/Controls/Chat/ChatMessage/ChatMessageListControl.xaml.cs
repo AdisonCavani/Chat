@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.Controls.Chat.ChatMessage;
 
 /// <summary>
 /// Interaction logic for ChatMessageListControl.xaml

@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.ApiModels;
 
 /// <summary>
 /// The response for all Web API calls made

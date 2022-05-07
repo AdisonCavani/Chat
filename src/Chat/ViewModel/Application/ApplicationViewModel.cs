@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Chat.Core;
-using static Chat.Core.CoreDI;
-using static Chat.DI;
+using Chat.Core.ApiModels.UserProfile;
+using Chat.Core.DataModels;
+using Chat.ViewModel.Base;
+using static Chat.Core.DI.CoreDI;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.ViewModel.Application;
 
 /// <summary>
 /// The application state as a view model

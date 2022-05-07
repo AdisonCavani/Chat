@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using Chat.ViewModel.Input;
 
-namespace Chat;
+namespace Chat.Controls.Input;
 
 /// <summary>
 /// Interaction logic for PasswordEntryControl.xaml

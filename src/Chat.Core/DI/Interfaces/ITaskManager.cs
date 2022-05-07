@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Chat.Core;
+namespace Chat.Core.DI.Interfaces;
 
 /// <summary>
 /// Handles anything to do with Tasks
@@ -17,7 +17,7 @@ public interface ITaskManager
     /// <param name="lineNumber">The line of code in the filename this message was logged from</param>
     /// <returns>A task that represents a proxy for the task returned by function.</returns>
     /// <exception cref="ArgumentNullException">The function parameter was null.</exception>
-    Task Run(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a proxy for the
@@ -34,7 +34,7 @@ public interface ITaskManager
     /// </remarks>
     /// <returns>A task that represents a proxy for the task returned by function.</returns>
     /// <exception cref="ArgumentNullException">The function parameter was null.</exception>
-    void RunAndForget(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    void RunAndForget(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a proxy for the
@@ -108,7 +108,7 @@ public interface ITaskManager
     /// <exception cref="ArgumentNullException">The function parameter was null.</exception>
     /// <exception cref="TaskCanceledException">The task has been canceled.</exception>
     /// <exception cref="ObjectDisposedException">The System.Threading.CancellationTokenSource associated with cancellationToken was disposed.</exception>
-    Task Run(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a proxy for the
@@ -128,7 +128,7 @@ public interface ITaskManager
     /// <exception cref="ArgumentNullException">The function parameter was null.</exception>
     /// <exception cref="TaskCanceledException">The task has been canceled.</exception>
     /// <exception cref="ObjectDisposedException">The System.Threading.CancellationTokenSource associated with cancellationToken was disposed.</exception>
-    void RunAndForget(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    void RunAndForget(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a System.Threading.Tasks.Task
@@ -144,7 +144,7 @@ public interface ITaskManager
     /// <exception cref="ArgumentNullException">The action parameter was null.</exception>
     /// <exception cref="TaskCanceledException">The task has been canceled.</exception>
     /// <exception cref="ObjectDisposedException">The System.Threading.CancellationTokenSource associated with cancellationToken was disposed.</exception>
-    Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    System.Threading.Tasks.Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a System.Threading.Tasks.Task
@@ -177,7 +177,7 @@ public interface ITaskManager
     /// <param name="lineNumber">The line of code in the filename this message was logged from</param>
     /// <returns>A task that represents the work queued to execute in the ThreadPool.</returns>
     /// <exception cref="ArgumentNullException">The action parameter was null.</exception>
-    Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
+    System.Threading.Tasks.Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0);
 
     /// <summary>
     /// Queues the specified work to run on the thread pool and returns a System.Threading.Tasks.Task

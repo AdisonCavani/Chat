@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Chat.ViewModel.Base;
+using Chat.Window2;
 
-namespace Chat;
+namespace Chat.WPFViewModels;
 
 /// <summary>
 /// The View Model for the custom flat window
@@ -13,7 +15,7 @@ public class WindowViewModel : BaseViewModel
     /// <summary>
     /// The window this view model controls
     /// </summary>
-    private Window mWindow;
+    private System.Windows.Window mWindow;
 
     /// <summary>
     /// The window resizer helper that keeps the window size correct in various states
@@ -154,7 +156,7 @@ public class WindowViewModel : BaseViewModel
     /// <summary>
     /// Default constructor
     /// </summary>
-    public WindowViewModel(Window window)
+    public WindowViewModel(System.Windows.Window window)
     {
         mWindow = window;
 

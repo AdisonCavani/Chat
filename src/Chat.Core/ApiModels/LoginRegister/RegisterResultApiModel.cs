@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.ApiModels.UserProfile;
+
+namespace Chat.Core.ApiModels.LoginRegister;
 
 /// <summary>
 /// The result of a register request via API

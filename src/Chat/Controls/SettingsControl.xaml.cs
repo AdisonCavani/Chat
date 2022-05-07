@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
-using static Chat.DI;
+using Chat.ViewModel.Application;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.Controls;
 
 /// <summary>
 /// Interaction logic for SettingsControl.xaml

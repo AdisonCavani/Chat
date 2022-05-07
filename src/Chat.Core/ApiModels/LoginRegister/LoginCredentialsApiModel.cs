@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.ApiModels.LoginRegister;
 
 /// <summary>
 /// The credentials for an API client to log into the server and receive a token back

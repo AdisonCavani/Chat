@@ -2,9 +2,13 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Chat.Core;
+using Chat.Core.DataModels;
+using Chat.Pages;
+using Chat.ValueConverters;
+using Chat.ViewModel.Application;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.Controls;
 
 /// <summary>
 /// Interaction logic for PageHost.xaml

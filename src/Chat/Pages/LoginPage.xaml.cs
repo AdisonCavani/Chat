@@ -1,7 +1,9 @@
 ﻿using System.Security;
 using System.Windows.Markup;
+using Chat.ViewModel.Application;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.Pages;
 
 /// <summary>
 /// Interaction logic for LoginPage.xaml

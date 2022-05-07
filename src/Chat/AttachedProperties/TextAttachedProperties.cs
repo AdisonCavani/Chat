@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// Focuses (keyboard focus) this element on load

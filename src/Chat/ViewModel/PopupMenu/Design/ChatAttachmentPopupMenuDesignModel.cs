@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.ViewModel.PopupMenu.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="ChatAttachmentPopupMenuViewModel"/>

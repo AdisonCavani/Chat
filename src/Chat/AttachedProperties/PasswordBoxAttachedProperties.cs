@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// The MonitorPassword attached property for a <see cref="PasswordBox"/>

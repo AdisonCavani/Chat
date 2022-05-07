@@ -1,4 +1,6 @@
-﻿namespace Chat;
+﻿using Chat.ViewModel.Base;
+
+namespace Chat.ViewModel.Dialogs;
 
 /// <summary>
 /// A base view model for any dialogs

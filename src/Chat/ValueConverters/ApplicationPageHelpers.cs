@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
-using Chat.Core;
+using Chat.Core.DataModels;
+using Chat.Pages;
+using Chat.ViewModel.Application;
+using Chat.ViewModel.Chat.ChatMessage;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// Converts the <see cref="ApplicationPage"/> to an actual view/page

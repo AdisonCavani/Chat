@@ -5,6 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Chat"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:valueConverters="clr-namespace:Chat.ValueConverters"
+    xmlns:attachedProperties="clr-namespace:Chat.AttachedProperties"
+    xmlns:wpfViewModels="clr-namespace:Chat.WPFViewModels"
+    xmlns:controls="clr-namespace:Chat.Controls"
     x:Name="AppWindow"
     Title="Welcome, friend!"
     Width="900"
@@ -37,7 +41,7 @@
                                 <Border
                                     Panel.ZIndex="2"
                                     BorderBrush="{StaticResource WordOrangeBrush}"
-                                    BorderThickness="{Binding BeingMoved, Converter={local:BooleanToBorderThicknessConverter}}"
+                                    BorderThickness="{Binding BeingMoved, Converter={valueConverters:BooleanToBorderThicknessConverter}}"
                                     CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}" />
 
                                 <!--  Opacity mask for corners on grid  -->
@@ -158,7 +162,7 @@
                                         Grid.Row="1"
                                         Padding="10"
                                         Panel.ZIndex="1"
-                                        local:AnimateSlideInFromTopProperty.Value="{Binding ApplicationViewModel.ServerReachable, Source={x:Static local:ViewModelLocator.Instance}, Converter={local:BooleanInvertConverter}}"
+                                        attachedProperties:AnimateSlideInFromTopProperty.Value="{Binding ApplicationViewModel.ServerReachable, Source={x:Static wpfViewModels:ViewModelLocator.Instance}, Converter={valueConverters:BooleanInvertConverter}}"
                                         Background="{StaticResource WordOrangeBrush}">
 
                                         <Label
@@ -214,10 +218,10 @@
             </Grid.Background>
 
             <!--  Settings page  -->
-            <local:SettingsControl
+            <controls:SettingsControl
                 Grid.ColumnSpan="2"
                 Panel.ZIndex="9"
-                local:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.SettingsMenuVisible, Source={x:Static local:ViewModelLocator.Instance}}" />
+                attachedProperties:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.SettingsMenuVisible, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
 
             <!--  Dimmed overlay  -->
             <Border
@@ -225,21 +229,21 @@
                 Panel.ZIndex="10"
                 Opacity="0.3">
                 <Border
-                    local:AnimateFadeInProperty.Value="{Binding DimmableOverlayVisible}"
+                    attachedProperties:AnimateFadeInProperty.Value="{Binding DimmableOverlayVisible}"
                     Background="{StaticResource ForegroundVeryDarkBrush}" />
             </Border>
 
-            <local:PageHost
+            <controls:PageHost
                 Grid.Column="1"
-                CurrentPage="{Binding ApplicationViewModel.CurrentPage, Source={x:Static local:ViewModelLocator.Instance}}"
-                CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel, Source={x:Static local:ViewModelLocator.Instance}}" />
+                CurrentPage="{Binding ApplicationViewModel.CurrentPage, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}"
+                CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
 
             <!--  Side Menu  -->
-            <local:SideMenuControl
+            <controls:SideMenuControl
                 Width="300"
-                local:AnimateSlideInFromLeftProperty.Value="{Binding SideMenuVisible}"
-                Content="{Binding CurrentSideMenuContent, Converter={local:SideMenuContentConverter}}"
-                DataContext="{Binding ApplicationViewModel, Source={x:Static local:ViewModelLocator.Instance}}" />
+                attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding SideMenuVisible}"
+                Content="{Binding CurrentSideMenuContent, Converter={valueConverters:SideMenuContentConverter}}"
+                DataContext="{Binding ApplicationViewModel, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
 
         </Grid>
     </Border>

@@ -1,8 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
+using Chat.Core.DI.Interfaces;
 using Dna;
 using static Dna.FrameworkDI;
 
-namespace Chat.Core;
+namespace Chat.Core.Task;
 
 /// <summary>
 /// Handles anything to do with Tasks
@@ -11,12 +12,12 @@ public class BaseTaskManager : ITaskManager
 {
     #region Task Methods
 
-    public async Task Run(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await Task.Run(function);
+            await System.Threading.Tasks.Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -28,7 +29,7 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async void RunAndForget(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async void RunAndForget(Func<System.Threading.Tasks.Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
@@ -42,7 +43,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await Task.Run(function, cancellationToken);
+            return await System.Threading.Tasks.Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -59,7 +60,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await Task.Run(function);
+            return await System.Threading.Tasks.Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -76,7 +77,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await Task.Run(function, cancellationToken);
+            return await System.Threading.Tasks.Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -93,7 +94,7 @@ public class BaseTaskManager : ITaskManager
         try
         {
             // Try and run the task
-            return await Task.Run(function);
+            return await System.Threading.Tasks.Task.Run(function);
         }
         catch (Exception ex)
         {
@@ -105,12 +106,12 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async Task Run(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async System.Threading.Tasks.Task Run(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await Task.Run(function, cancellationToken);
+            await System.Threading.Tasks.Task.Run(function, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -122,7 +123,7 @@ public class BaseTaskManager : ITaskManager
         }
     }
 
-    public async void RunAndForget(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async void RunAndForget(Func<System.Threading.Tasks.Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
@@ -131,12 +132,12 @@ public class BaseTaskManager : ITaskManager
         catch { }
     }
 
-    public async Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async System.Threading.Tasks.Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await Task.Run(action, cancellationToken);
+            await System.Threading.Tasks.Task.Run(action, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -156,12 +157,12 @@ public class BaseTaskManager : ITaskManager
         catch { }
     }
 
-    public async Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public async System.Threading.Tasks.Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         try
         {
             // Try and run the task
-            await Task.Run(action);
+            await System.Threading.Tasks.Task.Run(action);
         }
         catch (Exception ex)
         {

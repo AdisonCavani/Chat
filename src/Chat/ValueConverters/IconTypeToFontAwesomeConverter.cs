@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using Chat.Core;
+using Chat.Core.DataModels;
+using Chat.Core.Icons;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in a <see cref="IconType"/> and returns 

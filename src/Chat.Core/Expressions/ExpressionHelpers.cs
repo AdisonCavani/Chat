@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Chat.Core;
+namespace Chat.Core.Expressions;
 
 /// <summary>
 /// A helper for expressions

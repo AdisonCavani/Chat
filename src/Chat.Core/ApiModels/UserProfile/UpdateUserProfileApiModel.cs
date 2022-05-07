@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.ApiModels.UserProfile;
 
 /// <summary>
 /// The details to change for a User Profile from an API client call

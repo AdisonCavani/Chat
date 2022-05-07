@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.Controls.Input;
 
 /// <summary>
 /// Interaction logic for TextEntryControl.xaml

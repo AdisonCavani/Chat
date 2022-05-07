@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Chat.Core;
+using Chat.Core.DataModels;
 
-namespace Chat;
+namespace Chat.ViewModel.Menu.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="MenuViewModel"/>

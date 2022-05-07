@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Chat.Core;
+using Chat.Core.ApiModels;
+using Chat.ViewModel.Dialogs;
 using Dna;
-using static Chat.DI;
+using static Chat.DI.DI;
 using static Dna.FrameworkDI;
 
-namespace Chat;
+namespace Chat.WebRequests;
 
 /// <summary>
 /// Extension methods for the <see cref="WebRequestResultExtensions"/> class

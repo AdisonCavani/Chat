@@ -2,7 +2,7 @@
 using Dna;
 using static Dna.FrameworkDI;
 
-namespace Chat.Core;
+namespace Chat.Core.Async;
 
 /// <summary>
 /// Adds the ability to safely await on tasks to be complete that need limited access
@@ -94,7 +94,7 @@ public static class AsyncAwaiter
     /// <param name="task">The task to perform inside of the semaphore lock</param>
     /// <param name="maxAccessCount">If this is the first call, sets the maximum number of tasks that can access this task before it waiting</param>
     /// <returns></returns>
-    public static async Task AwaitAsync(string key, Func<Task> task, int maxAccessCount = 1)
+    public static async System.Threading.Tasks.Task AwaitAsync(string key, Func<System.Threading.Tasks.Task> task, int maxAccessCount = 1)
     {
         #region Create Semaphore
 

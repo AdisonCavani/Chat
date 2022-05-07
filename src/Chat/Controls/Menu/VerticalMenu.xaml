@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="Chat.VerticalMenu"
+﻿<UserControl x:Class="Chat.Controls.Menu.VerticalMenu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chat"
              xmlns:core="clr-namespace:Chat.Core;assembly=Chat.Core"
+             xmlns:design="clr-namespace:Chat.ViewModel.Menu.Design"
+             xmlns:valueConverters="clr-namespace:Chat.ValueConverters"
              mc:Ignorable="d">
-    <ItemsControl d:DataContext="{x:Static local:MenuDesignModel.Instance}"
+    <ItemsControl d:DataContext="{x:Static design:MenuDesignModel.Instance}"
                   ItemsSource="{Binding Items}"
                   Background="White">
 
@@ -17,7 +19,7 @@
                 <Grid>
                     
                     <!-- Header -->
-                    <Grid Visibility="{Binding Type, Converter={local:MenuItemTypeVisiblityConverter}, ConverterParameter=Header}">
+                    <Grid Visibility="{Binding Type, Converter={valueConverters:MenuItemTypeVisiblityConverter}, ConverterParameter=Header}">
 
                         <!-- Header line -->
                         <Border Height="0.5" Background="{StaticResource ForegroundDarkBrush}" />
@@ -38,7 +40,7 @@
                     <Border Background="{StaticResource ForegroundLightBrush}"
                             CornerRadius="8"
                             Padding="5"
-                            Visibility="{Binding Type, Converter={local:MenuItemTypeVisiblityConverter}, ConverterParameter=TextAndIcon}"
+                            Visibility="{Binding Type, Converter={valueConverters:MenuItemTypeVisiblityConverter}, ConverterParameter=TextAndIcon}"
                             >
 
                         <Border.Triggers>
@@ -98,7 +100,7 @@
                                        Padding="5"
                                        VerticalAlignment="Center"
                                        FontFamily="{StaticResource FontAwesome}"
-                                       Text="{Binding Icon, Converter={local:IconTypeToFontAwesomeConverter}}"
+                                       Text="{Binding Icon, Converter={valueConverters:IconTypeToFontAwesomeConverter}}"
                                        Foreground="{StaticResource ForegroundDarkBrush}"
                                        />
                             

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in a boolean and returns a thickness of 2 if true, useful for applying 

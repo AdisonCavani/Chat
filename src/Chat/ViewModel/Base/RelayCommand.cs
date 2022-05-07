@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Chat;
+namespace Chat.ViewModel.Base;
 
 /// <summary>
 /// A basic command that runs an Action

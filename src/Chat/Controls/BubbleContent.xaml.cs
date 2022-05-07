@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.Controls;
 
 /// <summary>
 /// Interaction logic for BubbleContent.xaml

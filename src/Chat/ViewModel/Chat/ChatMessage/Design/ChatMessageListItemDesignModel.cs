@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chat;
+namespace Chat.ViewModel.Chat.ChatMessage.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="ChatMessageListItemViewModel"/>

@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.ApiModels.UserProfile;
 
 /// <summary>
 /// The details to change for a Users Password from an API client call

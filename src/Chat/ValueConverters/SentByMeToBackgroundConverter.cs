@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in a boolean if a message was sent by me, and returns the

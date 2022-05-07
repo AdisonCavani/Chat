@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in date and converts it to a user friendly message read time

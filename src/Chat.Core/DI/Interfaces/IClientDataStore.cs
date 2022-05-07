@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.DataModels;
+
+namespace Chat.Core.DI.Interfaces;
 
 /// <summary>
 /// Stores and retrieves information about the client application 
@@ -15,7 +17,7 @@ public interface IClientDataStore
     /// Makes sure the client data store is correctly set up
     /// </summary>
     /// <returns>Returns a task that will finish once setup is complete</returns>
-    Task EnsureDataStoreAsync();
+    System.Threading.Tasks.Task EnsureDataStoreAsync();
 
     /// <summary>
     /// Gets the stored login credentials for this client
@@ -28,11 +30,11 @@ public interface IClientDataStore
     /// </summary>
     /// <param name="loginCredentials">The login credentials to save</param>
     /// <returns>Returns a task that will finish once the save is complete</returns>
-    Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
+    System.Threading.Tasks.Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
 
     /// <summary>
     /// Removes all login credentials stored in the data store
     /// </summary>
     /// <returns></returns>
-    Task ClearAllLoginCredentialsAsync();
+    System.Threading.Tasks.Task ClearAllLoginCredentialsAsync();
 }

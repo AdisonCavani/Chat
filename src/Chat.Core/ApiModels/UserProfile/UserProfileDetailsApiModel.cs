@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.DataModels;
+
+namespace Chat.Core.ApiModels.UserProfile;
 
 /// <summary>
 /// The result of a login request or get user profile details request via API

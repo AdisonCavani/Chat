@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// Creates a clipping region from the parent <see cref="Border"/> <see cref="CornerRadius"/>

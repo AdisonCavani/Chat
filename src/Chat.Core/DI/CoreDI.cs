@@ -1,6 +1,7 @@
-﻿using Dna;
+﻿using Chat.Core.DI.Interfaces;
+using Dna;
 
-namespace Chat.Core;
+namespace Chat.Core.DI;
 
 /// <summary>
 /// The IoC container for our application

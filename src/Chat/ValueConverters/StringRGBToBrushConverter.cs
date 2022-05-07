@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Media;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in an RGB string such as FF00FF and converts it to a WPF brush

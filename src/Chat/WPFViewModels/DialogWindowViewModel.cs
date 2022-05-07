@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.WPFViewModels;
 
 /// <summary>
 /// The View Model for the custom flat window
@@ -27,7 +26,7 @@ public class DialogWindowViewModel : WindowViewModel
     /// <summary>
     /// Default constructor
     /// </summary>
-    public DialogWindowViewModel(Window window) : base(window)
+    public DialogWindowViewModel(System.Windows.Window window) : base(window)
     {
         // Make minimum size smaller
         WindowMinimumWidth = 250;

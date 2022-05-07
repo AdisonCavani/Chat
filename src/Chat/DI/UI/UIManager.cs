@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using Chat.Dialogs;
+using Chat.ViewModel.Dialogs;
 
-namespace Chat;
+namespace Chat.DI.UI;
 
 /// <summary>
 /// The applications implementation of the <see cref="IUIManager"/>

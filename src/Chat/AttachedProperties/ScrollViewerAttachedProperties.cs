@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// Scroll an items control to the bottom when the data context changes

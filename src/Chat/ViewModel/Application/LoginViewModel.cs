@@ -1,10 +1,16 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Chat.Core;
-using Dna;
-using static Chat.DI;
+using Chat.Core.ApiModels;
+using Chat.Core.ApiModels.LoginRegister;
+using Chat.Core.ApiModels.UserProfile;
+using Chat.Core.DataModels;
+using Chat.Core.Routes;
+using Chat.Core.Security;
+using Chat.ViewModel.Base;
+using Chat.WebRequests;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.ViewModel.Application;
 
 /// <summary>
 /// The View Model for a login screen
@@ -63,7 +69,7 @@ public class LoginViewModel : BaseViewModel
         await RunCommandAsync(() => LoginIsRunning, async () =>
         {
             // Call the server and attempt to login with credentials
-            var result = await WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
             // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Login),
                 // Create api model

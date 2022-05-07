@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Chat">
+                    xmlns:local="clr-namespace:Chat"
+                    xmlns:attachedProperties="clr-namespace:Chat.AttachedProperties"
+                    xmlns:valueConverters="clr-namespace:Chat.ValueConverters">
 
         <ResourceDictionary.MergedDictionaries>
             <!-- Order is important -->
@@ -88,7 +90,7 @@
         <Setter Property="Padding" Value="50 10" />
         <Setter Property="Margin" Value="0 10" />
 
-        <Setter Property="local:IsBusyProperty.Value" Value="False" />
+        <Setter Property="attachedProperties:IsBusyProperty.Value" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -101,7 +103,7 @@
                             SnapsToDevicePixels="True">
                         <Grid>
                             <TextBlock Text="{TemplateBinding Content}" 
-                                   Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local:BooleanToVisiblityConverter}}"
+                                   Visibility="{TemplateBinding attachedProperties:IsBusyProperty.Value, Converter={valueConverters:BooleanToVisiblityConverter}}"
                                    Focusable="False" 
                                    FontFamily="{TemplateBinding FontFamily}"
                                    FontSize="{TemplateBinding FontSize}"
@@ -114,7 +116,7 @@
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                    FontSize="{TemplateBinding FontSize}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local:BooleanToVisiblityConverter}, ConverterParameter=True}"
+                                   Visibility="{TemplateBinding attachedProperties:IsBusyProperty.Value, Converter={valueConverters:BooleanToVisiblityConverter}, ConverterParameter=True}"
                                    />
 
                         </Grid>

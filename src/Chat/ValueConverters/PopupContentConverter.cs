@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using Chat.Controls.Menu;
+using Chat.ViewModel.Base;
+using Chat.ViewModel.PopupMenu;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in a <see cref="BaseViewModel"/>and returns the specific UI control 

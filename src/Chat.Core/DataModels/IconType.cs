@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.DataModels;
 
 /// <summary>
 /// The types of icons to use within the application

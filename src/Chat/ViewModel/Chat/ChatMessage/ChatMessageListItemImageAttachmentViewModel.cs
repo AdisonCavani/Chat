@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.ViewModel.Chat.ChatMessage;
 
 /// <summary>
 /// A view model for each chat message thread item's attachment

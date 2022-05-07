@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.DataModels;
 
 /// <summary>
 /// The type of content in the side menu

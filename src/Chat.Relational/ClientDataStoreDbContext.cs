@@ -1,4 +1,5 @@
 ﻿using Chat.Core;
+using Chat.Core.DataModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Relational;

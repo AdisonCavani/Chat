@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Chat.Animation;
+using Chat.ViewModel.Base;
 using Dna;
 
-namespace Chat;
+namespace Chat.Pages;
 
 /// <summary>
 /// The base page for all pages to gain base functionality

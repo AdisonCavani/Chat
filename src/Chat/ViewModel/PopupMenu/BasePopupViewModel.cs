@@ -1,6 +1,7 @@
-﻿using Chat.Core;
+﻿using Chat.Core.DataModels;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.ViewModel.PopupMenu;
 
 /// <summary>
 /// A view model for any popup menus

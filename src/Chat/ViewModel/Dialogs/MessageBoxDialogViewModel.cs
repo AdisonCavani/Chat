@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.ViewModel.Dialogs;
 
 /// <summary>
 /// Details for a message box dialog

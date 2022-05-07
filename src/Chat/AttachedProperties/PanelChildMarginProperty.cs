@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// The NoFrameHistory attached property for creating a <see cref="Frame"/> that never shows navigation

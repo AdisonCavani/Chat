@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.ViewModel.Menu;
 
 /// <summary>
 /// A view model for a menu

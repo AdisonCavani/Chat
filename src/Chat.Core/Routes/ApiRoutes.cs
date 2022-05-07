@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.Routes;
 
 /// <summary>
 /// The relative routes to all Api calls in the server

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Chat.Controls.Input;
 
-namespace Chat;
+namespace Chat.AttachedProperties;
 
 /// <summary>
 /// Match the label width of all text entry controls inside this panel

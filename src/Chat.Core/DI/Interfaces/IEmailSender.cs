@@ -1,4 +1,6 @@
-﻿namespace Chat.Core;
+﻿using Chat.Core.Email;
+
+namespace Chat.Core.DI.Interfaces;
 
 /// <summary>
 /// A service that handles sending emails on behalf of the caller

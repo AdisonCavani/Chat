@@ -1,7 +1,9 @@
-﻿using Chat.Core;
+﻿using Chat.Core.DI.Interfaces;
+using Chat.DI.UI;
+using Chat.ViewModel.Application;
 using Dna;
 
-namespace Chat;
+namespace Chat.DI;
 
 /// <summary>
 /// A shorthand access class to get DI services with nice clean short code

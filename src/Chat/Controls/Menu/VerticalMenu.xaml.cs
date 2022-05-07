@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Chat;
+namespace Chat.Controls.Menu;
 
 /// <summary>
 /// Interaction logic for VerticalMenu.xaml

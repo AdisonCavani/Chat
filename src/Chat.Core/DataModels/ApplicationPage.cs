@@ -1,4 +1,4 @@
-﻿namespace Chat.Core;
+﻿namespace Chat.Core.DataModels;
 
 /// <summary>
 /// A page of the application

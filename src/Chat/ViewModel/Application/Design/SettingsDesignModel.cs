@@ -1,4 +1,6 @@
-﻿namespace Chat;
+﻿using Chat.ViewModel.Input;
+
+namespace Chat.ViewModel.Application.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="SettingsViewModel"/>

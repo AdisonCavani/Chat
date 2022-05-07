@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using Chat.Core;
+using Chat.Core.DataModels;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes in a <see cref="MenuItemType"/> and returns a <see cref="Visibility"/> 

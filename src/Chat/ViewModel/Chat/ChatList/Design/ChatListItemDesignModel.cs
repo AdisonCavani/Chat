@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.ViewModel.Chat.ChatList.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="ChatListItemViewModel"/>

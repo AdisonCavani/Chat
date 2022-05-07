@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using Chat.Core;
+using Chat.Core.DataModels;
+using Chat.DI;
 using Chat.Relational;
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using static Chat.Core.CoreDI;
-using static Chat.DI;
+using static Chat.Core.DI.CoreDI;
+using static Chat.DI.DI;
 using static Dna.FrameworkDI;
 
 namespace Chat;

@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.ViewModel.Dialogs.Design;
 
 /// <summary>
 /// The design-time data for a <see cref="MessageBoxDialogViewModel"/>

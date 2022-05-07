@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Chat.ViewModel.Base;
+using Chat.ViewModel.PopupMenu;
 
-namespace Chat;
+namespace Chat.ViewModel.Chat.ChatMessage;
 
 /// <summary>
 /// A view model for a chat message thread list

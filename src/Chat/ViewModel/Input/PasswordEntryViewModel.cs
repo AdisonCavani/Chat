@@ -2,8 +2,9 @@
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Chat.ViewModel.Base;
 
-namespace Chat;
+namespace Chat.ViewModel.Input;
 
 /// <summary>
 /// The view model for a password entry to edit a password 

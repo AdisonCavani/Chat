@@ -1,4 +1,6 @@
 ﻿using Chat.Core;
+using Chat.Core.DataModels;
+using Chat.Core.DI.Interfaces;
 
 namespace Chat.Relational;
 

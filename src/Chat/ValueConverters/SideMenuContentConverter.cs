@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using Chat.Core;
+using Chat.Controls.Chat.ChatList;
+using Chat.Core.DataModels;
 
-namespace Chat;
+namespace Chat.ValueConverters;
 
 /// <summary>
 /// A converter that takes a <see cref="SideMenuContent"/> and converts it to the 

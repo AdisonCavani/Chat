@@ -1,4 +1,4 @@
-﻿namespace Chat;
+﻿namespace Chat.Dialogs;
 
 /// <summary>
 /// Interaction logic for DialogMessageBox.xaml

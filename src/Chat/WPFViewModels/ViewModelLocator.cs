@@ -1,6 +1,7 @@
-﻿using static Chat.DI;
+﻿using Chat.ViewModel.Application;
+using static Chat.DI.DI;
 
-namespace Chat;
+namespace Chat.WPFViewModels;
 
 /// <summary>
 /// Locates view models from the IoC for use in binding in Xaml files

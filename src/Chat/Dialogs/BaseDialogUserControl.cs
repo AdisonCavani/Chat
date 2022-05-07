@@ -67,7 +67,7 @@ public class BaseDialogUserControl : UserControl
         {
             // Create a new dialog window
             mDialogWindow = new DialogWindow();
-            mDialogWindow.ViewModel = new DialogWindowViewModel(mDialogWindow);
+            mDialogWindow.ViewModel = new DialogWindowViewModel();
 
             // Create close command
             CloseCommand = new RelayCommand(() => mDialogWindow.Close());

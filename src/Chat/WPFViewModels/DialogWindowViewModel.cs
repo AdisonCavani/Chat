@@ -26,7 +26,7 @@ public class DialogWindowViewModel : WindowViewModel
     /// <summary>
     /// Default constructor
     /// </summary>
-    public DialogWindowViewModel(System.Windows.Window window) : base(window)
+    public DialogWindowViewModel() : base()
     {
         // Make minimum size smaller
         WindowMinimumWidth = 250;

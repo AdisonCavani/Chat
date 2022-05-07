@@ -12,7 +12,7 @@ public partial class MainWindow
     {
         InitializeComponent();
 
-        DataContext = new WindowViewModel(this);
+        DataContext = new WindowViewModel();
     }
 
     private void AppWindow_Deactivated(object sender, EventArgs e)

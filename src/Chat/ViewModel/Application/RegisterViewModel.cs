@@ -94,7 +94,7 @@ public class RegisterViewModel : BaseViewModel
 
             // Let the application view model handle what happens
             // with the successful login
-            await ViewModelApplication.HandleSuccessfulLoginAsync(loginResult);
+            await ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
         });
     }
 

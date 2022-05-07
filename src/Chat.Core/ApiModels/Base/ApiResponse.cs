@@ -42,7 +42,7 @@ public class ApiResponse
 /// with a specific type of known response
 /// </summary>
 /// <typeparam name="T">The specific type of server response</typeparam>
-public abstract class ApiResponse<T> : ApiResponse
+public class ApiResponse<T> : ApiResponse
 {
     /// <summary>
     /// The API response object as T

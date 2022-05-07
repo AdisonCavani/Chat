@@ -16,11 +16,11 @@ public class EmailTemplateSender : IEmailTemplateSender
 
     public async Task<SendEmailResponse> SendGeneralEmailAsync(SendEmailDetails details, string title, string content1, string content2, string buttonText, string buttonUrl)
     {
-        var templateText = default(string);
+        string templateText;
 
         // Read the general template from file
         // TODO: Replace with IoC Flat data provider
-        using (var reader = new StreamReader(Assembly.GetEntryAssembly()?.GetManifestResourceStream("Chat.WebApi.Email.Templates.GeneralTemplate.html"), Encoding.UTF8))
+        using (var reader = new StreamReader(Assembly.GetEntryAssembly().GetManifestResourceStream("Chat.WebApi.Email.Templates.GeneralTemplate.html"), Encoding.UTF8))
         {
             // Read file contents
             templateText = await reader.ReadToEndAsync();

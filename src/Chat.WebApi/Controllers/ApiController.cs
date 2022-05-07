@@ -441,7 +441,7 @@ public class ApiController : Controller
         var emailVerificationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
         // TODO: Replace with APIRoutes that will contain the static routes to use
-        var confirmationUrl = $"http://{Request.Host.Value}/api/verify/email/?userId={HttpUtility.UrlEncode(userIdentity.Id)}&emailToken={HttpUtility.UrlEncode(emailVerificationCode)}";
+        var confirmationUrl = $"http://{Request.Host.Value}/api/verify/email/?userId={HttpUtility.UrlEncode(BitConverter.GetBytes(userIdentity.Id))}&emailToken={HttpUtility.UrlEncode(emailVerificationCode)}";
 
         // Email the user the verification code
         await FasettoEmailSender.SendUserVerificationEmailAsync(_configuration, _templateSender, user.UserName, userIdentity.Email, confirmationUrl);

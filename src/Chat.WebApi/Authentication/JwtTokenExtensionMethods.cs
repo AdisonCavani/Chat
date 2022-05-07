@@ -28,7 +28,7 @@ public static class JwtTokenExtensionMethods
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
 
             // Add user Id so that UserManager.GetUserAsync can find the user based on Id
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         // Create the credentials used to generate the token

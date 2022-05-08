@@ -15,7 +15,7 @@ using System.Web;
 namespace Chat.WebApi.Controllers;
 
 [Authorize]
-public class ApiController : Controller
+public class ApiController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly IEmailTemplateSender _templateSender;

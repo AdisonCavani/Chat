@@ -3,10 +3,8 @@
 /// <summary>
 /// Details used to search for a user
 /// </summary>
-public class SearchUsersApiModel
+public class SearchUsersDto
 {
-    #region Public Properties
-
     /// <summary>
     /// The users username
     /// </summary>
@@ -31,6 +29,4 @@ public class SearchUsersApiModel
     /// The users phone number
     /// </summary>
     public string PhoneNumber { get; set; }
-
-    #endregion
 }

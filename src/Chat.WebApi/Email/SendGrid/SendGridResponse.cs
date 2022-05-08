@@ -1,4 +1,4 @@
-﻿namespace Chat.WebApi;
+﻿namespace Chat.WebApi.Email.SendGrid;
 
 /// <summary>
 /// A response to a SendGrid SendMessage call

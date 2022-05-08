@@ -5,7 +5,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Diagnostics;
 
-namespace Chat.WebApi;
+namespace Chat.WebApi.Email.SendGrid;
 
 /// <summary>
 /// Sends emails using the SendGrid service
@@ -22,7 +22,7 @@ public class SendGridEmailSender : IEmailSender
     public async Task<SendEmailResponse> SendEmailAsync(SendEmailDetails details)
     {
         // Get the SendGrid key
-        var apiKey = _configuration["SendGridKey"];
+        var apiKey = _configuration["SendGridKey"]; // TODO: add IOptionsSnapshot
 
         // Create a new SendGrid client
         var client = new SendGridClient(apiKey);
@@ -35,9 +35,6 @@ public class SendGridEmailSender : IEmailSender
 
         // Subject
         var subject = details.Subject;
-
-        // Content
-        var content = details.Content;
 
         // Create Email class ready to send
         var msg = MailHelper.CreateSingleEmail(
@@ -83,16 +80,13 @@ public class SendGridEmailSender : IEmailSender
             return errorResponse;
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // TODO: Localization
 
             // Break if we are debugging
             if (Debugger.IsAttached)
-            {
-                var error = ex;
                 Debugger.Break();
-            }
 
             // If something unexpected happened, return message
             return new SendEmailResponse

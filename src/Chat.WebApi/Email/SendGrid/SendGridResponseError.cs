@@ -1,4 +1,4 @@
-﻿namespace Chat.WebApi;
+﻿namespace Chat.WebApi.Email.SendGrid;
 
 /// <summary>
 /// An error response for a <see cref="SendGridResponse"/>

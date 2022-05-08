@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Chat.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chat.WebApi.Data;
+namespace Chat.WebApi.Models.App;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
 {

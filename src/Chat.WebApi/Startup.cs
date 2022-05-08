@@ -1,10 +1,19 @@
-using System.Text;
+using Chat.Core.ApiModels.Contacts;
+using Chat.Core.ApiModels.LoginRegister;
+using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DI.Interfaces;
-using Chat.WebApi.Data;
+using Chat.WebApi.Email.SendGrid;
+using Chat.WebApi.Email.Templates;
+using Chat.WebApi.Models.App;
+using Chat.WebApi.Models.Settings;
+using Chat.WebApi.Models.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Chat.WebApi;
 
@@ -19,24 +28,30 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Add proper cookie request to follow GDPR 
-        services.Configure<CookiePolicyOptions>(options =>
-        {
-            options.CheckConsentNeeded = _ => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
-        });
+        services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
+        services.Configure<AuthSettings>(Configuration.GetSection(nameof(AuthSettings)));
 
         services.AddScoped<UserManager<ApplicationUser>>();
         services.AddTransient<IEmailSender, SendGridEmailSender>();
         services.AddTransient<IEmailTemplateSender, EmailTemplateSender>();
-        
+
+        services.AddScoped<IValidator<LoginCredentialsDto>, LoginCredentialsDtoValidator>();
+        services.AddScoped<IValidator<RegisterCredentialsDto>, RegisterCredentialsDtoValidator>();
+        services.AddScoped<IValidator<VerifyUserEmailDto>, VerifyUserEmailDtoValidator>();
+        services.AddScoped<IValidator<UpdateUserProfileDto>, UpdateUserProfileDtoValidator>();
+        services.AddScoped<IValidator<UpdateUserPasswordDto>, UpdateUserPasswordDtoValidator>();
+        services.AddScoped<IValidator<SearchUsersDto>, SearchUsersDtoValidator>();
+
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-        
+            options.UseSqlServer(Configuration["DbSettings:SqlConnectionString"], sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
+            }));
+
         services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
-        
+
         services.AddAuthentication().
             AddJwtBearer(options =>
             {
@@ -46,38 +61,33 @@ public class Startup
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                    ValidIssuer = Configuration["AuthSettings:Issuer"],
+                    ValidAudience = Configuration["AuthSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:SecretKey"])),
                 };
             });
-        
+
         services.Configure<IdentityOptions>(options =>
         {
-            options.Password.RequireDigit = false;
-            options.Password.RequiredLength = 5;
+            options.Password.RequireDigit = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequiredUniqueChars = 5;
             options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = true;
             options.User.RequireUniqueEmail = true;
         });
-        
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.LoginPath = "/login";
-            options.ExpireTimeSpan = TimeSpan.FromSeconds(1500);
-        });
 
-        services.AddControllers();
+        services.AddControllers().AddFluentValidation();
 
         services.AddSwaggerGen(c =>
         {
+            c.DescribeAllParametersInCamelCase();
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat.WebApi", Version = "v1" });
         });
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
     {
         if (env.IsDevelopment())
         {
@@ -86,10 +96,14 @@ public class Startup
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat.WebApi v1"));
         }
 
+        if (context.Database.IsRelational())
+        {
+            context.Database.Migrate();
+        }
+
+        app.UseHsts();
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
-        app.UseCookiePolicy();
-        
+
         app.UseRouting();
 
         app.UseAuthentication();

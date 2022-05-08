@@ -3,7 +3,7 @@
 /// <summary>
 /// The details to change for a User Profile from an API client call
 /// </summary>
-public class UpdateUserProfileApiModel
+public class UpdateUserProfileDto
 {
     /// <summary>
     /// The new first name, or null to leave unchanged

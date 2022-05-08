@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Chat.WebApi.Authentication;
+namespace Chat.WebApi.Attributes;
 
 /// <summary>
 /// The authorization policy for token-based authentication

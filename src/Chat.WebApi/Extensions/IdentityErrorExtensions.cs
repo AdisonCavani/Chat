@@ -15,7 +15,7 @@ namespace Chat.WebApi.Extensions
         public static string AggregateErrors(this IEnumerable<IdentityError> errors)
         {
             // Get all errors into a list
-            return errors?.ToList()
+            return errors.ToList()
                           // Grab their description
                           .Select(f => f.Description)
                           // And combine them with a newline separator

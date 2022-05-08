@@ -5,7 +5,7 @@ namespace Chat.Core.ApiModels.LoginRegister;
 /// <summary>
 /// The result of a register request via API
 /// </summary>
-public class RegisterResultApiModel : UserProfileDetailsApiModel
+public class RegisterResultDto : UserProfileDetailsDto
 {
 
 }

@@ -3,10 +3,8 @@
 /// <summary>
 /// A single result of searching for users with specific details
 /// </summary>
-public class SearchUsersResultApiModel
+public class SearchUsersResultDto
 {
-    #region Public Properties
-
     /// <summary>
     /// The users username
     /// </summary>
@@ -21,6 +19,4 @@ public class SearchUsersResultApiModel
     /// The users last name
     /// </summary>
     public string LastName { get; set; }
-
-    #endregion
 }

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
@@ -24,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chat.Core\Chat.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Email\Templates\GeneralTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

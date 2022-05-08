@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Chat.WebApi.Data;
+namespace Chat.WebApi.Models.Entities;
 
 /// <summary>
 /// Our Settings database table representational model

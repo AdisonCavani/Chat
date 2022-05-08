@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Chat.WebApi.Data;
+namespace Chat.WebApi.Models.App;
 
 /// <summary>
 /// The user data and profile for our application

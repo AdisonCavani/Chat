@@ -5,10 +5,8 @@ namespace Chat.Core.ApiModels.UserProfile;
 /// <summary>
 /// The result of a login request or get user profile details request via API
 /// </summary>
-public class UserProfileDetailsApiModel
+public class UserProfileDetailsDto
 {
-    #region Public Properties
-
     /// <summary>
     /// The authentication token used to stay authenticated through future requests
     /// </summary>
@@ -35,22 +33,6 @@ public class UserProfileDetailsApiModel
     /// </summary>
     public string Email { get; set; }
 
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public UserProfileDetailsApiModel()
-    {
-
-    }
-
-    #endregion
-
-    #region Public Helper Methods
-
     /// <summary>
     /// Creates a new <see cref="LoginCredentialsDataModel"/>
     /// from this model
@@ -67,6 +49,4 @@ public class UserProfileDetailsApiModel
             Token = Token
         };
     }
-
-    #endregion
 }

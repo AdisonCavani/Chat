@@ -1,7 +1,7 @@
 ﻿using Chat.Core.DI.Interfaces;
 using Chat.Core.Email;
 
-namespace Chat.WebApi;
+namespace Chat.WebApi.Email;
 
 public static class FasettoEmailSender
 {

@@ -28,7 +28,7 @@ public class BaseFileManager : IFileManager
         // Run the synchronous file access as a new task
         await Task.Run(() =>
         {
-                // Write the log message to file
+            // Write the log message to file
             using (var fileStream = (TextWriter)new StreamWriter(System.IO.File.Open(path, append ? FileMode.Append : FileMode.Create)))
                 fileStream.Write(text);
         });

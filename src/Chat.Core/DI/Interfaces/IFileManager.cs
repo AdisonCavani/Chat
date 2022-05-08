@@ -12,7 +12,7 @@ public interface IFileManager
     /// <param name="path">The path of the file to write to</param>
     /// <param name="append">If true, writes the text to the end of the file, otherwise overrides any existing file</param>
     /// <returns></returns>
-    System.Threading.Tasks.Task WriteTextToFileAsync(string text, string path, bool append = false);
+    Task WriteTextToFileAsync(string text, string path, bool append = false);
 
     /// <summary>
     /// Normalizing a path based on the current operating system

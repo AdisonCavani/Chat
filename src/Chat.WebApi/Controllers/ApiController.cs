@@ -68,7 +68,7 @@ public class ApiController : Controller
     }
 
     [AllowAnonymous]
-    [HttpGet(ApiRoutes.Login)]
+    [HttpPost(ApiRoutes.Login)]
     public async Task<ApiResponse<UserProfileDetailsDto>> LogInAsync([FromBody] LoginCredentialsDto dto)
     {
         var errorResponse = new ApiResponse<UserProfileDetailsDto>
@@ -105,7 +105,7 @@ public class ApiController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(ApiRoutes.VerifyEmail)]
+    [HttpGet(ApiRoutes.VerifyEmail)]
     public async Task<IActionResult> VerifyEmailAsync([FromQuery] VerifyUserEmailDto dto)
     {
         var user = await _userManager.FindByIdAsync(dto.UserId);
@@ -205,7 +205,7 @@ public class ApiController : Controller
         };
     }
 
-    [HttpGet(ApiRoutes.SearchUsers)]
+    [HttpPost(ApiRoutes.SearchUsers)]
     public async Task<ApiResponse<SearchUsersResultsDto>> SearchUsersAsync([FromBody] SearchUsersDto model)
     {
         var user = await _userManager.GetUserAsync(HttpContext.User);

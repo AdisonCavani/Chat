@@ -1,22 +1,16 @@
 ﻿using Chat.WPFViewModels;
 
-namespace Chat;
+namespace Chat.Controls;
 
 /// <summary>
 /// Interaction logic for DialogWindow.xaml
 /// </summary>
 public partial class DialogWindow
 {
-    #region Private Members
-
     /// <summary>
     /// The view model for this window
     /// </summary>
     private DialogWindowViewModel mViewModel;
-
-    #endregion
-
-    #region Public Properties
 
     /// <summary>
     /// The view model for this window
@@ -34,10 +28,6 @@ public partial class DialogWindow
         }
     }
 
-    #endregion
-
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -45,6 +35,4 @@ public partial class DialogWindow
     {
         InitializeComponent();
     }
-
-    #endregion
 }

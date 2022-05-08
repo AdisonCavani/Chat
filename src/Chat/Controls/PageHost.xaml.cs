@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Chat.Core.DataModels;
-using Chat.Pages;
 using Chat.ValueConverters;
 using Chat.ViewModel.Application;
 using Chat.ViewModel.Base;
+using Chat.Views;
 
 namespace Chat.Controls;
 

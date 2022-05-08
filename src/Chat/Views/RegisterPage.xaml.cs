@@ -2,19 +2,17 @@
 using Chat.ViewModel.Application;
 using Chat.ViewModel.Base;
 
-namespace Chat.Pages;
+namespace Chat.Views;
 
 /// <summary>
-/// Interaction logic for LoginPage.xaml
+/// Interaction logic for RegisterPage.xaml
 /// </summary>
-public partial class LoginPage : IHavePassword
+public partial class RegisterPage : IHavePassword
 {
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
-    public LoginPage()
+    public RegisterPage()
     {
         InitializeComponent();
     }
@@ -22,12 +20,10 @@ public partial class LoginPage : IHavePassword
     /// <summary>
     /// Constructor with specific view model
     /// </summary>
-    public LoginPage(LoginViewModel specificViewModel) : base(specificViewModel)
+    public RegisterPage(RegisterViewModel specificViewModel) : base(specificViewModel)
     {
         InitializeComponent();
     }
-
-    #endregion
 
     /// <summary>
     /// The secure password for this login page

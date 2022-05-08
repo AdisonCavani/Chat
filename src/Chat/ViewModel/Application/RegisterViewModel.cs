@@ -104,9 +104,6 @@ public class RegisterViewModel : BaseViewModel
     /// <returns></returns>
     public async Task LoginAsync()
     {
-        // Go to register page?
         ViewModelApplication.GoToPage(ApplicationPage.Login);
-
-        await Task.Delay(1);
     }
 }

@@ -3,6 +3,7 @@ using System.Windows;
 using Chat.Core.DataModels;
 using Chat.DI;
 using Chat.Relational;
+using Chat.Views;
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

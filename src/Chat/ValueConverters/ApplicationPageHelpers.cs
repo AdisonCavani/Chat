@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Chat.Core.DataModels;
-using Chat.Pages;
 using Chat.ViewModel.Application;
 using Chat.ViewModel.Chat.ChatMessage;
+using Chat.Views;
 
 namespace Chat.ValueConverters;
 

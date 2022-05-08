@@ -5,15 +5,13 @@ using System.Windows.Media.Animation;
 using Chat.Animation;
 using Chat.ViewModel.Chat.ChatMessage;
 
-namespace Chat.Pages;
+namespace Chat.Views;
 
 /// <summary>
 /// Interaction logic for ChatPage.xaml
 /// </summary>
 public partial class ChatPage
 {
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -30,10 +28,6 @@ public partial class ChatPage
     {
         InitializeComponent();
     }
-
-    #endregion
-
-    #region Override Methods
 
     /// <summary>
     /// Fired when the view model changes
@@ -52,8 +46,6 @@ public partial class ChatPage
         // Make the message box focused
         MessageText.Focus();
     }
-
-    #endregion
 
     /// <summary>
     /// Preview the input into the message box and respond as required

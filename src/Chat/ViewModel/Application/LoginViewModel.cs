@@ -44,6 +44,5 @@ public partial class LoginViewModel : BaseViewModel
     private async Task Register()
     {
         ViewModelApplication.GoToPage(ApplicationPage.Register);
-        await Task.Delay(1);
     }
 }

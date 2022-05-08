@@ -1,7 +1,7 @@
 ﻿using System;
 using Chat.WPFViewModels;
 
-namespace Chat;
+namespace Chat.Views;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

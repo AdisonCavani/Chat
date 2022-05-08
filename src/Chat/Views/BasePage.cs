@@ -6,7 +6,7 @@ using Chat.Animation;
 using Chat.ViewModel.Base;
 using Dna;
 
-namespace Chat.Pages;
+namespace Chat.Views;
 
 /// <summary>
 /// The base page for all pages to gain base functionality

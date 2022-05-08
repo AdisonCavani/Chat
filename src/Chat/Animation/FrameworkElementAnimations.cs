@@ -201,7 +201,7 @@ public static class FrameworkElementAnimations
         element.Unloaded += (_, _) => unloaded = true;
 
         // Run a loop off the caller thread
-        TaskManager.Run(async () =>
+        Task.Run(async () =>
         {
             // While the element is still available, recheck the size
             // after every loop in case the container was resized

@@ -61,7 +61,7 @@ public class ApplicationViewModel : BaseViewModel
             // If the settings menu is now visible...
             if (value)
                 // Reload settings
-                TaskManager.RunAndForget(ViewModelSettings.LoadAsync);
+                Task.Run(ViewModelSettings.LoadAsync);
         }
     }
 

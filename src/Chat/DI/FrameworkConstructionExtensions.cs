@@ -1,6 +1,5 @@
 ﻿using Chat.Core.DI.Interfaces;
 using Chat.Core.File;
-using Chat.Core.Task2;
 using Chat.DI.UI;
 using Chat.ViewModel.Application;
 using Dna;
@@ -38,10 +37,6 @@ public static class FrameworkConstructionExtensions
     /// <returns></returns>
     public static FrameworkConstruction AddFasettoWordClientServices(this FrameworkConstruction construction)
     {
-
-        // Add our task manager
-        construction.Services.AddTransient<ITaskManager, BaseTaskManager>();
-
         // Bind a file manager
         construction.Services.AddTransient<IFileManager, BaseFileManager>();
 

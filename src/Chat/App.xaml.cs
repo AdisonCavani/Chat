@@ -66,7 +66,7 @@ public partial class App
         MonitorServerStatus();
 
         // Load new settings
-        TaskManager.RunAndForget(ViewModelSettings.LoadAsync);
+        await Task.Run(ViewModelSettings.LoadAsync);
     }
 
     /// <summary>

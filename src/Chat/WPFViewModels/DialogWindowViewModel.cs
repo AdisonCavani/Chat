@@ -1,11 +1,13 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Chat.WPFViewModels;
 
 /// <summary>
 /// The View Model for the custom flat window
 /// </summary>
-public class DialogWindowViewModel : WindowViewModel
+public partial class DialogWindowViewModel : WindowViewModel
 {
     /// <summary>
     /// The title of this dialog window
@@ -28,5 +30,11 @@ public class DialogWindowViewModel : WindowViewModel
 
         // Make title bar smaller
         TitleHeight = 30;
+    }
+
+    [ICommand]
+    private void Close(object parameter)
+    {
+        ((Window)parameter).Close();
     }
 }

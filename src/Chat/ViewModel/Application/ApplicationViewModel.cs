@@ -3,7 +3,6 @@ using System.Windows.Input;
 using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DataModels;
 using Chat.ViewModel.Base;
-using static Chat.Core.DI.CoreDI;
 using static Chat.DI.DI;
 
 namespace Chat.ViewModel.Application;

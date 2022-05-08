@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using static Chat.Core.DI.CoreDI;
 
 namespace Chat.Animation;
 

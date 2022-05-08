@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using Chat.Core.DI.Interfaces;
-using static Chat.Core.DI.CoreDI;
 
 namespace Chat.Core.File;
 

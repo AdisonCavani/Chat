@@ -6,7 +6,6 @@ using Chat.Relational;
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using static Chat.Core.DI.CoreDI;
 using static Chat.DI.DI;
 using static Dna.FrameworkDI;
 

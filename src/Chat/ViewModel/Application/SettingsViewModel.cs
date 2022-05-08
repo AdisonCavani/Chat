@@ -296,7 +296,7 @@ public class SettingsViewModel : BaseViewModel
                 return;
 
             // Load user profile details form server
-            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsDto>>(
                 // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
                 // Pass in user Token
@@ -451,7 +451,7 @@ public class SettingsViewModel : BaseViewModel
                 // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.UpdateUserPassword),
                 // Create API model
-                new UpdateUserPasswordApiModel
+                new UpdateUserPasswordDto
                 {
                     CurrentPassword = Password.CurrentPassword.Unsecure(),
                     NewPassword = Password.NewPassword.Unsecure()
@@ -516,7 +516,7 @@ public class SettingsViewModel : BaseViewModel
     /// <param name="newValue">The new value to update the property to</param>
     /// <param name="setApiModel">Sets the correct property in the <see cref="UpdateUserProfileApiModel"/> model that this property maps to</param>
     /// <returns></returns>
-    private async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<LoginCredentialsDataModel, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileApiModel, string> setApiModel)
+    private async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<LoginCredentialsDataModel, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDto, string> setApiModel)
     {
         // Log it
         Logger.LogDebugSource($"Saving {displayName}...");
@@ -544,7 +544,7 @@ public class SettingsViewModel : BaseViewModel
         propertyToUpdate.SetPropertyValue(newValue, credentials);
 
         // Create update details
-        var updateApiModel = new UpdateUserProfileApiModel();
+        var updateApiModel = new UpdateUserProfileDto();
 
         // Ask caller to set appropriate value
         setApiModel(updateApiModel, newValue);

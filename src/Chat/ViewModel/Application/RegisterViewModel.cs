@@ -73,11 +73,11 @@ public class RegisterViewModel : BaseViewModel
         await RunCommandAsync(() => RegisterIsRunning, async () =>
         {
             // Call the server and attempt to register with the provided credentials
-            var result = await Dna.WebRequests.PostAsync<ApiResponse<RegisterResultApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<RegisterResultDto>>(
             // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Register),
                 // Create api model
-                new RegisterCredentialsApiModel
+                new RegisterCredentialsDto
                 {
                     Username = Username,
                     Email = Email,

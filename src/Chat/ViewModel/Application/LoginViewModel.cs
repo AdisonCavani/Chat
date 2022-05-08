@@ -70,11 +70,11 @@ public class LoginViewModel : BaseViewModel
         await RunCommandAsync(() => LoginIsRunning, async () =>
         {
             // Call the server and attempt to login with credentials
-            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
+            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsDto>>(
             // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Login),
                 // Create api model
-                new LoginCredentialsApiModel
+                new LoginCredentialsDto
                 {
                     UsernameOrEmail = Email,
                     Password = (parameter as IHavePassword).SecurePassword.Unsecure()

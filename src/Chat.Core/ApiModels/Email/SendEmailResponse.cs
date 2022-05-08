@@ -1,6 +1,6 @@
 ﻿using Chat.Core.DI.Interfaces;
 
-namespace Chat.Core.Email;
+namespace Chat.Core.ApiModels.Email;
 
 /// <summary>
 /// A response from a SendEmail call for any <see cref="IEmailSender"/> implementation

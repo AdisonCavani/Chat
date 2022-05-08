@@ -1,4 +1,4 @@
-﻿using Chat.Core.Email;
+﻿using Chat.Core.ApiModels.Email;
 
 namespace Chat.Core.DI.Interfaces;
 

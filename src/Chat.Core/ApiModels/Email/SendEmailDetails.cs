@@ -1,4 +1,4 @@
-﻿namespace Chat.Core.Email;
+﻿namespace Chat.Core.ApiModels.Email;
 
 /// <summary>
 /// The details about the email to send

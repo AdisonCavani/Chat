@@ -8,25 +8,18 @@ namespace Chat.Relational;
 /// </summary>
 public class ClientDataStoreDbContext : DbContext
 {
-    #region DbSets 
-
     /// <summary>
     /// The client login credentials
     /// </summary>
     public DbSet<LoginCredentialsDataModel> LoginCredentials { get; set; }
 
-    #endregion
-
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
-    public ClientDataStoreDbContext(DbContextOptions<ClientDataStoreDbContext> options) : base(options) { }
+    public ClientDataStoreDbContext(DbContextOptions<ClientDataStoreDbContext> options) : base(options)
+    {
 
-    #endregion
-
-    #region Model Creating
+    }
 
     /// <summary>
     /// Configures the database structure and relationships
@@ -47,6 +40,4 @@ public class ClientDataStoreDbContext : DbContext
         // TODO: Set up limits
         //modelBuilder.Entity<LoginCredentialsDataModel>().Property(a => a.FirstName).HasMaxLength(50);
     }
-
-    #endregion
 }

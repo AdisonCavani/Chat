@@ -8,10 +8,10 @@ public class LoginCredentialsDto
     /// <summary>
     /// The users username or email
     /// </summary>
-    public string UsernameOrEmail { get; set; }
+    public string? UsernameOrEmail { get; init; }
 
     /// <summary>
     /// The users password
     /// </summary>
-    public string Password { get; set; }
+    public string? Password { get; init; }
 }

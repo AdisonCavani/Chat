@@ -14,7 +14,7 @@ public class MenuItemTypeVisiblityConverter : BaseValueConverter<MenuItemTypeVis
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         // If we have no parameter return invisible
-        if (parameter == null)
+        if (parameter is null)
             return Visibility.Collapsed;
 
         // Try and convert parameter string to enum

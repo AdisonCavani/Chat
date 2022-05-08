@@ -12,7 +12,7 @@ public class BooleanToVisiblityGoneConverter : BaseValueConverter<BooleanToVisib
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (parameter == null)
+        if (parameter is null)
             return (bool)value ? Visibility.Visible : Visibility.Collapsed;
         else
             return (bool)value ? Visibility.Collapsed : Visibility.Visible;

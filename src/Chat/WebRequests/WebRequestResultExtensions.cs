@@ -19,7 +19,7 @@ public static class WebRequestResultExtensions
     /// <param name="response">The response to check</param>
     /// <param name="title">The title of the error dialog if there is an error</param>
     /// <returns>Returns true if there was an error, or false if all was OK</returns>
-    public static async Task<bool> HandleErrorIfFailedAsync(this WebRequestResult response, string title)
+    public static async Task<bool> HandleErrorIfFailedAsync(this WebRequestResult? response, string title)
     {
         // If there was no response, bad data, or a response with a error message...
         if (response is null || response.ServerResponse == null || (response.ServerResponse as ApiResponse)?.Successful == false)

@@ -8,12 +8,10 @@ namespace Chat.WPFViewModels;
 /// </summary>
 public class ViewModelLocator
 {
-    #region Public Properties
-
     /// <summary>
     /// Singleton instance of the locator
     /// </summary>
-    public static ViewModelLocator Instance { get; private set; } = new ViewModelLocator();
+    public static ViewModelLocator Instance { get; private set; } = new();
 
     /// <summary>
     /// The application view model
@@ -24,6 +22,4 @@ public class ViewModelLocator
     /// The settings view model
     /// </summary>
     public SettingsViewModel SettingsViewModel => ViewModelSettings;
-
-    #endregion
 }

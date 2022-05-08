@@ -14,7 +14,7 @@ public class SideMenuContentConverter : BaseValueConverter<SideMenuContentConver
     /// <summary>
     /// An instance of the current chat list control
     /// </summary>
-    protected ChatListControl mChatListControl = new();
+    private readonly ChatListControl _chatListControl = new();
 
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -25,7 +25,7 @@ public class SideMenuContentConverter : BaseValueConverter<SideMenuContentConver
         return sideMenuType switch
         {
             // Chat 
-            SideMenuContent.Chat => mChatListControl,
+            SideMenuContent.Chat => _chatListControl,
             // Unknown
             _ => "No UI yet, sorry :)",
         };

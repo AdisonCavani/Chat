@@ -7,8 +7,6 @@ namespace Chat.WPFViewModels;
 /// </summary>
 public class DialogWindowViewModel : WindowViewModel
 {
-    #region Public Properties
-
     /// <summary>
     /// The title of this dialog window
     /// </summary>
@@ -18,10 +16,6 @@ public class DialogWindowViewModel : WindowViewModel
     /// The content to host inside the dialog
     /// </summary>
     public Control Content { get; set; }
-
-    #endregion
-
-    #region Constructor
 
     /// <summary>
     /// Default constructor
@@ -35,6 +29,4 @@ public class DialogWindowViewModel : WindowViewModel
         // Make title bar smaller
         TitleHeight = 30;
     }
-
-    #endregion
 }

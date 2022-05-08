@@ -11,16 +11,8 @@
     <PackageReference Include="Dna.Framework">
       <Version>1.0.7.19</Version>
     </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.6.1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>6.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.4.0</Version>
     </PackageReference>
   </ItemGroup>
 

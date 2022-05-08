@@ -6,7 +6,7 @@ using Chat.Core.ApiModels;
 using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DataModels;
 using Chat.Core.DI.Interfaces;
-using Chat.Core.Expressions;
+using Chat.Core.Extensions;
 using Chat.Core.Routes;
 using Chat.Core.Security;
 using Chat.ViewModel.Base;

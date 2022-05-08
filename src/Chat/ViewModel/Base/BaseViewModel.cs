@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Chat.Core.Expressions;
+using Chat.Core.Extensions;
 
 namespace Chat.ViewModel.Base;
 

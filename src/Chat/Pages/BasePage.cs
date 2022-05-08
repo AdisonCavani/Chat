@@ -13,16 +13,10 @@ namespace Chat.Pages;
 /// </summary>
 public class BasePage : UserControl
 {
-    #region Private Member
-
     /// <summary>
     /// The View Model associated with this page
     /// </summary>
     private object mViewModel;
-
-    #endregion
-
-    #region Public Properties
 
     /// <summary>
     /// The animation the play when the page is first loaded
@@ -68,10 +62,6 @@ public class BasePage : UserControl
         }
     }
 
-    #endregion
-
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -88,10 +78,6 @@ public class BasePage : UserControl
         // Listen out for the page loading
         Loaded += BasePage_LoadedAsync;
     }
-
-    #endregion
-
-    #region Animation Load / Unload
 
     /// <summary>
     /// Once the page is loaded, perform any required animation
@@ -152,8 +138,6 @@ public class BasePage : UserControl
         }
     }
 
-    #endregion
-
     /// <summary>
     /// Fired when the view model changes
     /// </summary>
@@ -169,8 +153,6 @@ public class BasePage : UserControl
 public class BasePage<VM> : BasePage
     where VM : BaseViewModel, new()
 {
-    #region Public Properties
-
     /// <summary>
     /// The view model associated with this page
     /// </summary>
@@ -179,10 +161,6 @@ public class BasePage<VM> : BasePage
         get => (VM)ViewModelObject;
         set => ViewModelObject = value;
     }
-
-    #endregion
-
-    #region Constructor
 
     /// <summary>
     /// Default constructor
@@ -220,6 +198,4 @@ public class BasePage<VM> : BasePage
             }
         }
     }
-
-    #endregion
 }

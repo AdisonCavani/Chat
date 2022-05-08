@@ -9,7 +9,7 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class NoFrameHistory : BaseAttachedProperty<NoFrameHistory, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Get the frame
         var frame = (sender as Frame);

@@ -8,7 +8,7 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class MonitorPasswordProperty : BaseAttachedProperty<MonitorPasswordProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Get the caller
         var passwordBox = sender as PasswordBox;

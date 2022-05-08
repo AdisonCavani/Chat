@@ -10,7 +10,7 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class TextEntryWidthMatcherProperty : BaseAttachedProperty<TextEntryWidthMatcherProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Get the panel (grid typically)
         var panel = (sender as Panel);

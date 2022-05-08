@@ -9,7 +9,7 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class ScrollToBottomOnLoadProperty : BaseAttachedProperty<ScrollToBottomOnLoadProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Don't do this in design time
         if (DesignerProperties.GetIsInDesignMode(sender))
@@ -36,7 +36,7 @@ public class ScrollToBottomOnLoadProperty : BaseAttachedProperty<ScrollToBottomO
 /// </summary>
 public class AutoScrollToBottomProperty : BaseAttachedProperty<AutoScrollToBottomProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Don't do this in design time
         if (DesignerProperties.GetIsInDesignMode(sender))

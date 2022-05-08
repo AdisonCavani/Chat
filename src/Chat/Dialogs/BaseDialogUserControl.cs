@@ -14,25 +14,15 @@ namespace Chat.Dialogs;
 /// </summary>
 public class BaseDialogUserControl : UserControl
 {
-    #region Private Members
-
     /// <summary>
     /// The dialog window we will be contained within
     /// </summary>
     private DialogWindow mDialogWindow;
 
-    #endregion
-
-    #region Public Commands
-
     /// <summary>
     /// Closes this dialog
     /// </summary>
     public ICommand CloseCommand { get; private set; }
-
-    #endregion
-
-    #region Public Properties
 
     /// <summary>
     /// The minimum width of this dialog
@@ -54,10 +44,6 @@ public class BaseDialogUserControl : UserControl
     /// </summary>
     public string Title { get; set; }
 
-    #endregion
-
-    #region Constructor
-
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -73,10 +59,6 @@ public class BaseDialogUserControl : UserControl
             CloseCommand = new RelayCommand(() => mDialogWindow.Close());
         }
     }
-
-    #endregion
-
-    #region Public Dialog Show Methods
 
     /// <summary>
     /// Displays a single message box to the user
@@ -123,6 +105,4 @@ public class BaseDialogUserControl : UserControl
 
         return tcs.Task;
     }
-
-    #endregion
 }

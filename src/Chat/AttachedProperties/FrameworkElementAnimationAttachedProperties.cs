@@ -16,8 +16,6 @@ namespace Chat.AttachedProperties;
 public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent, bool>
     where Parent : BaseAttachedProperty<Parent, bool>, new()
 {
-    #region Protected Properties
-
     /// <summary>
     /// True if this is the very first time the value has been updated
     /// Used to make sure we run the logic at least once during first load
@@ -29,9 +27,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
     /// </summary>
     protected Dictionary<WeakReference, bool> mFirstLoadValue = new();
 
-    #endregion
-
-    public override void OnValueUpdated(DependencyObject sender, object value)
+    protected override void OnValueUpdated(DependencyObject sender, object value)
     {
         // Get the framework element
         if (!(sender is FrameworkElement element))
@@ -106,7 +102,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
 /// </summary>
 public class FadeInImageOnLoadProperty : AnimateBaseProperty<FadeInImageOnLoadProperty>
 {
-    public override void OnValueUpdated(DependencyObject sender, object value)
+    protected override void OnValueUpdated(DependencyObject sender, object value)
     {
         // Make sure we have an image
         if (!(sender is Image image))

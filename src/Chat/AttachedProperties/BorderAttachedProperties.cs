@@ -11,8 +11,6 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class ClipFromBorderProperty : BaseAttachedProperty<ClipFromBorderProperty, bool>
 {
-    #region Private Members
-
     /// <summary>
     /// Called when the parent border first loads
     /// </summary>
@@ -23,9 +21,7 @@ public class ClipFromBorderProperty : BaseAttachedProperty<ClipFromBorderPropert
     /// </summary>
     private SizeChangedEventHandler mBorder_SizeChanged;
 
-    #endregion
-
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // Get self
         var self = (sender as FrameworkElement);

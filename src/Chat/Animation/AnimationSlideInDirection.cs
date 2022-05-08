@@ -8,17 +8,17 @@ public enum AnimationSlideInDirection
     /// <summary>
     /// Slide in from the left
     /// </summary>
-    Left = 0,
+    Left,
     /// <summary>
     /// Slide in from the right
     /// </summary>
-    Right = 1,
+    Right,
     /// <summary>
     /// Slide in from the top
     /// </summary>
-    Top = 2,
+    Top,
     /// <summary>
     /// Slide in from the bottom
     /// </summary>
-    Bottom = 3
+    Bottom
 }

@@ -9,7 +9,7 @@ namespace Chat.AttachedProperties;
 /// </summary>
 public class IsFocusedProperty : BaseAttachedProperty<IsFocusedProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // If we don't have a control, return
         if (!(sender is Control control))
@@ -25,7 +25,7 @@ public class IsFocusedProperty : BaseAttachedProperty<IsFocusedProperty, bool>
 /// </summary>
 public class FocusProperty : BaseAttachedProperty<FocusProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // If we don't have a control, return
         if (!(sender is Control control))
@@ -42,7 +42,7 @@ public class FocusProperty : BaseAttachedProperty<FocusProperty, bool>
 /// </summary>
 public class FocusAndSelectProperty : BaseAttachedProperty<FocusAndSelectProperty, bool>
 {
-    public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    protected override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         // If we don't have a control, return
         if (sender is TextBoxBase control)

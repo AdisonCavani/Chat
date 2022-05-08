@@ -1,5 +1,4 @@
-﻿using System.Security;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Chat.Core.ApiModels;
 using Chat.Core.ApiModels.LoginRegister;
@@ -9,100 +8,42 @@ using Chat.Core.Routes;
 using Chat.Core.Security;
 using Chat.ViewModel.Base;
 using Chat.WebRequests;
+using CommunityToolkit.Mvvm.Input;
 using static Chat.DI.DI;
 
 namespace Chat.ViewModel.Application;
 
-/// <summary>
-/// The View Model for a login screen
-/// </summary>
-public class LoginViewModel : BaseViewModel
+public partial class LoginViewModel : BaseViewModel
 {
-    #region Public Properties
+    public string? Email { get; set; }
 
-    /// <summary>
-    /// The email of the user
-    /// </summary>
-    public string Email { get; set; }
-
-    /// <summary>
-    /// A flag indicating if the login command is running
-    /// </summary>
     public bool LoginIsRunning { get; set; }
 
-    #endregion
-
-    #region Commands
-
-    /// <summary>
-    /// The command to login
-    /// </summary>
-    public ICommand LoginCommand { get; set; }
-
-    /// <summary>
-    /// The command to register for a new account
-    /// </summary>
-    public ICommand RegisterCommand { get; set; }
-
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public LoginViewModel()
-    {
-        // Create commands
-        LoginCommand = new RelayParameterizedCommand(async (parameter) => await LoginAsync(parameter));
-        RegisterCommand = new RelayCommand(async () => await RegisterAsync());
-    }
-
-    #endregion
-
-    /// <summary>
-    /// Attempts to log the user in
-    /// </summary>
-    /// <param name="parameter">The <see cref="SecureString"/> passed in from the view for the users password</param>
-    /// <returns></returns>
-    public async Task LoginAsync(object parameter)
+    [ICommand]
+    private async Task Login(object parameter)
     {
         await RunCommandAsync(() => LoginIsRunning, async () =>
         {
             // Call the server and attempt to login with credentials
             var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsDto>>(
-            // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Login),
-                // Create api model
                 new LoginCredentialsDto
                 {
                     UsernameOrEmail = Email,
                     Password = (parameter as IHavePassword).SecurePassword.Unsecure()
                 });
 
-            // If the response has an error...
-            if (await result.HandleErrorIfFailedAsync("Login Failed"))
-                // We are done
+            if (await result.HandleErrorIfFailedAsync("Login Failed") || result.ServerResponse.Response is null)
                 return;
 
-            // OK successfully logged in... now get users data
-            var loginResult = result.ServerResponse.Response;
-
-            // Let the application view model handle what happens
-            // with the successful login
-            await ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
+            await ApplicationViewModel.HandleSuccessfulLoginAsync(result.ServerResponse.Response);
         });
     }
 
-    /// <summary>
-    /// Takes the user to the register page
-    /// </summary>
-    /// <returns></returns>
-    public async Task RegisterAsync()
+    [ICommand]
+    private async Task Register()
     {
-        // Go to register page?
         ViewModelApplication.GoToPage(ApplicationPage.Register);
-
         await Task.Delay(1);
     }
 }

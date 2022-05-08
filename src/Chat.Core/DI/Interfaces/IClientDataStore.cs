@@ -23,7 +23,7 @@ public interface IClientDataStore
     /// Gets the stored login credentials for this client
     /// </summary>
     /// <returns>Returns the login credentials if they exist, or null if none exist</returns>
-    Task<LoginCredentialsDataModel> GetLoginCredentialsAsync();
+    Task<LoginCredentialsDataModel?> GetLoginCredentialsAsync();
 
     /// <summary>
     /// Stores the given login credentials to the backing data store

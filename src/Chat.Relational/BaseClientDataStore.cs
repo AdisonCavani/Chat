@@ -10,30 +10,20 @@ namespace Chat.Relational;
 /// </summary>
 public class BaseClientDataStore : IClientDataStore
 {
-    #region Protected Members
-
     /// <summary>
     /// The database context for the client data store
     /// </summary>
-    private readonly ClientDataStoreDbContext mDbContext;
-
-    #endregion
-
-    #region Constructor
+    private readonly ClientDataStoreDbContext _context;
 
     /// <summary>
     /// Default constructor
     /// </summary>
-    /// <param name="dbContext">The database to use</param>
-    public BaseClientDataStore(ClientDataStoreDbContext dbContext)
+    /// <param name="context">The database to use</param>
+    public BaseClientDataStore(ClientDataStoreDbContext context)
     {
         // Set local member
-        mDbContext = dbContext;
+        _context = context;
     }
-
-    #endregion
-
-    #region Interface Implementation
 
     /// <summary>
     /// Determines if the current user has logged in credentials
@@ -50,17 +40,17 @@ public class BaseClientDataStore : IClientDataStore
     public async Task EnsureDataStoreAsync()
     {
         // Make sure the database exists and is created
-        await mDbContext.Database.EnsureCreatedAsync();
+        await _context.Database.EnsureCreatedAsync();
     }
 
     /// <summary>
     /// Gets the stored login credentials for this client
     /// </summary>
     /// <returns>Returns the login credentials if they exist, or null if none exist</returns>
-    public Task<LoginCredentialsDataModel> GetLoginCredentialsAsync()
+    public Task<LoginCredentialsDataModel?> GetLoginCredentialsAsync()
     {
         // Get the first column in the login credentials table, or null if none exist
-        return Task.FromResult(mDbContext.LoginCredentials.FirstOrDefault());
+        return Task.FromResult(_context.LoginCredentials.FirstOrDefault());
     }
 
     /// <summary>
@@ -71,13 +61,13 @@ public class BaseClientDataStore : IClientDataStore
     public async Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials)
     {
         // Clear all entries
-        mDbContext.LoginCredentials.RemoveRange(mDbContext.LoginCredentials);
+        _context.LoginCredentials.RemoveRange(_context.LoginCredentials);
 
         // Add new one
-        mDbContext.LoginCredentials.Add(loginCredentials);
+        _context.LoginCredentials.Add(loginCredentials);
 
         // Save changes
-        await mDbContext.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     /// <summary>
@@ -87,11 +77,9 @@ public class BaseClientDataStore : IClientDataStore
     public async Task ClearAllLoginCredentialsAsync()
     {
         // Clear all entries
-        mDbContext.LoginCredentials.RemoveRange(mDbContext.LoginCredentials);
+        _context.LoginCredentials.RemoveRange(_context.LoginCredentials);
 
         // Save changes
-        await mDbContext.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
-
-    #endregion
 }

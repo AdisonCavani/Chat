@@ -4,7 +4,6 @@ using Chat.Core.ApiModels.LoginRegister;
 using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DI.Interfaces;
 using Chat.Core.Routes;
-using Chat.WebApi.Attributes;
 using Chat.WebApi.Email;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.App;
@@ -15,7 +14,7 @@ using System.Web;
 
 namespace Chat.WebApi.Controllers;
 
-[AuthorizeToken]
+[Authorize]
 public class ApiController : Controller
 {
     private readonly IConfiguration _configuration;

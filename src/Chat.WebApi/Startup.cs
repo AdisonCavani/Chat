@@ -52,20 +52,27 @@ public class Startup
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthentication().
-            AddJwtBearer(options =>
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = "Bearer";
+            options.DefaultChallengeScheme = "Bearer";
+            options.DefaultAuthenticateScheme = "Bearer";
+        }).AddJwtBearer(jwtOptions =>
+        {
+            jwtOptions.SaveToken = true;
+            jwtOptions.RequireHttpsMetadata = true;
+            jwtOptions.TokenValidationParameters = new TokenValidationParameters
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["AuthSettings:Issuer"],
-                    ValidAudience = Configuration["AuthSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:SecretKey"])),
-                };
-            });
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ClockSkew = TimeSpan.Zero, // FIX: might cause issues, if auth is out of sync
+                ValidIssuer = Configuration["AuthSettings:Issuer"],
+                ValidAudience = Configuration["AuthSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:SecretKey"])),
+            };
+        });
 
         services.Configure<IdentityOptions>(options =>
         {

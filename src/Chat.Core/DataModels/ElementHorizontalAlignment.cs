@@ -8,17 +8,17 @@ public enum ElementHorizontalAlignment
     /// <summary>
     /// Aligned to the left
     /// </summary>
-    Left = 0,
+    Left,
     /// <summary>
     /// Aligned to the center
     /// </summary>
-    Center = 1,
+    Center,
     /// <summary>
     /// Aligned to the right
     /// </summary>
-    Right = 2,
+    Right,
     /// <summary>
     /// Fills the width
     /// </summary>
-    Stretch = 3
+    Stretch
 }

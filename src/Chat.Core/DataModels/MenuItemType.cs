@@ -8,13 +8,13 @@ public enum MenuItemType
     /// <summary>
     /// Shows the menu text and an icon
     /// </summary>
-    TextAndIcon = 0,
+    TextAndIcon,
     /// <summary>
     /// Shows a simple divider between the menu items
     /// </summary>
-    Divider = 1,
+    Divider,
     /// <summary>
     /// Shows the menu text as a header
     /// </summary>
-    Header = 2
+    Header
 }

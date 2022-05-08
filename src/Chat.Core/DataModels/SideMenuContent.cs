@@ -8,15 +8,15 @@ public enum SideMenuContent
     /// <summary>
     /// A list of chat threads
     /// </summary>
-    Chat = 1,
+    Chat,
 
     /// <summary>
     /// A list of contacts
     /// </summary>
-    Contacts = 2,
+    Contacts,
 
     /// <summary>
     /// A list of media from all chat messages
     /// </summary>
-    Media = 3
+    Media
 }

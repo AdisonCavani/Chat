@@ -8,15 +8,15 @@ public enum IconType
     /// <summary>
     /// No icon
     /// </summary>
-    None = 0,
+    None,
 
     /// <summary>
     /// A picture frame
     /// </summary>
-    Picture = 1,
+    Picture,
 
     /// <summary>
     /// A file icon
     /// </summary>
-    File = 2,
+    File,
 }

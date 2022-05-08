@@ -19,11 +19,6 @@ public class ApiResponse
     /// The API response object
     /// </summary>
     public object? Response { get; set; }
-
-    public ApiResponse()
-    {
-
-    }
 }
 
 /// <summary>

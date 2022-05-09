@@ -7,6 +7,7 @@ using Chat.WebApi.Email.Templates;
 using Chat.WebApi.Models.App;
 using Chat.WebApi.Models.Settings;
 using Chat.WebApi.Models.Validators;
+using Chat.WebApi.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,9 +33,10 @@ public class Startup
         services.Configure<DbSettings>(Configuration.GetSection(nameof(DbSettings)));
         services.Configure<AuthSettings>(Configuration.GetSection(nameof(AuthSettings)));
 
+        services.AddScoped<TokenService>();
         services.AddScoped<UserManager<ApplicationUser>>();
-        services.AddTransient<IEmailSender, SendGridEmailSender>();
-        services.AddTransient<IEmailTemplateSender, EmailTemplateSender>();
+        services.AddScoped<IEmailSender, SendGridEmailSender>();
+        services.AddScoped<IEmailTemplateSender, EmailTemplateSender>();
 
         services.AddScoped<IValidator<LoginCredentialsDto>, LoginCredentialsDtoValidator>();
         services.AddScoped<IValidator<RegisterCredentialsDto>, RegisterCredentialsDtoValidator>();

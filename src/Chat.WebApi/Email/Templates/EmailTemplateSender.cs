@@ -1,5 +1,5 @@
-﻿using Chat.Core.DI.Interfaces;
-using Chat.Core.Email;
+﻿using Chat.Core.ApiModels.Email;
+using Chat.Core.DI.Interfaces;
 using System.Reflection;
 using System.Text;
 

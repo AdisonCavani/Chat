@@ -23,13 +23,13 @@ public static class JwtTokenExtensionMethods
         };
 
         var credentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"])),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:SecretKey"])),
             SecurityAlgorithms.HmacSha256);
 
         // Generate the Jwt Token
         var token = new JwtSecurityToken(
-            issuer: configuration["Jwt:Issuer"],
-            audience: configuration["Jwt:Audience"],
+            issuer: configuration["AuthSettings:Issuer"],
+            audience: configuration["AuthSettings:Audience"],
             claims: claims,
             signingCredentials: credentials,
             expires: DateTime.Now.AddMonths(3));

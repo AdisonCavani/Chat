@@ -12,7 +12,7 @@ public static class FasettoEmailSender
         string email,
         string verificationUrl)
     {
-        return await templateSender.SendGeneralEmailAsync(new SendEmailDetails
+        SendEmailDetails details = new()
         {
             IsHTML = true,
             FromEmail = configuration["FasettoSettings:SendEmailFromEmail"],
@@ -20,12 +20,14 @@ public static class FasettoEmailSender
             ToEmail = email,
             ToName = displayName,
             Subject = "Verify Your Email - Fasetto Word"
-        },
-        "Verify Email",
-        $"Hi {displayName ?? "stranger"},",
-        "Thanks for creating an account with us.<br/>To continue please verify your email with us.",
-        "Verify Email",
-        verificationUrl
-        );
+        };
+
+        return await templateSender.SendGeneralEmailAsync(
+            details,
+            "Verify Email",
+            $"Hi {displayName ?? "stranger"},",
+            "Thanks for creating an account with us.<br/>To continue please verify your email with us.",
+            "Verify Email",
+            verificationUrl);
     }
 }

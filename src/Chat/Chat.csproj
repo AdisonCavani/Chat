@@ -50,11 +50,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\Adison\repos\Chat\src\Chat\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\Users\Adison\repos\Chat\src\Chat\.editorconfig" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

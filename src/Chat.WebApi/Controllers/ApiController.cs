@@ -15,6 +15,7 @@ using System.Web;
 namespace Chat.WebApi.Controllers;
 
 [Authorize]
+[ApiController]
 public class ApiController : ControllerBase
 {
     private readonly IConfiguration _configuration;

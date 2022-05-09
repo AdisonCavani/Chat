@@ -9,6 +9,7 @@ using Chat.WebApi.Models.Settings;
 using Chat.WebApi.Models.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -54,9 +55,9 @@ public class Startup
 
         services.AddAuthentication(options =>
         {
-            options.DefaultScheme = "Bearer";
-            options.DefaultChallengeScheme = "Bearer";
-            options.DefaultAuthenticateScheme = "Bearer";
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(jwtOptions =>
         {
             jwtOptions.SaveToken = true;

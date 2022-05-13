@@ -7,7 +7,6 @@ using Chat.Core.ApiModels.LoginRegister;
 using Chat.Core.DataModels;
 using Chat.Core.Extensions;
 using Chat.Core.Routes;
-using Chat.Core.Security;
 using Chat.ViewModel.Base;
 using Chat.WebRequests;
 using CommunityToolkit.Mvvm.ComponentModel;

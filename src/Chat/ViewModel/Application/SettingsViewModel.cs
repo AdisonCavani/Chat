@@ -8,7 +8,6 @@ using Chat.Core.DataModels;
 using Chat.Core.DI.Interfaces;
 using Chat.Core.Extensions;
 using Chat.Core.Routes;
-using Chat.Core.Security;
 using Chat.ViewModel.Dialogs;
 using Chat.ViewModel.Input;
 using Chat.WebRequests;

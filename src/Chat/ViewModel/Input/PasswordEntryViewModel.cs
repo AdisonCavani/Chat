@@ -11,27 +11,38 @@ namespace Chat.ViewModel.Input;
 
 public partial class PasswordEntryViewModel : ObservableObject
 {
-    public string Label { get; set; }
+    [ObservableProperty]
+    private string? label;
 
-    public string FakePassword { get; set; }
+    [ObservableProperty]
+    private string? fakePassword;
 
-    public string CurrentPasswordHintText { get; set; }
+    [ObservableProperty]
+    private string? currentPasswordHintText;
 
-    public string NewPasswordHintText { get; set; }
+    [ObservableProperty]
+    private string? newPasswordHintText;
 
-    public string ConfirmPasswordHintText { get; set; }
+    [ObservableProperty]
+    private string? confirmPasswordHintText;
 
-    public SecureString CurrentPassword { get; set; }
+    [ObservableProperty]
+    private SecureString? currentPassword;
 
-    public SecureString NewPassword { get; set; }
+    [ObservableProperty]
+    private SecureString? newPassword;
 
-    public SecureString ConfirmPassword { get; set; }
+    [ObservableProperty]
+    private SecureString? confirmPassword;
 
-    public bool Editing { get; set; }
+    [ObservableProperty]
+    private bool editing;
 
-    public bool Working { get; set; }
+    [ObservableProperty]
+    private bool working;
 
-    public Func<Task<bool>> CommitAction { get; set; }
+    [ObservableProperty]
+    private Func<Task<bool>>? commitAction;
 
     public PasswordEntryViewModel()
     {
@@ -79,8 +90,7 @@ public partial class PasswordEntryViewModel : ObservableObject
             // If we fail...
             if (!result)
             {
-                // Go back into edit mode
-                Editing = true;
+                Editing = true; // Go back into edit mode
             }
         });
     }

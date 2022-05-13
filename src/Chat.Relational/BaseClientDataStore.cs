@@ -1,4 +1,4 @@
-﻿using Chat.Core.DataModels;
+﻿using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DI.Interfaces;
 
 namespace Chat.Relational;
@@ -47,7 +47,7 @@ public class BaseClientDataStore : IClientDataStore
     /// Gets the stored login credentials for this client
     /// </summary>
     /// <returns>Returns the login credentials if they exist, or null if none exist</returns>
-    public Task<LoginCredentialsDataModel?> GetLoginCredentialsAsync()
+    public Task<UserProfileDetailsDto?> GetLoginCredentialsAsync()
     {
         // Get the first column in the login credentials table, or null if none exist
         return Task.FromResult(_context.LoginCredentials.FirstOrDefault());
@@ -58,7 +58,7 @@ public class BaseClientDataStore : IClientDataStore
     /// </summary>
     /// <param name="loginCredentials">The login credentials to save</param>
     /// <returns>Returns a task that will finish once the save is complete</returns>
-    public async Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials)
+    public async Task SaveLoginCredentialsAsync(UserProfileDetailsDto loginCredentials)
     {
         // Clear all entries
         _context.LoginCredentials.RemoveRange(_context.LoginCredentials);

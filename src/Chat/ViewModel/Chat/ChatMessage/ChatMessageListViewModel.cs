@@ -13,73 +13,65 @@ namespace Chat.ViewModel.Chat.ChatMessage;
 /// </summary>
 public partial class ChatMessageListViewModel : ObservableObject
 {
-    protected string mLastSearchText;
+    protected string? lastSearchText;
 
-    protected string mSearchText;
+    [ObservableProperty]
+    private ObservableCollection<ChatMessageListItemViewModel>? filteredItems;
 
-    protected ObservableCollection<ChatMessageListItemViewModel> mItems;
+    [ObservableProperty]
+    private string? displayTitle;
 
-    protected bool mSearchIsOpen;
+    [ObservableProperty]
+    private bool attachmentMenuVisible;
+
+    [ObservableProperty]
+    private ChatAttachmentPopupMenuViewModel? attachmentMenu;
+
+    [ObservableProperty]
+    private string? pendingMessageText;
+
+    protected ObservableCollection<ChatMessageListItemViewModel>? items;
 
     /// <summary>
     /// The chat thread items for the list
     /// NOTE: Do not call Items.Add to add messages to this list
     ///       as it will make the FilteredItems out of sync
     /// </summary>
-    public ObservableCollection<ChatMessageListItemViewModel> Items
+    public ObservableCollection<ChatMessageListItemViewModel>? Items
     {
-        get => mItems;
+        get => items;
         set
         {
-            // Make sure list has changed
-            if (mItems == value)
-                return;
-
-            // Update value
-            mItems = value;
-
-            // Update filtered list to match
-            FilteredItems = new ObservableCollection<ChatMessageListItemViewModel>(mItems);
+            if (SetProperty(ref items, value)) // Update filtered list to match
+                FilteredItems = new ObservableCollection<ChatMessageListItemViewModel>(items);
         }
     }
 
-    public ObservableCollection<ChatMessageListItemViewModel> FilteredItems { get; set; }
+    protected string? searchText;
 
-    public string DisplayTitle { get; set; }
-
-    public bool AttachmentMenuVisible { get; set; }
-
-    public bool AnyPopupVisible => AttachmentMenuVisible;
-
-    public ChatAttachmentPopupMenuViewModel AttachmentMenu { get; set; }
-
-    public string PendingMessageText { get; set; }
-
-    public string SearchText
+    public string? SearchText
     {
-        get => mSearchText;
+        get => searchText;
         set
         {
-            if (!SetProperty(ref mSearchText, value))
-                return;
-
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (SetProperty(ref searchText, value) && string.IsNullOrWhiteSpace(SearchText))
                 Search(); // Search to restore messages
         }
     }
 
+    protected bool searchIsOpen;
+
     public bool SearchIsOpen
     {
-        get => mSearchIsOpen;
+        get => searchIsOpen;
         set
         {
-            if (!SetProperty(ref mSearchIsOpen, value))
-                return;
-
-            if (!mSearchIsOpen)
+            if (SetProperty(ref searchIsOpen, value) && !searchIsOpen)
                 SearchText = string.Empty;
         }
     }
+
+    public bool AnyPopupVisible => AttachmentMenuVisible;
 
     public ChatMessageListViewModel()
     {
@@ -88,25 +80,23 @@ public partial class ChatMessageListViewModel : ObservableObject
     }
 
     [ICommand]
-    public void AttachmentButton()
+    private void AttachmentButton()
     {
         AttachmentMenuVisible ^= true;
     }
 
     [ICommand]
-    public void PopupClickaway()
+    private void PopupClickaway()
     {
         AttachmentMenuVisible = false;
     }
 
     [ICommand]
-    public void Send()
+    internal void Send()
     {
-        // Don't send a blank message
         if (string.IsNullOrWhiteSpace(PendingMessageText))
             return;
 
-        // Ensure lists are not null
         if (Items is null)
             Items = new();
 
@@ -133,11 +123,11 @@ public partial class ChatMessageListViewModel : ObservableObject
     }
 
     [ICommand]
-    public void Search()
+    private void Search()
     {
         // Make sure we don't re-search the same text
-        if ((string.IsNullOrEmpty(mLastSearchText) && string.IsNullOrEmpty(SearchText)) ||
-            string.Equals(mLastSearchText, SearchText))
+        if ((string.IsNullOrEmpty(lastSearchText) && string.IsNullOrEmpty(SearchText)) ||
+            string.Equals(lastSearchText, SearchText))
             return;
 
         // If we have no search text, or no items
@@ -147,7 +137,7 @@ public partial class ChatMessageListViewModel : ObservableObject
             FilteredItems = new ObservableCollection<ChatMessageListItemViewModel>(Items ?? Enumerable.Empty<ChatMessageListItemViewModel>());
 
             // Set last search text
-            mLastSearchText = SearchText;
+            lastSearchText = SearchText;
 
             return;
         }
@@ -158,11 +148,11 @@ public partial class ChatMessageListViewModel : ObservableObject
             Items.Where(item => item.Message.ToLower().Contains(SearchText)));
 
         // Set last search text
-        mLastSearchText = SearchText;
+        lastSearchText = SearchText;
     }
 
     [ICommand]
-    public void ClearSearch()
+    private void ClearSearch()
     {
         if (!string.IsNullOrWhiteSpace(SearchText))
             SearchText = string.Empty;
@@ -171,8 +161,8 @@ public partial class ChatMessageListViewModel : ObservableObject
     }
 
     [ICommand]
-    public void OpenSearch() => SearchIsOpen = true;
+    private void OpenSearch() => SearchIsOpen = true;
 
     [ICommand]
-    public void CloseSearch() => SearchIsOpen = false;
+    private void CloseSearch() => SearchIsOpen = false;
 }

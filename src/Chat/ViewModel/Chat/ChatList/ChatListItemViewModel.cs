@@ -15,17 +15,23 @@ namespace Chat.ViewModel.Chat.ChatList;
 /// </summary>
 public partial class ChatListItemViewModel : ObservableObject
 {
-    public string Name { get; set; }
+    [ObservableProperty]
+    private string? name;
 
-    public string Message { get; set; }
+    [ObservableProperty]
+    private string? message;
 
-    public string Initials { get; set; }
+    [ObservableProperty]
+    private string? initials;
 
-    public string ProfilePictureRGB { get; set; }
+    [ObservableProperty]
+    private string? profilePictureRGB;
 
-    public bool NewContentAvailable { get; set; }
+    [ObservableProperty]
+    private bool newContentAvailable;
 
-    public bool IsSelected { get; set; }
+    [ObservableProperty]
+    private bool isSelected;
 
     [ICommand]
     public void OpenMessage()
@@ -47,8 +53,8 @@ public partial class ChatListItemViewModel : ObservableObject
             {
                 new()
                 {
-                    Message = Message,
-                    Initials = Initials,
+                    Message = Message ?? string.Empty,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF00FF",
                     SenderName = "Luke",
@@ -57,7 +63,7 @@ public partial class ChatListItemViewModel : ObservableObject
                 new()
                 {
                     Message = "A received message",
-                    Initials = Initials,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF0000",
                     SenderName = "Parnell",
@@ -66,7 +72,7 @@ public partial class ChatListItemViewModel : ObservableObject
                 new()
                 {
                     Message = "A received message",
-                    Initials = Initials,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF0000",
                     SenderName = "Parnell",
@@ -74,8 +80,8 @@ public partial class ChatListItemViewModel : ObservableObject
                 },
                 new()
                 {
-                    Message = Message,
-                    Initials = Initials,
+                    Message = Message ?? string.Empty,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF00FF",
                     SenderName = "Luke",
@@ -84,7 +90,7 @@ public partial class ChatListItemViewModel : ObservableObject
                 new()
                 {
                     Message = "A received message",
-                    Initials = Initials,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF0000",
                     SenderName = "Parnell",
@@ -97,7 +103,7 @@ public partial class ChatListItemViewModel : ObservableObject
                     {
                         ThumbnailUrl = "http://anywhere"
                     },
-                    Initials = Initials,
+                    Initials = Initials ?? string.Empty,
                     MessageSentTime = DateTime.UtcNow,
                     ProfilePictureRGB = "FF0000",
                     SenderName = "Parnell",

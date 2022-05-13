@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.Chat.ChatList;
 
 /// <summary>
 /// A view model for the overview chat list
 /// </summary>
-public class ChatListViewModel
+public partial class ChatListViewModel : ObservableObject
 {
-    public List<ChatListItemViewModel> Items { get; set; }
+    [ObservableProperty]
+    private List<ChatListItemViewModel>? items;
 }

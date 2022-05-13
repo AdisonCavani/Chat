@@ -18,16 +18,17 @@ namespace Chat.ViewModel.Application;
 
 public partial class LoginViewModel : ObservableObject
 {
-    public string? Email { get; set; }
+    [ObservableProperty]
+    private string? email;
 
-    public bool LoginIsRunning { get; set; }
+    [ObservableProperty]
+    private bool loginIsRunning;
 
     [ICommand]
     private async Task Login(object parameter)
     {
         await RunCommandAsync(() => LoginIsRunning, async () =>
         {
-            // Call the server and attempt to login with credentials
             var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsDto>>(
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.Login),
                 new LoginCredentialsDto

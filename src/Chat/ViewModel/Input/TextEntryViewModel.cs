@@ -13,17 +13,23 @@ namespace Chat.ViewModel.Input;
 /// </summary>
 public partial class TextEntryViewModel : ObservableObject
 {
-    public string Label { get; set; }
+    [ObservableProperty]
+    private string? label;
 
-    public string OriginalText { get; set; }
+    [ObservableProperty]
+    private string? originalText;
 
-    public string EditedText { get; set; }
+    [ObservableProperty]
+    private string? editedText;
 
-    public bool Editing { get; set; }
+    [ObservableProperty]
+    private bool editing;
 
-    public bool Working { get; set; }
+    [ObservableProperty]
+    private bool working;
 
-    public Func<Task<bool>> CommitAction { get; set; }
+    [ObservableProperty]
+    private Func<Task<bool>>? commitAction;
 
     [ICommand]
     public void Edit()

@@ -6,11 +6,14 @@ namespace Chat.ViewModel.Menu;
 /// <summary>
 /// A view model for a menu item
 /// </summary>
-public class MenuItemViewModel : ObservableObject
+public partial class MenuItemViewModel : ObservableObject
 {
-    public string Text { get; set; }
+    [ObservableProperty]
+    private string? text;
 
-    public IconType Icon { get; set; }
+    [ObservableProperty]
+    private IconType icon;
 
-    public MenuItemType Type { get; set; }
+    [ObservableProperty]
+    private MenuItemType type;
 }

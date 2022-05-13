@@ -3,13 +3,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.PopupMenu;
 
-public class BasePopupViewModel : ObservableObject
+public partial class BasePopupViewModel : ObservableObject
 {
-    public string BubbleBackground { get; set; }
+    [ObservableProperty]
+    private string? bubbleBackground;
 
-    public ElementHorizontalAlignment ArrowAlignment { get; set; }
+    [ObservableProperty]
+    private ElementHorizontalAlignment arrowAlignment;
 
-    public ObservableObject Content { get; set; }
+    [ObservableProperty]
+    private ObservableObject? content;
 
     public BasePopupViewModel()
     {

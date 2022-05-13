@@ -1,8 +1,12 @@
-﻿namespace Chat.ViewModel.Dialogs;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class MessageBoxDialogViewModel : BaseDialogViewModel
+namespace Chat.ViewModel.Dialogs;
+
+public partial class MessageBoxDialogViewModel : BaseDialogViewModel
 {
-    public string Message { get; set; }
+    [ObservableProperty]
+    private string? message;
 
-    public string OkText { get; set; } = "OK";
+    [ObservableProperty]
+    private string? okText = "OK";
 }

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Chat.WPFViewModels;
@@ -9,9 +10,11 @@ namespace Chat.WPFViewModels;
 /// </summary>
 public partial class DialogWindowViewModel : WindowViewModel
 {
-    public string Title { get; set; }
+    [ObservableProperty]
+    private string? title;
 
-    public Control Content { get; set; }
+    [ObservableProperty]
+    private Control? content;
 
     public DialogWindowViewModel() : base()
     {

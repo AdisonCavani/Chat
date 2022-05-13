@@ -23,31 +23,44 @@ public partial class SettingsViewModel : ObservableObject
 {
     private const string mLoadingText = "...";
 
-    public TextEntryViewModel FirstName { get; set; }
+    [ObservableProperty]
+    private TextEntryViewModel firstName;
 
-    public TextEntryViewModel LastName { get; set; }
+    [ObservableProperty]
+    private TextEntryViewModel lastName;
 
-    public TextEntryViewModel Username { get; set; }
+    [ObservableProperty]
+    private TextEntryViewModel username;
 
-    public PasswordEntryViewModel Password { get; set; }
+    [ObservableProperty]
+    private PasswordEntryViewModel password;
 
-    public TextEntryViewModel Email { get; set; }
+    [ObservableProperty]
+    private TextEntryViewModel email;
 
-    public string LogoutButtonText { get; set; }
+    [ObservableProperty]
+    private string logoutButtonText;
 
-    public bool FirstNameIsSaving { get; set; }
+    [ObservableProperty]
+    private bool firstNameIsSaving;
 
-    public bool LastNameIsSaving { get; set; }
+    [ObservableProperty]
+    private bool lastNameIsSaving;
 
-    public bool UsernameIsSaving { get; set; }
+    [ObservableProperty]
+    private bool usernameIsSaving;
 
-    public bool EmailIsSaving { get; set; }
+    [ObservableProperty]
+    private bool emailIsSaving;
 
-    public bool PasswordIsChanging { get; set; }
+    [ObservableProperty]
+    private bool passwordIsChanging;
 
-    public bool SettingsLoading { get; set; }
+    [ObservableProperty]
+    private bool settingsLoading;
 
-    public bool LoggingOut { get; set; }
+    [ObservableProperty]
+    private bool loggingOut;
 
     public ICommand SaveFirstNameCommand { get; set; }
 
@@ -112,14 +125,12 @@ public partial class SettingsViewModel : ObservableObject
     [ICommand]
     public static void Open()
     {
-        // Close settings menu
         ViewModelApplication.SettingsMenuVisible = true;
     }
 
     [ICommand]
     public static void Close()
     {
-        // Close settings menu
         ViewModelApplication.SettingsMenuVisible = false;
     }
 
@@ -188,7 +199,7 @@ public partial class SettingsViewModel : ObservableObject
             // TODO: Should we check if the values are different before saving?
 
             // Create data model from the response
-            var dataModel = result.ServerResponse.Response.ToLoginCredentialsDataModel();
+            var dataModel = result.ServerResponse.Response;
 
             // Re-add our known token
             dataModel.Token = token;
@@ -354,7 +365,7 @@ public partial class SettingsViewModel : ObservableObject
         Email.OriginalText = storedCredentials?.Email ?? string.Empty;
     }
 
-    private static async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<LoginCredentialsDataModel, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDto, string> setApiModel)
+    private static async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<UserProfileDetailsDto, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDto, string> setApiModel)
     {
         // Log it
         Logger.LogDebugSource($"Saving {displayName}...");

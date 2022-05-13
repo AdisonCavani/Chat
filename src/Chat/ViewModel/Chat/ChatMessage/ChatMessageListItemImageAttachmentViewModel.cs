@@ -10,16 +10,9 @@ namespace Chat.ViewModel.Chat.ChatMessage;
 [INotifyPropertyChanged]
 public partial class ChatMessageListItemImageAttachmentViewModel
 {
-    private string thumbnailUrl;
+    private string? thumbnailUrl;
 
-    public string Title { get; set; }
-
-    public string FileName { get; set; }
-
-    // Size in bytes
-    public long FileSize { get; set; }
-
-    public string ThumbnailUrl
+    public string? ThumbnailUrl
     {
         get => thumbnailUrl;
         set
@@ -36,7 +29,17 @@ public partial class ChatMessageListItemImageAttachmentViewModel
         }
     }
 
-    public string? LocalFilePath { get; set; }
+    [ObservableProperty]
+    private string? title;
 
-    public bool ImageLoaded => LocalFilePath is not null;
+    [ObservableProperty]
+    private string? fileName;
+
+    [ObservableProperty]
+    private long fileSize; // Size in bytes
+
+    [ObservableProperty]
+    private string? localFilePath;
+
+    public bool ImageLoaded => localFilePath is not null;
 }

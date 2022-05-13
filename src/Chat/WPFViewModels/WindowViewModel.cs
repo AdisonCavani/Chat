@@ -5,13 +5,17 @@ namespace Chat.WPFViewModels;
 /// <summary>
 /// The View Model for the custom flat window
 /// </summary>
-public class WindowViewModel : ObservableObject
+public partial class WindowViewModel : ObservableObject
 {
-    public double WindowMinimumWidth { get; set; } = 800;
+    [ObservableProperty]
+    private double windowMinimumWidth = 800;
 
-    public double WindowMinimumHeight { get; set; } = 500;
+    [ObservableProperty]
+    private double windowMinimumHeight = 500;
 
-    public int TitleHeight { get; set; } = 42;
+    [ObservableProperty]
+    private int titleHeight = 42;
 
-    public bool DimmableOverlayVisible { get; set; }
+    [ObservableProperty]
+    private bool dimmableOverlayVisible;
 }

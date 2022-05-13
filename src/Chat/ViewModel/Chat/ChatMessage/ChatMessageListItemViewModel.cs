@@ -6,32 +6,42 @@ namespace Chat.ViewModel.Chat.ChatMessage;
 /// <summary>
 /// A view model for each chat message thread item in a chat thread
 /// </summary>
-public class ChatMessageListItemViewModel : ObservableObject
+public partial class ChatMessageListItemViewModel : ObservableObject
 {
-    public string SenderName { get; set; }
+    [ObservableProperty]
+    private string? senderName;
 
-    public string Message { get; set; }
+    [ObservableProperty]
+    private string? message;
 
-    public string Initials { get; set; }
+    [ObservableProperty]
+    private string? initials;
 
-    public string ProfilePictureRGB { get; set; }
+    [ObservableProperty]
+    private string? profilePictureRGB;
 
-    public bool IsSelected { get; set; }
+    [ObservableProperty]
+    private bool isSelected;
 
-    public bool SentByMe { get; set; }
+    [ObservableProperty]
+    private bool sentByMe;
 
     /// <summary>
     /// The time the message was read, or <see cref="DateTimeOffset.MinValue"/> if not read
     /// </summary>
-    public DateTimeOffset MessageReadTime { get; set; }
+    [ObservableProperty]
+    private DateTimeOffset messageReadTime;
+
+    [ObservableProperty]
+    private DateTimeOffset messageSentTime;
+
+    [ObservableProperty]
+    private bool newItem;
+
+    [ObservableProperty]
+    private ChatMessageListItemImageAttachmentViewModel? imageAttachment;
 
     public bool MessageRead => MessageReadTime > DateTimeOffset.MinValue;
-
-    public DateTimeOffset MessageSentTime { get; set; }
-
-    public bool NewItem { get; set; }
-
-    public ChatMessageListItemImageAttachmentViewModel ImageAttachment { get; set; }
 
     public bool HasMessage => Message is not null;
 

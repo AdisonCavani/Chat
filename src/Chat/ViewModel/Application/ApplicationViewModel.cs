@@ -10,9 +10,17 @@ namespace Chat.ViewModel.Application;
 
 public partial class ApplicationViewModel : ObservableObject
 {
-    private bool mSettingsMenuVisible;
+    private bool settingsMenuVisible;
 
-    public ApplicationPage CurrentPage { get; private set; } = ApplicationPage.Login;
+    public bool SettingsMenuVisible
+    {
+        get => settingsMenuVisible;
+        set
+        {
+            if (SetProperty(ref settingsMenuVisible, value) && value)
+                Task.Run(ViewModelSettings.Load); // Reload settings
+        }
+    }
 
     /// <summary>
     /// The view model to use for the current page when the CurrentPage changes
@@ -20,34 +28,24 @@ public partial class ApplicationViewModel : ObservableObject
     ///       it is simply used to set the view model of the current page 
     ///       at the time it changes
     /// </summary>
-    public ObservableObject? CurrentPageViewModel { get; set; }
+    [ObservableProperty]
+    private ObservableObject? currentPageViewModel;
 
-    public bool SideMenuVisible { get; set; }
+    [ObservableProperty]
+    private ApplicationPage currentPage = ApplicationPage.Login;
 
-    public bool SettingsMenuVisible
-    {
-        get => mSettingsMenuVisible;
-        set
-        {
-            if (mSettingsMenuVisible == value)
-                return;
+    [ObservableProperty]
+    private bool sideMenuVisible;
 
-            // Set the backing field
-            mSettingsMenuVisible = value;
+    [ObservableProperty]
+    private SideMenuContent currentSideMenuContent = SideMenuContent.Chat;
 
-            if (value)
-                Task.Run(ViewModelSettings.Load); // Reload settings
-        }
-    }
-
-    public SideMenuContent CurrentSideMenuContent { get; set; } = SideMenuContent.Chat;
-
-    public bool ServerReachable { get; set; } = true;
+    [ObservableProperty]
+    private bool serverReachable = true;
 
     [ICommand]
     public void OpenChat()
     {
-        // Set the current side menu to Chat
         CurrentSideMenuContent = SideMenuContent.Chat;
     }
 
@@ -65,7 +63,6 @@ public partial class ApplicationViewModel : ObservableObject
 
     public void GoToPage(ApplicationPage page, ObservableObject? viewModel = null)
     {
-        // Always hide settings page if we are changing pages
         SettingsMenuVisible = false;
 
         CurrentPageViewModel = viewModel;
@@ -84,7 +81,7 @@ public partial class ApplicationViewModel : ObservableObject
 
     public static async Task HandleSuccessfulLoginAsync(UserProfileDetailsDto loginResult)
     {
-        await ClientDataStore.SaveLoginCredentialsAsync(loginResult.ToLoginCredentialsDataModel());
+        await ClientDataStore.SaveLoginCredentialsAsync(loginResult);
         await ViewModelSettings.Load(); // Load new settings
         ViewModelApplication.GoToPage(ApplicationPage.Chat);
     }

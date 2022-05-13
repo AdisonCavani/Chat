@@ -20,11 +20,14 @@ namespace Chat.ViewModel.Application;
 /// </summary>
 public partial class RegisterViewModel : ObservableObject
 {
-    public string Username { get; set; }
+    [ObservableProperty]
+    private string? username;
 
-    public string Email { get; set; }
+    [ObservableProperty]
+    private string? email;
 
-    public bool RegisterIsRunning { get; set; }
+    [ObservableProperty]
+    private bool registerIsRunning;
 
     [ICommand]
     public async Task Register(object parameter)
@@ -41,8 +44,8 @@ public partial class RegisterViewModel : ObservableObject
                     // TODO: add first and last name
                     FirstName = "test",
                     LastName = "test",
-                    Username = Username,
-                    Email = Email,
+                    Username = Username ?? string.Empty,
+                    Email = Email ?? string.Empty,
                     Password = (parameter as IHavePassword).SecurePassword.Unsecure()
                 });
 
@@ -56,7 +59,8 @@ public partial class RegisterViewModel : ObservableObject
 
             // Let the application view model handle what happens
             // with the successful login
-            await ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
+            if (loginResult is not null)
+                await ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
         });
     }
 

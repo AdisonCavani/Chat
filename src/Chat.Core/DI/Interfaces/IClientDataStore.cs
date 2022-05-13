@@ -1,4 +1,4 @@
-﻿using Chat.Core.DataModels;
+﻿using Chat.Core.ApiModels.UserProfile;
 
 namespace Chat.Core.DI.Interfaces;
 
@@ -23,14 +23,14 @@ public interface IClientDataStore
     /// Gets the stored login credentials for this client
     /// </summary>
     /// <returns>Returns the login credentials if they exist, or null if none exist</returns>
-    Task<LoginCredentialsDataModel?> GetLoginCredentialsAsync();
+    Task<UserProfileDetailsDto?> GetLoginCredentialsAsync();
 
     /// <summary>
     /// Stores the given login credentials to the backing data store
     /// </summary>
     /// <param name="loginCredentials">The login credentials to save</param>
     /// <returns>Returns a task that will finish once the save is complete</returns>
-    Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
+    Task SaveLoginCredentialsAsync(UserProfileDetailsDto loginCredentials);
 
     /// <summary>
     /// Removes all login credentials stored in the data store

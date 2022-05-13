@@ -1,4 +1,4 @@
-﻿using Chat.Core.DataModels;
+﻿using Chat.Core.ApiModels.UserProfile;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Relational;
@@ -11,7 +11,7 @@ public class ClientDataStoreDbContext : DbContext
     /// <summary>
     /// The client login credentials
     /// </summary>
-    public DbSet<LoginCredentialsDataModel> LoginCredentials { get; set; }
+    public DbSet<UserProfileDetailsDto> LoginCredentials { get; set; }
 
     /// <summary>
     /// Default constructor
@@ -35,7 +35,7 @@ public class ClientDataStoreDbContext : DbContext
         // --------------------------
         //
         // Set Id as primary key
-        modelBuilder.Entity<LoginCredentialsDataModel>().HasKey(a => a.Id);
+        modelBuilder.Entity<UserProfileDetailsDto>().HasKey(a => a.Email);
 
         // TODO: Set up limits
         //modelBuilder.Entity<LoginCredentialsDataModel>().Property(a => a.FirstName).HasMaxLength(50);

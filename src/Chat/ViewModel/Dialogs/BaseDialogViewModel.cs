@@ -1,14 +1,8 @@
-﻿using Chat.ViewModel.Base;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.Dialogs;
 
-/// <summary>
-/// A base view model for any dialogs
-/// </summary>
-public class BaseDialogViewModel : BaseViewModel
+public class BaseDialogViewModel : ObservableObject
 {
-    /// <summary>
-    /// The title of the dialog
-    /// </summary>
     public string Title { get; set; }
 }

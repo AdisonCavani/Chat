@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Chat.Core.DataModels;
+﻿using Chat.Core.DataModels;
 using Chat.ViewModel.Menu;
 
 namespace Chat.ViewModel.PopupMenu;
@@ -9,23 +8,16 @@ namespace Chat.ViewModel.PopupMenu;
 /// </summary>
 public class ChatAttachmentPopupMenuViewModel : BasePopupViewModel
 {
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public ChatAttachmentPopupMenuViewModel()
     {
-        Content = new MenuViewModel
+        Content = new MenuViewModel()
         {
-            Items = new List<MenuItemViewModel>(new[]
+            Items = new()
             {
-                new MenuItemViewModel { Text = "Attach a file...", Type = MenuItemType.Header },
-                new MenuItemViewModel { Text = "From Computer", Icon = IconType.File },
-                new MenuItemViewModel { Text = "From Pictures", Icon = IconType.Picture },
-            })
+                new() { Text = "Attach a file...", Type = MenuItemType.Header },
+                new() { Text = "From Computer", Icon = IconType.File },
+                new() { Text = "From Pictures", Icon = IconType.Picture },
+            }
         };
     }
-
-    #endregion
 }

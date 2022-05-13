@@ -1,108 +1,40 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Chat.ViewModel.Base;
+using Chat.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Chat.ViewModel.Input;
 
-/// <summary>
-/// The view model for a password entry to edit a password 
-/// </summary>
-public class PasswordEntryViewModel : BaseViewModel
+public partial class PasswordEntryViewModel : ObservableObject
 {
-    #region Public Properties
-
-    /// <summary>
-    /// The label to identify what this value is for
-    /// </summary>
     public string Label { get; set; }
 
-    /// <summary>
-    /// The fake password display string
-    /// </summary>
     public string FakePassword { get; set; }
 
-    /// <summary>
-    /// The current password hint text
-    /// </summary>
     public string CurrentPasswordHintText { get; set; }
 
-    /// <summary>
-    /// The new password hint text
-    /// </summary>
     public string NewPasswordHintText { get; set; }
 
-    /// <summary>
-    /// The confirm password hint text
-    /// </summary>
     public string ConfirmPasswordHintText { get; set; }
 
-    /// <summary>
-    /// The current saved password
-    /// </summary>
     public SecureString CurrentPassword { get; set; }
 
-    /// <summary>
-    /// The current non-commit edited password
-    /// </summary>
     public SecureString NewPassword { get; set; }
 
-    /// <summary>
-    /// The current non-commit edited confirmed password
-    /// </summary>
     public SecureString ConfirmPassword { get; set; }
 
-    /// <summary>
-    /// Indicates if the current text is in edit mode
-    /// </summary>
     public bool Editing { get; set; }
 
-    /// <summary>
-    /// Indicates if the current control is pending an update (in progress)
-    /// </summary>
     public bool Working { get; set; }
 
-    /// <summary>
-    /// The action to run when saving the text.
-    /// Returns true if the commit was successful, or false otherwise.
-    /// </summary>
     public Func<Task<bool>> CommitAction { get; set; }
 
-    #endregion
-
-    #region Public Commands
-
-    /// <summary>
-    /// Puts the control into edit mode
-    /// </summary>
-    public ICommand EditCommand { get; set; }
-
-    /// <summary>
-    /// Cancels out of edit mode
-    /// </summary>
-    public ICommand CancelCommand { get; set; }
-
-    /// <summary>
-    /// Commits the edits and saves the value
-    /// as well as goes back to non-edit mode
-    /// </summary>
-    public ICommand SaveCommand { get; set; }
-
-    #endregion
-
-    #region Constructor 
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public PasswordEntryViewModel()
     {
-        // Create commands
-        EditCommand = new RelayCommand(Edit);
-        CancelCommand = new RelayCommand(Cancel);
-        SaveCommand = new RelayCommand(Save);
-
         // Set default hints
         // TODO: Replace with localization text
         CurrentPasswordHintText = "Current Password";
@@ -110,13 +42,7 @@ public class PasswordEntryViewModel : BaseViewModel
         ConfirmPasswordHintText = "Confirm Password";
     }
 
-    #endregion
-
-    #region Command Methods
-
-    /// <summary>
-    /// Puts the control into edit mode
-    /// </summary>
+    [ICommand]
     public void Edit()
     {
         // Clear all password
@@ -126,18 +52,13 @@ public class PasswordEntryViewModel : BaseViewModel
         // Go into edit mode
         Editing = true;
     }
-
-    /// <summary>
-    /// Cancels out of edit mode
-    /// </summary>
+    [ICommand]
     public void Cancel()
     {
         Editing = false;
     }
 
-    /// <summary>
-    /// Commits the content and exits out of edit mode
-    /// </summary>
+    [ICommand]
     public void Save()
     {
         // Store the result of a commit call
@@ -149,7 +70,7 @@ public class PasswordEntryViewModel : BaseViewModel
             Editing = false;
 
             // Try and do the work
-            result = CommitAction is null ? true : await CommitAction();
+            result = CommitAction is null || await CommitAction();
 
         }).ContinueWith(_ =>
         {
@@ -164,5 +85,26 @@ public class PasswordEntryViewModel : BaseViewModel
         });
     }
 
-    #endregion
+    // TODO: remove legacy BaseViewModel helpers
+    private readonly object mPropertyValueCheckLock = new();
+
+    private async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
+    {
+        lock (mPropertyValueCheckLock)
+        {
+            if (updatingFlag.GetPropertyValue())
+                return;
+
+            updatingFlag.SetPropertyValue(true);
+        }
+
+        try
+        {
+            await action();
+        }
+        finally
+        {
+            updatingFlag.SetPropertyValue(false);
+        }
+    }
 }

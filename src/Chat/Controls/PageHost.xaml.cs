@@ -4,8 +4,8 @@ using System.Windows;
 using Chat.Core.DataModels;
 using Chat.ValueConverters;
 using Chat.ViewModel.Application;
-using Chat.ViewModel.Base;
 using Chat.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.Controls;
 
@@ -35,9 +35,9 @@ public partial class PageHost
     /// <summary>
     /// The current page to show in the page host
     /// </summary>
-    public BaseViewModel CurrentPageViewModel
+    public ObservableObject CurrentPageViewModel
     {
-        get => (BaseViewModel)GetValue(CurrentPageViewModelProperty);
+        get => (ObservableObject)GetValue(CurrentPageViewModelProperty);
         set => SetValue(CurrentPageViewModelProperty, value);
     }
 
@@ -46,7 +46,7 @@ public partial class PageHost
     /// </summary>
     public static readonly DependencyProperty CurrentPageViewModelProperty =
         DependencyProperty.Register(nameof(CurrentPageViewModel),
-            typeof(BaseViewModel), typeof(PageHost),
+            typeof(ObservableObject), typeof(PageHost),
             new UIPropertyMetadata());
 
     #endregion

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Chat.ViewModel.Base;
 using Chat.ViewModel.Dialogs;
 using Chat.WPFViewModels;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Chat.Controls.Dialogs;
 
@@ -52,8 +52,10 @@ public class BaseDialogUserControl : UserControl
         if (!DesignerProperties.GetIsInDesignMode(this))
         {
             // Create a new dialog window
-            mDialogWindow = new DialogWindow();
-            mDialogWindow.ViewModel = new DialogWindowViewModel();
+            mDialogWindow = new DialogWindow
+            {
+                ViewModel = new DialogWindowViewModel()
+            };
 
             // Create close command
             CloseCommand = new RelayCommand(() => mDialogWindow.Close());

@@ -1,11 +1,11 @@
-﻿using Chat.ViewModel.Base;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.WPFViewModels;
 
 /// <summary>
 /// The View Model for the custom flat window
 /// </summary>
-public class WindowViewModel : BaseViewModel
+public class WindowViewModel : ObservableObject
 {
     /// <summary>
     /// The smallest width the window can go to

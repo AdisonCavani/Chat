@@ -8,27 +8,14 @@ namespace Chat.ViewModel.Chat.ChatMessage.Design;
 /// </summary>
 public class ChatMessageListDesignModel : ChatMessageListViewModel
 {
-    #region Singleton
-
-    /// <summary>
-    /// A single instance of the design model
-    /// </summary>
     public static ChatMessageListDesignModel Instance => new();
-
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public ChatMessageListDesignModel()
     {
         DisplayTitle = "Parnell";
 
         Items = new ObservableCollection<ChatMessageListItemViewModel>
         {
-            new ChatMessageListItemViewModel
+            new()
             {
                 SenderName = "Parnell",
                 Initials = "PL",
@@ -37,7 +24,7 @@ public class ChatMessageListDesignModel : ChatMessageListViewModel
                 MessageSentTime = DateTimeOffset.UtcNow,
                 SentByMe = false,
             },
-            new ChatMessageListItemViewModel
+            new()
             {
                 SenderName = "Luke",
                 Initials = "LM",
@@ -47,7 +34,7 @@ public class ChatMessageListDesignModel : ChatMessageListViewModel
                 MessageReadTime = DateTimeOffset.UtcNow.Subtract(TimeSpan.FromDays(1.3)),
                 SentByMe = true,
             },
-            new ChatMessageListItemViewModel
+            new()
             {
                 SenderName = "Parnell",
                 Initials = "PL",
@@ -58,6 +45,4 @@ public class ChatMessageListDesignModel : ChatMessageListViewModel
             },
         };
     }
-
-    #endregion
 }

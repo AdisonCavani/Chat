@@ -1,37 +1,16 @@
 ﻿using Chat.Core.DataModels;
-using Chat.ViewModel.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.PopupMenu;
 
-/// <summary>
-/// A view model for any popup menus
-/// </summary>
-public class BasePopupViewModel : BaseViewModel
+public class BasePopupViewModel : ObservableObject
 {
-    #region Public Properties
-
-    /// <summary>
-    /// The background color of the bubble in ARGB value
-    /// </summary>
     public string BubbleBackground { get; set; }
 
-    /// <summary>
-    /// The alignment of the bubble arrow
-    /// </summary>
     public ElementHorizontalAlignment ArrowAlignment { get; set; }
 
-    /// <summary>
-    /// The content inside of this popup menu
-    /// </summary>
-    public BaseViewModel Content { get; set; }
+    public ObservableObject Content { get; set; }
 
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public BasePopupViewModel()
     {
         // Set default values
@@ -39,6 +18,4 @@ public class BasePopupViewModel : BaseViewModel
         BubbleBackground = "ffffff";
         ArrowAlignment = ElementHorizontalAlignment.Left;
     }
-
-    #endregion
 }

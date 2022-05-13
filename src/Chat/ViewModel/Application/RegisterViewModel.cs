@@ -1,12 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Chat.Core.ApiModels;
 using Chat.Core.ApiModels.LoginRegister;
 using Chat.Core.DataModels;
+using Chat.Core.Extensions;
 using Chat.Core.Routes;
 using Chat.Core.Security;
 using Chat.ViewModel.Base;
 using Chat.WebRequests;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using static Chat.DI.DI;
 
 namespace Chat.ViewModel.Application;
@@ -14,61 +19,16 @@ namespace Chat.ViewModel.Application;
 /// <summary>
 /// The View Model for a register screen
 /// </summary>
-public class RegisterViewModel : BaseViewModel
+public partial class RegisterViewModel : ObservableObject
 {
-    #region Public Properties
-
-    /// <summary>
-    /// The username of the user
-    /// </summary>
     public string Username { get; set; }
 
-    /// <summary>
-    /// The email of the user
-    /// </summary>
     public string Email { get; set; }
 
-    /// <summary>
-    /// A flag indicating if the register command is running
-    /// </summary>
     public bool RegisterIsRunning { get; set; }
 
-    #endregion
-
-    #region Commands
-
-    /// <summary>
-    /// The command to login
-    /// </summary>
-    public ICommand LoginCommand { get; set; }
-
-    /// <summary>
-    /// The command to register for a new account
-    /// </summary>
-    public ICommand RegisterCommand { get; set; }
-
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public RegisterViewModel()
-    {
-        // Create commands
-        RegisterCommand = new RelayParameterizedCommand(async (parameter) => await RegisterAsync(parameter));
-        LoginCommand = new RelayCommand(async () => await LoginAsync());
-    }
-
-    #endregion
-
-    /// <summary>
-    /// Attempts to register a new user
-    /// </summary>
-    /// <param name="parameter">The <see cref="SecureString"/> passed in from the view for the users password</param>
-    /// <returns></returns>
-    public async Task RegisterAsync(object parameter)
+    [ICommand]
+    public async Task Register(object parameter)
     {
         await RunCommandAsync(() => RegisterIsRunning, async () =>
         {
@@ -79,6 +39,9 @@ public class RegisterViewModel : BaseViewModel
                 // Create api model
                 new RegisterCredentialsDto
                 {
+                    // TODO: add first and last name
+                    FirstName = "test",
+                    LastName = "test",
                     Username = Username,
                     Email = Email,
                     Password = (parameter as IHavePassword).SecurePassword.Unsecure()
@@ -98,12 +61,32 @@ public class RegisterViewModel : BaseViewModel
         });
     }
 
-    /// <summary>
-    /// Takes the user to the login page
-    /// </summary>
-    /// <returns></returns>
-    public async Task LoginAsync()
+    [ICommand]
+    public static void Login()
     {
         ViewModelApplication.GoToPage(ApplicationPage.Login);
+    }
+
+    // TODO: remove legacy BaseViewModel helpers
+    private readonly object mPropertyValueCheckLock = new();
+
+    private async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
+    {
+        lock (mPropertyValueCheckLock)
+        {
+            if (updatingFlag.GetPropertyValue())
+                return;
+
+            updatingFlag.SetPropertyValue(true);
+        }
+
+        try
+        {
+            await action();
+        }
+        finally
+        {
+            updatingFlag.SetPropertyValue(false);
+        }
     }
 }

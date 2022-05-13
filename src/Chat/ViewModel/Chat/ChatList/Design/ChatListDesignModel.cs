@@ -1,26 +1,10 @@
 ﻿using System.Collections.Generic;
 
 namespace Chat.ViewModel.Chat.ChatList.Design;
-
-/// <summary>
-/// The design-time data for a <see cref="ChatListViewModel"/>
-/// </summary>
 public class ChatListDesignModel : ChatListViewModel
 {
-    #region Singleton
-
-    /// <summary>
-    /// A single instance of the design model
-    /// </summary>
     public static ChatListDesignModel Instance => new();
 
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public ChatListDesignModel()
     {
         Items = new List<ChatListItemViewModel>
@@ -92,6 +76,4 @@ public class ChatListDesignModel : ChatListViewModel
             },
         };
     }
-
-    #endregion
 }

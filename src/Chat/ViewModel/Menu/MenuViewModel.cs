@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
-using Chat.ViewModel.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.Menu;
 
 /// <summary>
 /// A view model for a menu
 /// </summary>
-public class MenuViewModel : BaseViewModel
+public class MenuViewModel : ObservableObject
 {
-    /// <summary>
-    /// The items in this menu
-    /// </summary>
     public List<MenuItemViewModel> Items { get; set; }
 }

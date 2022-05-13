@@ -48,7 +48,7 @@ public static class WebRequestResultExtensions
                 Logger.LogInformationSource("Logging user out due to unauthorized response from server");
 
                 // Automatically log the user out
-                await ViewModelSettings.LogoutAsync();
+                await ViewModelSettings.Logout();
             }
             else
             {

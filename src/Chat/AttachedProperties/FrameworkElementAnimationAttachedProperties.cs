@@ -30,7 +30,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
     protected override void OnValueUpdated(DependencyObject sender, object value)
     {
         // Get the framework element
-        if (!(sender is FrameworkElement element))
+        if (sender is not FrameworkElement element)
             return;
 
         // Try and get the already loaded reference
@@ -57,8 +57,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
 
             // Create a single self-unhookable event 
             // for the elements Loaded event
-            RoutedEventHandler onLoaded = null;
-            onLoaded = async (_, _) =>
+            async void onLoaded(object _, RoutedEventArgs __)
             {
                 // Unhook ourselves
                 element.Loaded -= onLoaded;
@@ -76,7 +75,7 @@ public abstract class AnimateBaseProperty<Parent> : BaseAttachedProperty<Parent,
 
                 // Flag that we have finished first load
                 mAlreadyLoaded[weakReference] = true;
-            };
+            }
 
             // Hook into the Loaded event of the element
             element.Loaded += onLoaded;
@@ -105,7 +104,7 @@ public class FadeInImageOnLoadProperty : AnimateBaseProperty<FadeInImageOnLoadPr
     protected override void OnValueUpdated(DependencyObject sender, object value)
     {
         // Make sure we have an image
-        if (!(sender is Image image))
+        if (sender is not Image image)
             return;
 
         // If we want to animate in...

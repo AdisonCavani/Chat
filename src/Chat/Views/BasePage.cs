@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Chat.Animation;
-using Chat.ViewModel.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Dna;
 
 namespace Chat.Views;
@@ -147,11 +147,8 @@ public class BasePage : UserControl
     }
 }
 
-/// <summary>
-/// A base page with added ViewModel support
-/// </summary>
 public class BasePage<VM> : BasePage
-    where VM : BaseViewModel, new()
+    where VM : ObservableObject, new()
 {
     /// <summary>
     /// The view model associated with this page
@@ -180,7 +177,7 @@ public class BasePage<VM> : BasePage
     /// Constructor with specific view model
     /// </summary>
     /// <param name="specificViewModel">The specific view model to use, if any</param>
-    public BasePage(VM specificViewModel = null)
+    public BasePage(VM? specificViewModel = null)
     {
         // Set specific view model
         if (specificViewModel is not null)

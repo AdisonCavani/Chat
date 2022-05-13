@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Chat.ViewModel.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chat.ViewModel.Chat.ChatMessage;
 
@@ -7,46 +7,25 @@ namespace Chat.ViewModel.Chat.ChatMessage;
 /// A view model for each chat message thread item's attachment
 /// (in this case an image) in a chat thread
 /// </summary>
-public class ChatMessageListItemImageAttachmentViewModel : BaseViewModel
+[INotifyPropertyChanged]
+public partial class ChatMessageListItemImageAttachmentViewModel
 {
-    #region Private Members
+    private string thumbnailUrl;
 
-    /// <summary>
-    /// The thumbnail URL of this attachment
-    /// </summary>
-    private string mThumbnailUrl;
-
-    #endregion
-
-    /// <summary>
-    /// The title of this image file
-    /// </summary>
     public string Title { get; set; }
 
-    /// <summary>
-    /// The original file name of the attachment
-    /// </summary>
     public string FileName { get; set; }
 
-    /// <summary>
-    /// The file size in bytes of this attachment
-    /// </summary>
+    // Size in bytes
     public long FileSize { get; set; }
 
-    /// <summary>
-    /// The thumbnail URL of this attachment
-    /// </summary>
     public string ThumbnailUrl
     {
-        get => mThumbnailUrl;
+        get => thumbnailUrl;
         set
         {
-            // If value hasn't changed, return
-            if (value == mThumbnailUrl)
-                return;
-
-            // Update value
-            mThumbnailUrl = value;
+            if (SetProperty(ref thumbnailUrl, value))
+                OnPropertyChanged(nameof(ThumbnailUrl));
 
             // TODO: Download image from website
             //       Save file to local storage/cache
@@ -57,13 +36,7 @@ public class ChatMessageListItemImageAttachmentViewModel : BaseViewModel
         }
     }
 
-    /// <summary>
-    /// The local file path on this machine to the downloaded thumbnail
-    /// </summary>
     public string? LocalFilePath { get; set; }
 
-    /// <summary>
-    /// Indicates if an image has loaded
-    /// </summary>
     public bool ImageLoaded => LocalFilePath is not null;
 }

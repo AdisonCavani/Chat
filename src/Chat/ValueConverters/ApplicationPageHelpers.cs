@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using Chat.Core.DataModels;
-using Chat.ViewModel.Application;
-using Chat.ViewModel.Chat.ChatMessage;
 using Chat.Views;
+using ChatMessageListViewModel = Chat.ViewModels.Chat.ChatMessage.ChatMessageListViewModel;
+using LoginViewModel = Chat.ViewModels.Application.LoginViewModel;
+using RegisterViewModel = Chat.ViewModels.Application.RegisterViewModel;
 
 namespace Chat.ValueConverters;
 

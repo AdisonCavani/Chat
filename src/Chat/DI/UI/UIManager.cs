@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using Chat.Dialogs;
-using Chat.ViewModel.Dialogs;
+using MessageBoxDialogViewModel = Chat.ViewModels.Dialogs.MessageBoxDialogViewModel;
 
 namespace Chat.DI.UI;
 

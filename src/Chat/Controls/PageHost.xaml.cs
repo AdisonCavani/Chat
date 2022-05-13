@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Chat.Core.DataModels;
 using Chat.ValueConverters;
-using Chat.ViewModel.Application;
 using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ApplicationViewModel = Chat.ViewModels.Application.ApplicationViewModel;
 
 namespace Chat.Controls;
 

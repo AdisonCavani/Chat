@@ -1,9 +1,10 @@
 ﻿using Chat.Core.DI.Interfaces;
 using Chat.Core.File;
 using Chat.DI.UI;
-using Chat.ViewModel.Application;
 using Dna;
 using Microsoft.Extensions.DependencyInjection;
+using ApplicationViewModel = Chat.ViewModels.Application.ApplicationViewModel;
+using SettingsViewModel = Chat.ViewModels.Application.SettingsViewModel;
 
 namespace Chat.DI;
 

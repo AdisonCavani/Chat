@@ -1,5 +1,5 @@
 ﻿using System;
-using Chat.WPFViewModels;
+using Chat.ViewModels.Wpf;
 
 namespace Chat.Views;
 

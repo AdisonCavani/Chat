@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Chat.Core.ApiModels;
-using Chat.ViewModel.Dialogs;
 using Dna;
 using static Chat.DI.DI;
 using static Dna.FrameworkDI;
+using MessageBoxDialogViewModel = Chat.ViewModels.Dialogs.MessageBoxDialogViewModel;
 
 namespace Chat.WebRequests;
 

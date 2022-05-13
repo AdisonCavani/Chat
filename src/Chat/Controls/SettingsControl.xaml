@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:design="clr-namespace:Chat.ViewModel.Application.Design"
              xmlns:attachedProperties="clr-namespace:Chat.AttachedProperties"
              xmlns:input="clr-namespace:Chat.Controls.Input"
+             xmlns:design="clr-namespace:Chat.ViewModels.Application.Design"
              d:DataContext="{x:Static design:SettingsDesignModel.Instance}"
              mc:Ignorable="d" >
     <Border Background="{StaticResource ForegroundLightBrush}" 

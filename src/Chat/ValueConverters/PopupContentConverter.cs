@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Chat.Controls.Menu;
-using Chat.ViewModel.PopupMenu;
+using Chat.ViewModels.PopupMenu;
 
 namespace Chat.ValueConverters;
 

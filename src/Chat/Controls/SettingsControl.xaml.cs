@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using Chat.ViewModel.Application;
 using static Chat.DI.DI;
+using SettingsViewModel = Chat.ViewModels.Application.SettingsViewModel;
 
 namespace Chat.Controls;
 

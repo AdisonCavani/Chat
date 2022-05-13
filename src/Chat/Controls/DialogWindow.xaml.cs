@@ -1,4 +1,4 @@
-﻿using Chat.WPFViewModels;
+﻿using Chat.ViewModels.Wpf;
 
 namespace Chat.Controls;
 

@@ -1,6 +1,6 @@
 ﻿using System.Security;
-using Chat.ViewModel.Application;
-using Chat.ViewModel.Base;
+using Chat.ViewModels.Base;
+using LoginViewModel = Chat.ViewModels.Application.LoginViewModel;
 
 namespace Chat.Views;
 

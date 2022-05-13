@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Chat.Animation;
-using Chat.ViewModel.Chat.ChatMessage;
+using ChatMessageListViewModel = Chat.ViewModels.Chat.ChatMessage.ChatMessageListViewModel;
 
 namespace Chat.Views;
 

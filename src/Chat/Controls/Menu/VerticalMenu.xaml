@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:design="clr-namespace:Chat.ViewModel.Menu.Design"
              xmlns:valueConverters="clr-namespace:Chat.ValueConverters"
+             xmlns:design="clr-namespace:Chat.ViewModels.Menu.Design"
              mc:Ignorable="d">
     <ItemsControl d:DataContext="{x:Static design:MenuDesignModel.Instance}"
                   ItemsSource="{Binding Items}"

@@ -1,6 +1,6 @@
 ﻿using System.Security;
-using Chat.ViewModel.Application;
-using Chat.ViewModel.Base;
+using Chat.ViewModels.Base;
+using RegisterViewModel = Chat.ViewModels.Application.RegisterViewModel;
 
 namespace Chat.Views;
 

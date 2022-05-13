@@ -3,19 +3,20 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:attachedProperties="clr-namespace:Chat.AttachedProperties"
-    xmlns:chatMessage="clr-namespace:Chat.ViewModel.Chat.ChatMessage"
+    xmlns:chatMessage="clr-namespace:Chat.ViewModels.Chat.ChatMessage"
     xmlns:chatMessage1="clr-namespace:Chat.Controls.Chat.ChatMessage"
     xmlns:controls="clr-namespace:Chat.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:design="clr-namespace:Chat.ViewModel.Chat.ChatMessage.Design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:Chat.Views"
     xmlns:valueConverters="clr-namespace:Chat.ValueConverters"
+    xmlns:design="clr-namespace:Chat.ViewModels.Chat.ChatMessage.Design"
+    xmlns:chatMessage2="clr-namespace:Chat.ViewModels.Chat.ChatMessage"
     x:Name="Page"
     d:DataContext="{x:Static design:ChatMessageListDesignModel.Instance}"
     d:DesignHeight="700"
     d:DesignWidth="700"
-    x:TypeArguments="chatMessage:ChatMessageListViewModel"
+    x:TypeArguments="chatMessage2:ChatMessageListViewModel"
     mc:Ignorable="d">
 
     <Grid>

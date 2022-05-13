@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using Chat.ViewModel.Input;
+using PasswordEntryViewModel = Chat.ViewModels.Input.PasswordEntryViewModel;
 
 namespace Chat.Controls.Input;
 

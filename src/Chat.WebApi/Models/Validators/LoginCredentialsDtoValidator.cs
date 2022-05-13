@@ -7,14 +7,14 @@ public class LoginCredentialsDtoValidator : AbstractValidator<LoginCredentialsDt
 {
     public LoginCredentialsDtoValidator()
     {
+        RuleFor(x => x.UsernameOrEmail)
+            .NotEmpty();
+
         When(x => x.UsernameOrEmail is not null && x.UsernameOrEmail.Contains('@'), () =>
         {
             RuleFor(x => x.UsernameOrEmail)
                 .EmailAddress();
         });
-
-        RuleFor(x => x.UsernameOrEmail)
-            .NotEmpty();
 
         RuleFor(x => x.Password)
             .NotEmpty();

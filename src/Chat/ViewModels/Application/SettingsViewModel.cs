@@ -186,7 +186,7 @@ public partial class SettingsViewModel : ObservableObject
                 return;
 
             // Load user profile details form server
-            var result = await Dna.WebRequests.PostAsync<ApiResponse<UserProfileDetailsDto>>(
+            var result = await WebRequestsHelpers.GetAsync<ApiResponse<UserProfileDetailsDto>>(
                 // Set URL
                 RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
                 // Pass in user Token

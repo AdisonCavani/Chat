@@ -1,133 +1,80 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using Chat.Controls;
-using Chat.Core.DataModels;
-using Chat.Core.DI.Interfaces;
-using Chat.Core.File;
-using Chat.DI.UI;
-using Chat.Relational;
-using Chat.ViewModels.Application;
-using Chat.ViewModels.Wpf;
-using Chat.Views;
-using Microsoft.EntityFrameworkCore;
+﻿using App1.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
+using System;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
-namespace Chat;
+namespace App1;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App
+sealed partial class App : Application
 {
-    private readonly IHost _host;
-    private readonly ILogger<App> _logger;
+    public IServiceProvider Services { get; }
+
+    public new static App Current => (App)Application.Current;
 
     public App()
     {
-        _host = Host.CreateDefaultBuilder()
-            .UseSerilog((host, loggerConfiguration) =>
+        Services = ConfigureServices();
+
+        InitializeComponent();
+        Suspending += OnSuspending;
+    }
+
+    private static IServiceProvider ConfigureServices()
+    {
+        IServiceCollection services = new ServiceCollection();
+
+        // services.AddSingleton<IFilesService, FilesService>();
+
+        return services.BuildServiceProvider();
+    }
+
+    protected override void OnLaunched(LaunchActivatedEventArgs e)
+    {
+        // Do not repeat app initialization when the Window already has content,
+        // just ensure that the window is active
+        if (Window.Current.Content is not Frame rootFrame)
+        {
+            // Create a Frame to act as the navigation context and navigate to the first page
+            rootFrame = new Frame();
+
+            rootFrame.NavigationFailed += OnNavigationFailed;
+
+            if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
             {
-                loggerConfiguration
-#if DEBUG
-                    .MinimumLevel.Verbose()
-                    .WriteTo.Debug()
-#endif
-                    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
-            })
-            .ConfigureServices(services =>
+                //TODO: Load state from previously suspended application
+            }
+
+            // Place the frame in the current Window
+            Window.Current.Content = rootFrame;
+        }
+
+        if (!e.PrelaunchActivated)
+        {
+            if (rootFrame.Content is null)
             {
-                services.AddSingleton<ApplicationViewModel>();
-                services.AddSingleton<SettingsViewModel>();
-                services.AddSingleton<WindowViewModel>();
-                services.AddSingleton<LoginPage>(s => new()
-                {
-                    DataContext = s.GetRequiredService<LoginViewModel>()
-                });
-
-                services.AddSingleton<SettingsControl>(s => new()
-                {
-                    DataContext = s.GetRequiredService<SettingsViewModel>()
-                });
-
-                services.AddSingleton<MainWindow>(s => new()
-                {
-                    DataContext = s.GetRequiredService<WindowViewModel>()
-                });
-
-                services.AddTransient<IFileManager, BaseFileManager>();
-                services.AddTransient<IUIManager, UIManager>();
-
-                services.AddDbContext<ClientDataStoreDbContext>(options =>
-                {
-                    options.UseSqlite("Data Source=Chat.db");
-                }, contextLifetime: ServiceLifetime.Transient);
-
-                services.AddTransient<IClientDataStore>(provider =>
-                new BaseClientDataStore(provider.GetRequiredService<ClientDataStoreDbContext>()));
-
-            }).Build();
-
-        _logger = _host.Services.GetRequiredService<ILogger<App>>();
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+            }
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
     }
 
-    protected override async void OnStartup(StartupEventArgs e)
+    void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
     {
-        await _host.StartAsync();
-
-        await ApplicationSetupAsync();
-
-        _logger.LogDebug("Application starting...");
-
-        _host.Services.GetRequiredService<ApplicationViewModel>().GoToPage(
-            await _host.Services.GetRequiredService<IClientDataStore>().HasCredentialsAsync() ?
-            ApplicationPage.Chat :
-            ApplicationPage.Login);
-
-        Current.MainWindow = _host.Services.GetRequiredService<MainWindow>();
-        Current.MainWindow.Show();
-
-        base.OnStartup(e);
+        throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
     }
 
-    protected override async void OnExit(ExitEventArgs e)
+    private void OnSuspending(object sender, SuspendingEventArgs e)
     {
-        await _host.StopAsync();
-        _host.Dispose();
-
-        base.OnExit(e);
-    }
-
-    private async Task ApplicationSetupAsync()
-    {
-        // Ensure the client data store 
-        await _host.Services.GetRequiredService<IClientDataStore>().EnsureDataStoreAsync();
-
-        // Monitor for server connection status
-        MonitorServerStatus();
-
-        // Load new settings
-        await Task.Run(_host.Services.GetRequiredService<SettingsViewModel>().Load);
-    }
-
-    private void MonitorServerStatus()
-    {
-        // Create a new endpoint watcher
-        _ = new Dna.HttpEndpointChecker(
-            // Checking fasetto.chat
-            // Configuration["FasettoWordServer:HostUrl"],
-            "https://google.com",
-            // Every 20 seconds
-            interval: 20000,
-            // Pass in the DI logger
-            logger: _logger,
-            // On change...
-            stateChangedCallback: (result) =>
-            {
-                // Update the view model property with the new result
-                _host.Services.GetRequiredService<ApplicationViewModel>().ServerReachable = result;
-            });
+        var deferral = e.SuspendingOperation.GetDeferral();
+        //TODO: Save application state and stop any background activity
+        deferral.Complete();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Chat.Views;
+﻿using Chat.ViewModels;
+using Chat.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -54,7 +55,7 @@ sealed partial class App : Application
             loggingBuilder.AddSerilog();
         });
 
-        // services.AddSingleton<IFilesService, FilesService>();
+        services.AddSingleton<SignalrViewModel>();
 
         return services;
     }

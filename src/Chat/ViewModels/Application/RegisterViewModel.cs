@@ -6,11 +6,11 @@ using Chat.Core.ApiModels.LoginRegister;
 using Chat.Core.DataModels;
 using Chat.Core.Extensions;
 using Chat.Core.Routes;
+using Chat.DI.UI;
 using Chat.ViewModels.Base;
 using Chat.WebRequests;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using static Chat.DI.DI;
 
 namespace Chat.ViewModels.Application;
 
@@ -19,6 +19,22 @@ namespace Chat.ViewModels.Application;
 /// </summary>
 public partial class RegisterViewModel : ObservableObject
 {
+    private readonly ApplicationViewModel _applicationViewModel;
+    private readonly SettingsViewModel _settingsViewModel;
+    private readonly IUIManager _uiManager;
+
+    public RegisterViewModel(ApplicationViewModel applicationViewModel, SettingsViewModel settingsViewModel, IUIManager uiManager)
+    {
+        _applicationViewModel = applicationViewModel;
+        _settingsViewModel = settingsViewModel;
+        _uiManager = uiManager;
+    }
+
+    public RegisterViewModel()
+    {
+
+    }
+
     [ObservableProperty]
     private string? username;
 
@@ -49,7 +65,7 @@ public partial class RegisterViewModel : ObservableObject
                 });
 
             // If the response has an error...
-            if (await result.HandleErrorIfFailedAsync("Register Failed"))
+            if (await result.HandleErrorIfFailedAsync("Register Failed", _settingsViewModel, _uiManager))
                 // We are done
                 return;
 
@@ -59,14 +75,14 @@ public partial class RegisterViewModel : ObservableObject
             // Let the application view model handle what happens
             // with the successful login
             if (loginResult is not null)
-                await ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
+                await _applicationViewModel.HandleSuccessfulLoginAsync(loginResult);
         });
     }
 
     [ICommand]
-    public static void Login()
+    public void Login()
     {
-        ViewModelApplication.GoToPage(ApplicationPage.Login);
+        _applicationViewModel.GoToPage(ApplicationPage.Login);
     }
 
     // TODO: remove legacy BaseViewModel helpers

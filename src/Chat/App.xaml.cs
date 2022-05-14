@@ -1,14 +1,19 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using Chat.Controls;
 using Chat.Core.DataModels;
-using Chat.DI;
+using Chat.Core.DI.Interfaces;
+using Chat.Core.File;
+using Chat.DI.UI;
 using Chat.Relational;
+using Chat.ViewModels.Application;
+using Chat.ViewModels.Wpf;
 using Chat.Views;
-using Dna;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using static Chat.DI.DI;
-using static Dna.FrameworkDI;
+using Serilog;
 
 namespace Chat;
 
@@ -17,78 +22,112 @@ namespace Chat;
 /// </summary>
 public partial class App
 {
-    /// <summary>
-    /// Custom startup so we load our IoC immediately before anything else
-    /// </summary>
-    /// <param name="e"></param>
-    protected override async void OnStartup(StartupEventArgs e)
+    private readonly IHost _host;
+    private readonly ILogger<App> _logger;
+
+    public App()
     {
-        // Let the base application do what it needs
-        base.OnStartup(e);
+        _host = Host.CreateDefaultBuilder()
+            .UseSerilog((host, loggerConfiguration) =>
+            {
+                loggerConfiguration
+#if DEBUG
+                    .MinimumLevel.Verbose()
+                    .WriteTo.Debug()
+#endif
+                    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day);
+            })
+            .ConfigureServices(services =>
+            {
+                services.AddSingleton<ApplicationViewModel>();
+                services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<WindowViewModel>();
+                services.AddSingleton<LoginPage>(s => new()
+                {
+                    DataContext = s.GetRequiredService<LoginViewModel>()
+                });
 
-        // Setup the main application 
-        await ApplicationSetupAsync();
+                services.AddSingleton<SettingsControl>(s => new()
+                {
+                    DataContext = s.GetRequiredService<SettingsViewModel>()
+                });
 
-        // Log it
-        Logger.LogDebugSource("Application starting...");
+                services.AddSingleton<MainWindow>(s => new()
+                {
+                    DataContext = s.GetRequiredService<WindowViewModel>()
+                });
 
-        // Setup the application view model based on if we are logged in
-        ViewModelApplication.GoToPage(
-            // If we are logged in...
-            await ClientDataStore.HasCredentialsAsync() ?
-            // Go to chat page
-            ApplicationPage.Chat :
-            // Otherwise, go to login page
-            ApplicationPage.Login);
+                services.AddTransient<IFileManager, BaseFileManager>();
+                services.AddTransient<IUIManager, UIManager>();
 
-        // Show the main window
-        Current.MainWindow = new MainWindow();
-        Current.MainWindow.Show();
+                services.AddDbContext<ClientDataStoreDbContext>(options =>
+                {
+                    options.UseSqlite("Data Source=Chat.db");
+                }, contextLifetime: ServiceLifetime.Transient);
+
+                services.AddTransient<IClientDataStore>(provider =>
+                new BaseClientDataStore(provider.GetRequiredService<ClientDataStoreDbContext>()));
+
+            }).Build();
+
+        _logger = _host.Services.GetRequiredService<ILogger<App>>();
     }
 
-    /// <summary>
-    /// Configures our application ready for use
-    /// </summary>
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        await _host.StartAsync();
+
+        await ApplicationSetupAsync();
+
+        _logger.LogDebug("Application starting...");
+
+        _host.Services.GetRequiredService<ApplicationViewModel>().GoToPage(
+            await _host.Services.GetRequiredService<IClientDataStore>().HasCredentialsAsync() ?
+            ApplicationPage.Chat :
+            ApplicationPage.Login);
+
+        Current.MainWindow = _host.Services.GetRequiredService<MainWindow>();
+        Current.MainWindow.Show();
+
+        base.OnStartup(e);
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        await _host.StopAsync();
+        _host.Dispose();
+
+        base.OnExit(e);
+    }
+
     private async Task ApplicationSetupAsync()
     {
-        // Setup the Dna Framework
-        Framework.Construct<DefaultFrameworkConstruction>()
-            .AddFileLogger()
-            .AddClientDataStore()
-            .AddFasettoWordViewModels()
-            .AddFasettoWordClientServices()
-            .Build();
-
         // Ensure the client data store 
-        await ClientDataStore.EnsureDataStoreAsync();
+        await _host.Services.GetRequiredService<IClientDataStore>().EnsureDataStoreAsync();
 
         // Monitor for server connection status
         MonitorServerStatus();
 
         // Load new settings
-        await Task.Run(ViewModelSettings.Load);
+        await Task.Run(_host.Services.GetRequiredService<SettingsViewModel>().Load);
     }
 
-    /// <summary>
-    /// Monitors if the website is up, running and reachable
-    /// by periodically hitting it up
-    /// </summary>
     private void MonitorServerStatus()
     {
         // Create a new endpoint watcher
-        new HttpEndpointChecker(
+        _ = new Dna.HttpEndpointChecker(
             // Checking fasetto.chat
             // Configuration["FasettoWordServer:HostUrl"],
             "https://google.com",
             // Every 20 seconds
             interval: 20000,
             // Pass in the DI logger
-            logger: Framework.Provider.GetService<ILogger>(),
+            logger: _logger,
             // On change...
             stateChangedCallback: (result) =>
             {
                 // Update the view model property with the new result
-                ViewModelApplication.ServerReachable = result;
+                _host.Services.GetRequiredService<ApplicationViewModel>().ServerReachable = result;
             });
     }
 }

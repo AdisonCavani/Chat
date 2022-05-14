@@ -1,25 +1,21 @@
 ﻿using System.Security;
-using Chat.ViewModels.Base;
-using LoginViewModel = Chat.ViewModels.Application.LoginViewModel;
+using Chat.ViewModels.Application;
 
 namespace Chat.Views;
 
 /// <summary>
 /// Interaction logic for LoginPage.xaml
 /// </summary>
-public partial class LoginPage : IHavePassword
+public partial class LoginPage
 {
     /// <summary>
-    /// Default constructor
+    /// Constructor with specific view model
     /// </summary>
     public LoginPage()
     {
         InitializeComponent();
     }
 
-    /// <summary>
-    /// Constructor with specific view model
-    /// </summary>
     public LoginPage(LoginViewModel specificViewModel) : base(specificViewModel)
     {
         InitializeComponent();

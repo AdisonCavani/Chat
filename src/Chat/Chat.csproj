@@ -13,8 +13,10 @@
       <Version>1.0.7.19</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
-      <Version>6.0.4</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Serilog" Version="2.11.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

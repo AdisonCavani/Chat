@@ -4,7 +4,7 @@ public class ChatListItemDesignModel : ChatListItemViewModel
 {
     public static ChatListItemDesignModel Instance => new();
 
-    public ChatListItemDesignModel()
+    public ChatListItemDesignModel() : base(null)
     {
         Initials = "LM";
         Name = "Luke";

@@ -27,7 +27,7 @@
             Padding="10"
             VerticalAlignment="Top"
             Panel.ZIndex="1"
-            attachedProperties:AnimateSlideInFromTopProperty.Value="{Binding ApplicationViewModel.ServerReachable, Source={x:Static wpfViewModels:ViewModelLocator.Instance}, Converter={valueConverters:BooleanInvertConverter}}"
+            attachedProperties:AnimateSlideInFromTopProperty.Value="{Binding ApplicationViewModel.ServerReachable, Converter={valueConverters:BooleanInvertConverter}}"
             Background="{StaticResource WordOrangeBrush}">
 
             <Label
@@ -58,7 +58,7 @@
                 <controls:SettingsControl
                     Grid.ColumnSpan="2"
                     Panel.ZIndex="9"
-                    attachedProperties:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.SettingsMenuVisible, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
+                    attachedProperties:AnimateSlideInFromBottomMarginProperty.Value="{Binding ApplicationViewModel.SettingsMenuVisible}" />
 
                 <!--  Dimmed overlay  -->
                 <Border
@@ -73,8 +73,8 @@
 
                 <controls:PageHost
                     Grid.Column="1"
-                    CurrentPage="{Binding ApplicationViewModel.CurrentPage, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}"
-                    CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
+                    CurrentPage="{Binding ApplicationViewModel.CurrentPage}"
+                    CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel}" />
 
                 <!--  Side Menu  -->
                 <controls:SideMenuControl
@@ -82,7 +82,7 @@
                     Width="300"
                     attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding SideMenuVisible}"
                     Content="{Binding CurrentSideMenuContent, Converter={valueConverters:SideMenuContentConverter}}"
-                    DataContext="{Binding ApplicationViewModel, Source={x:Static wpfViewModels:ViewModelLocator.Instance}}" />
+                    DataContext="{Binding ApplicationViewModel}" />
 
             </Grid>
         </Border>

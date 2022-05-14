@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Chat.Core.DataModels;
 using Chat.ValueConverters;
+using Chat.ViewModels.Application;
 using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ApplicationViewModel = Chat.ViewModels.Application.ApplicationViewModel;
 
 namespace Chat.Controls;
 
@@ -53,9 +53,6 @@ public partial class PageHost
 
     #region Constructor
 
-    /// <summary>
-    /// Default constructor
-    /// </summary>
     public PageHost()
     {
         InitializeComponent();
@@ -63,7 +60,7 @@ public partial class PageHost
         // If we are in DesignMode, show the current page
         // as the dependency property does not fire
         if (DesignerProperties.GetIsInDesignMode(this))
-            NewPage.Content = new ApplicationViewModel().CurrentPage.ToBasePage();
+            NewPage.Content = new ApplicationViewModel(null, null).CurrentPage.ToBasePage();
     }
 
     #endregion
@@ -91,7 +88,7 @@ public partial class PageHost
             page.ToApplicationPage() == currentPage)
         {
             // Just update the view model
-            page.ViewModelObject = currentPageViewModel;
+            page.ViewModelObject = (ObservableObject)currentPageViewModel;
 
             return value;
         }

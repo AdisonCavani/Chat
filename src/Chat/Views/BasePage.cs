@@ -16,7 +16,7 @@ public class BasePage : UserControl
     /// <summary>
     /// The View Model associated with this page
     /// </summary>
-    private object mViewModel;
+    private ObservableObject mViewModel;
 
     /// <summary>
     /// The animation the play when the page is first loaded
@@ -42,7 +42,7 @@ public class BasePage : UserControl
     /// <summary>
     /// The View Model associated with this page
     /// </summary>
-    public object ViewModelObject
+    public ObservableObject ViewModelObject
     {
         get => mViewModel;
         set
@@ -147,7 +147,7 @@ public class BasePage : UserControl
     }
 }
 
-public class BasePage<VM> : BasePage
+public abstract class BasePage<VM> : BasePage
     where VM : ObservableObject, new()
 {
     /// <summary>

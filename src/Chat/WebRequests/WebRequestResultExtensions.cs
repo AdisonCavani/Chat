@@ -1,25 +1,19 @@
 ﻿using System.Threading.Tasks;
 using Chat.Core.ApiModels;
+using Chat.DI.UI;
+using Chat.ViewModels.Application;
+using Chat.ViewModels.Dialogs;
 using Dna;
-using static Chat.DI.DI;
-using static Dna.FrameworkDI;
-using MessageBoxDialogViewModel = Chat.ViewModels.Dialogs.MessageBoxDialogViewModel;
 
 namespace Chat.WebRequests;
 
-/// <summary>
-/// Extension methods for the <see cref="WebRequestResultExtensions"/> class
-/// </summary>
 public static class WebRequestResultExtensions
 {
-    /// <summary>
-    /// Checks the web request result for any errors, displaying them if there are any,
-    /// or if we are unauthorized automatically logging us out
-    /// </summary>
-    /// <param name="response">The response to check</param>
-    /// <param name="title">The title of the error dialog if there is an error</param>
-    /// <returns>Returns true if there was an error, or false if all was OK</returns>
-    public static async Task<bool> HandleErrorIfFailedAsync(this WebRequestResult? response, string title)
+    public static async Task<bool> HandleErrorIfFailedAsync(
+        this WebRequestResult? response,
+        string title,
+        SettingsViewModel settingsViewModel,
+        IUIManager uiManager)
     {
         // If there was no response, bad data, or a response with a error message...
         if (response is null || response.ServerResponse == null || (response.ServerResponse as ApiResponse)?.Successful == false)
@@ -45,15 +39,16 @@ public static class WebRequestResultExtensions
             if (response?.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 // Log it
-                Logger.LogInformationSource("Logging user out due to unauthorized response from server");
+                // TODO: inject ILogger here!!!
+                // Logger.LogInformationSource("Logging user out due to unauthorized response from server");
 
                 // Automatically log the user out
-                await ViewModelSettings.Logout();
+                await settingsViewModel.Logout();
             }
             else
             {
                 // Display error
-                await UI.ShowMessage(new MessageBoxDialogViewModel
+                await uiManager.ShowMessage(new MessageBoxDialogViewModel
                 {
                     // TODO: Localize strings
                     Title = title,

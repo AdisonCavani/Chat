@@ -1,14 +1,23 @@
 ﻿using System.Threading.Tasks;
 using Chat.Core.ApiModels.UserProfile;
 using Chat.Core.DataModels;
+using Chat.Core.DI.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using static Chat.DI.DI;
 
 namespace Chat.ViewModels.Application;
 
 public partial class ApplicationViewModel : ObservableObject
 {
+    private readonly SettingsViewModel _settingsViewModel;
+    private readonly IClientDataStore _clientDataStore;
+
+    public ApplicationViewModel(SettingsViewModel settingsViewModel, IClientDataStore clientDataStore)
+    {
+        _settingsViewModel = settingsViewModel;
+        _clientDataStore = clientDataStore;
+    }
+
     private bool settingsMenuVisible;
 
     public bool SettingsMenuVisible
@@ -17,7 +26,7 @@ public partial class ApplicationViewModel : ObservableObject
         set
         {
             if (SetProperty(ref settingsMenuVisible, value) && value)
-                Task.Run(ViewModelSettings.Load); // Reload settings
+                Task.Run(_settingsViewModel.Load); // Reload settings
         }
     }
 
@@ -78,10 +87,10 @@ public partial class ApplicationViewModel : ObservableObject
         SideMenuVisible = page == ApplicationPage.Chat;
     }
 
-    public static async Task HandleSuccessfulLoginAsync(UserProfileDetailsDto loginResult)
+    public async Task HandleSuccessfulLoginAsync(UserProfileDetailsDto loginResult)
     {
-        await ClientDataStore.SaveLoginCredentialsAsync(loginResult);
-        await ViewModelSettings.Load(); // Load new settings
-        ViewModelApplication.GoToPage(ApplicationPage.Chat);
+        await _clientDataStore.SaveLoginCredentialsAsync(loginResult);
+        await _settingsViewModel.Load(); // Load new settings
+        GoToPage(ApplicationPage.Chat);
     }
 }

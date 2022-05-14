@@ -5,7 +5,6 @@ using Chat.ViewModels.Application;
 using Chat.ViewModels.Chat.ChatMessage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using static Chat.DI.DI;
 
 namespace Chat.ViewModels.Chat.ChatList;
 
@@ -14,6 +13,13 @@ namespace Chat.ViewModels.Chat.ChatList;
 /// </summary>
 public partial class ChatListItemViewModel : ObservableObject
 {
+    private readonly ApplicationViewModel _applicationViewModel;
+
+    public ChatListItemViewModel(ApplicationViewModel applicationViewModel)
+    {
+        _applicationViewModel = applicationViewModel;
+    }
+
     [ObservableProperty]
     private string? name;
 
@@ -37,14 +43,14 @@ public partial class ChatListItemViewModel : ObservableObject
     {
         if (Name == "Jesse")
         {
-            ViewModelApplication.GoToPage(ApplicationPage.Login, new LoginViewModel
+            _applicationViewModel.GoToPage(ApplicationPage.Login, new LoginViewModel
             {
                 Email = "jesse@helloworld.com"
             });
             return;
         }
 
-        ViewModelApplication.GoToPage(ApplicationPage.Chat, new ChatMessageListViewModel
+        _applicationViewModel.GoToPage(ApplicationPage.Chat, new ChatMessageListViewModel
         {
             DisplayTitle = "Parnell, Me",
 

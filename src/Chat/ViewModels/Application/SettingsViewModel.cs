@@ -9,19 +9,22 @@ using Chat.Core.DataModels;
 using Chat.Core.DI.Interfaces;
 using Chat.Core.Extensions;
 using Chat.Core.Routes;
+using Chat.DI.UI;
 using Chat.ViewModels.Dialogs;
 using Chat.ViewModels.Input;
 using Chat.WebRequests;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Dna;
-using static Chat.DI.DI;
-using static Dna.FrameworkDI;
+using Microsoft.Extensions.Logging;
 
 namespace Chat.ViewModels.Application;
 
 public partial class SettingsViewModel : ObservableObject
 {
+    private readonly IClientDataStore _context;
+    private readonly IUIManager _uiManager;
+    private readonly ILogger<SettingsViewModel> _logger;
+
     private const string mLoadingText = "...";
 
     [ObservableProperty]
@@ -71,10 +74,17 @@ public partial class SettingsViewModel : ObservableObject
 
     public ICommand SaveEmailCommand { get; set; }
 
-    public SettingsViewModel()
+    public SettingsViewModel(
+        IClientDataStore context,
+        IUIManager uiManager,
+        ILogger<SettingsViewModel> logger)
     {
+        _context = context;
+        _uiManager = uiManager;
+        _logger = logger;
+
         // Create First Name
-        FirstName = new TextEntryViewModel
+        FirstName = new()
         {
             Label = "First Name",
             OriginalText = mLoadingText,
@@ -82,7 +92,7 @@ public partial class SettingsViewModel : ObservableObject
         };
 
         // Create Last Name
-        LastName = new TextEntryViewModel
+        LastName = new()
         {
             Label = "Last Name",
             OriginalText = mLoadingText,
@@ -90,7 +100,7 @@ public partial class SettingsViewModel : ObservableObject
         };
 
         // Create Username
-        Username = new TextEntryViewModel
+        Username = new()
         {
             Label = "Username",
             OriginalText = mLoadingText,
@@ -98,7 +108,7 @@ public partial class SettingsViewModel : ObservableObject
         };
 
         // Create Password
-        Password = new PasswordEntryViewModel
+        Password = new()
         {
             Label = "Password",
             FakePassword = "********",
@@ -106,7 +116,7 @@ public partial class SettingsViewModel : ObservableObject
         };
 
         // Create Email
-        Email = new TextEntryViewModel
+        Email = new()
         {
             Label = "Email",
             OriginalText = mLoadingText,
@@ -124,15 +134,15 @@ public partial class SettingsViewModel : ObservableObject
     }
 
     [ICommand]
-    public static void Open()
+    public void Open()
     {
-        ViewModelApplication.SettingsMenuVisible = true;
+        _applicationViewModel.SettingsMenuVisible = true;
     }
 
     [ICommand]
-    public static void Close()
+    public void Close()
     {
-        ViewModelApplication.SettingsMenuVisible = false;
+        _applicationViewModel.SettingsMenuVisible = false;
     }
 
     [ICommand]
@@ -144,14 +154,14 @@ public partial class SettingsViewModel : ObservableObject
             // TODO: Confirm the user wants to logout
 
             // Clear any user data/cache
-            await ClientDataStore.ClearAllLoginCredentialsAsync();
+            await _context.ClearAllLoginCredentialsAsync();
 
             // Clean all application level view models that contain
             // any information about the current user
             ClearUserData();
 
             // Go to login page
-            ViewModelApplication.GoToPage(ApplicationPage.Login);
+            _applicationViewModel.GoToPage(ApplicationPage.Login);
         });
     }
 
@@ -172,7 +182,7 @@ public partial class SettingsViewModel : ObservableObject
         await RunCommandAsync(() => SettingsLoading, async () =>
         {
             // Store single transcient instance of client data store
-            var scopedClientDataStore = ClientDataStore;
+            var scopedClientDataStore = _context;
 
             // Update values from local cache
             await UpdateValuesFromLocalStoreAsync(scopedClientDataStore);
@@ -193,7 +203,7 @@ public partial class SettingsViewModel : ObservableObject
                 bearerToken: token);
 
             // If the response has an error...
-            if (await result.HandleErrorIfFailedAsync("Load User Details Failed"))
+            if (await result.HandleErrorIfFailedAsync("Load User Details Failed", this, _uiManager))
                 // We are done
                 return;
 
@@ -227,8 +237,7 @@ public partial class SettingsViewModel : ObservableObject
                 // To new value
                 FirstName.OriginalText,
                 // Set Api model value
-                (apiModel, value) => apiModel.FirstName = value
-                );
+                (apiModel, value) => apiModel.FirstName = value);
         });
     }
 
@@ -246,8 +255,7 @@ public partial class SettingsViewModel : ObservableObject
                 // To new value
                 LastName.OriginalText,
                 // Set Api model value
-                (apiModel, value) => apiModel.LastName = value
-                );
+                (apiModel, value) => apiModel.LastName = value);
         });
     }
 
@@ -265,8 +273,7 @@ public partial class SettingsViewModel : ObservableObject
                 // To new value
                 Username.OriginalText,
                 // Set Api model value
-                (apiModel, value) => apiModel.Username = value
-                );
+                (apiModel, value) => apiModel.Username = value);
         });
     }
 
@@ -284,8 +291,7 @@ public partial class SettingsViewModel : ObservableObject
                 // To new value
                 Email.OriginalText,
                 // Set Api model value
-                (apiModel, value) => apiModel.Email = value
-                );
+                (apiModel, value) => apiModel.Email = value);
         });
     }
 
@@ -295,16 +301,16 @@ public partial class SettingsViewModel : ObservableObject
         return await RunCommandAsync(() => PasswordIsChanging, async () =>
         {
             // Log it
-            Logger.LogDebugSource($"Changing password...");
+            _logger.LogDebug($"Changing password...");
 
             // Get the current known credentials
-            var credentials = await ClientDataStore.GetLoginCredentialsAsync();
+            var credentials = await _context.GetLoginCredentialsAsync();
 
             // Make sure the user has entered the same password
-            if (SecureStringHelpers.Unsecure((SecureString?)Password.NewPassword) != SecureStringHelpers.Unsecure((SecureString?)Password.ConfirmPassword))
+            if (SecureStringHelpers.Unsecure(Password.NewPassword) != SecureStringHelpers.Unsecure((SecureString?)Password.ConfirmPassword))
             {
                 // Display error
-                await UI.ShowMessage(new MessageBoxDialogViewModel
+                await _uiManager.ShowMessage(new MessageBoxDialogViewModel
                 {
                     // TODO: Localize
                     Title = "Password Mismatch",
@@ -329,10 +335,10 @@ public partial class SettingsViewModel : ObservableObject
                 bearerToken: credentials.Token);
 
             // If the response has an error...
-            if (await result.HandleErrorIfFailedAsync($"Change Password"))
+            if (await result.HandleErrorIfFailedAsync($"Change Password", this, _uiManager))
             {
                 // Log it
-                Logger.LogDebugSource($"Failed to change password. {result.ErrorMessage}");
+                _logger.LogDebug($"Failed to change password. {result.ErrorMessage}");
 
                 // Return false
                 return false;
@@ -341,7 +347,7 @@ public partial class SettingsViewModel : ObservableObject
             // Otherwise, we succeeded...
 
             // Log it
-            Logger.LogDebugSource($"Successfully changed password");
+            _logger.LogDebug($"Successfully changed password");
 
             // Return successful
             return true;
@@ -366,25 +372,25 @@ public partial class SettingsViewModel : ObservableObject
         Email.OriginalText = storedCredentials?.Email ?? string.Empty;
     }
 
-    private static async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<UserProfileDetailsDto, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDto, string> setApiModel)
+    private async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<UserProfileDetailsDto, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDto, string> setApiModel)
     {
         // Log it
-        Logger.LogDebugSource($"Saving {displayName}...");
+        _logger.LogDebug($"Saving {displayName}...");
 
         // Get the current known credentials
-        var credentials = await ClientDataStore.GetLoginCredentialsAsync();
+        var credentials = await _context.GetLoginCredentialsAsync();
 
         // Get the property to update from the credentials
         var toUpdate = propertyToUpdate.GetPropertyValue(credentials);
 
         // Log it
-        Logger.LogDebugSource($"{displayName} currently {toUpdate}, updating to {newValue}");
+        _logger.LogDebug($"{displayName} currently {toUpdate}, updating to {newValue}");
 
         // Check if the value is the same. If so...
         if (toUpdate == newValue)
         {
             // Log it
-            Logger.LogDebugSource($"{displayName} is the same, ignoring");
+            _logger.LogDebug($"{displayName} is the same, ignoring");
 
             // Return true
             return true;
@@ -409,20 +415,20 @@ public partial class SettingsViewModel : ObservableObject
             bearerToken: credentials.Token);
 
         // If the response has an error...
-        if (await result.HandleErrorIfFailedAsync($"Update {displayName}"))
+        if (await result.HandleErrorIfFailedAsync($"Update {displayName}", this, _uiManager))
         {
             // Log it
-            Logger.LogDebugSource($"Failed to update {displayName}. {result.ErrorMessage}");
+            _logger.LogDebug($"Failed to update {displayName}. {result.ErrorMessage}");
 
             // Return false
             return false;
         }
 
         // Log it
-        Logger.LogDebugSource($"Successfully updated {displayName}. Saving to local database cache...");
+        _logger.LogDebug($"Successfully updated {displayName}. Saving to local database cache...");
 
         // Store the new user credentials the data store
-        await ClientDataStore.SaveLoginCredentialsAsync(credentials);
+        await _context.SaveLoginCredentialsAsync(credentials);
 
         // Return successful
         return true;

@@ -1,4 +1,4 @@
-﻿using App1.Views;
+﻿using Chat.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.ApplicationModel;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace App1;
+namespace Chat;
 
 sealed partial class App : Application
 {

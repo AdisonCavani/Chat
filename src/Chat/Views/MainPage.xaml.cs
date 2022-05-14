@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace App1.Views;
+namespace Chat.Views;
 
 public sealed partial class MainPage : Page
 {

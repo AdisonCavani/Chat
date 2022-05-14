@@ -1,8 +1,12 @@
 ﻿using Chat.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
+using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -11,29 +15,54 @@ namespace Chat;
 
 sealed partial class App : Application
 {
-    public IServiceProvider Services { get; }
+    private readonly IHost _host;
+
+    public IServiceProvider Services { get; private set; }
 
     public new static App Current => (App)Application.Current;
 
     public App()
     {
-        Services = ConfigureServices();
+        Services = ConfigureServices().BuildServiceProvider();
+
+        var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
+
+        _host = Host.CreateDefaultBuilder()
+            .UseSerilog((host, configuration) =>
+            {
+                configuration
+                    .WriteTo.Debug()
+                    .WriteTo.File(path, rollingInterval: RollingInterval.Day)
+                    .MinimumLevel.Verbose();
+            })
+            .ConfigureServices(services =>
+            {
+                services = ConfigureServices();
+            })
+            .Build();
 
         InitializeComponent();
         Suspending += OnSuspending;
     }
 
-    private static IServiceProvider ConfigureServices()
+    private IServiceCollection ConfigureServices()
     {
         IServiceCollection services = new ServiceCollection();
 
+        services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddSerilog();
+        });
+
         // services.AddSingleton<IFilesService, FilesService>();
 
-        return services.BuildServiceProvider();
+        return services;
     }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs e)
+    protected override async void OnLaunched(LaunchActivatedEventArgs e)
     {
+        await _host.StartAsync();
+
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
         if (Window.Current.Content is not Frame rootFrame)
@@ -71,8 +100,11 @@ sealed partial class App : Application
         throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
     }
 
-    private void OnSuspending(object sender, SuspendingEventArgs e)
+    private async void OnSuspending(object sender, SuspendingEventArgs e)
     {
+        await _host.StopAsync();
+        _host.Dispose();
+
         var deferral = e.SuspendingOperation.GetDeferral();
         //TODO: Save application state and stop any background activity
         deferral.Complete();

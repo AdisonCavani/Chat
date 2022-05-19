@@ -48,27 +48,15 @@ public class Startup
         services.AddSwaggerGen(c =>
         {
             c.DescribeAllParametersInCamelCase();
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat.WebApi", Version = "v1" });
-            c.AddSecurityRequirement(new()
-            {
-                {
-                    new()
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Id = JwtBearerDefaults.AuthenticationScheme,
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    }, new List<string>()
-}
-            });
-            c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+            c.SwaggerDoc("v1", new() { Title = "Chat.WebApi", Version = "v1" });
+            c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new()
             {
                 Description = "JWT Authorization header using the bearer scheme",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey
             });
+            c.OperationFilter<AuthOperationFilter>();
         });
     }
 

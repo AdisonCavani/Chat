@@ -1,7 +1,9 @@
 ﻿using Chat.Core.Models.Requests;
 using Chat.Core.Models.Responses;
+using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -104,5 +106,12 @@ public class AccountController : ControllerBase
             Token = response.Token,
             RefreshToken = response.RefreshToken,
         });
+    }
+
+    [Authorize]
+    [HttpGet("auth")]
+    public IActionResult Test()
+    {
+        return Ok();
     }
 }

@@ -1,6 +1,6 @@
-﻿using Chat.Core.Models.Responses;
-using Chat.WebApi.Models.App;
+﻿using Chat.WebApi.Models.App;
 using Chat.WebApi.Models.Entities;
+using Chat.WebApi.Models.Internal;
 using Chat.WebApi.Models.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

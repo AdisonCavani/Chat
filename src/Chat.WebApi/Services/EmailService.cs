@@ -16,23 +16,57 @@ public class EmailService
 
     public async Task<bool> SendVerificationEmail(AppUser user)
     {
-        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-        var smtpClient = new SmtpClient("localhost")
+        try
         {
-            Port = 25,
-        };
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        MailMessage mailMessage = new()
+            var smtpClient = new SmtpClient("localhost")
+            {
+                Port = 25,
+            };
+
+            MailMessage mailMessage = new()
+            {
+                From = new("chat@email.com"),
+                Body = token
+            };
+            mailMessage.To.Add(user.Email);
+
+            await smtpClient.SendMailAsync(mailMessage);
+
+            return true;
+        }
+
+        catch
         {
-            From = new("chat@email.com"),
-            Body = token
-        };
+            return false;
+        }
+    }
 
-        mailMessage.To.Add(user.Email);
+    public async Task<bool> SendChangePasswordEmail(AppUser user)
+    {
+        try
+        {
+            var smtpClient = new SmtpClient("localhost")
+            {
+                Port = 25,
+            };
 
-        await smtpClient.SendMailAsync(mailMessage);
+            MailMessage mailMessage = new()
+            {
+                From = new("chat@email.com"),
+                Body = "Your password has been changed"
+            };
+            mailMessage.To.Add(user.Email);
 
-        return true;
+            await smtpClient.SendMailAsync(mailMessage);
+
+            return true;
+        }
+
+        catch
+        {
+            return false;
+        }
     }
 }

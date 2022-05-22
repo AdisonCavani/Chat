@@ -1,12 +1,13 @@
-﻿using Chat.Core.Models.Requests;
-using Chat.Core.Models.Responses;
 ﻿using Chat.Core;
+using Chat.Core.Models.Requests;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Chat.WebApi.Controllers;
@@ -101,11 +102,53 @@ public class AccountController : ControllerBase
         if (!response.Success)
             return BadRequest(response.Errors);
 
-        return Ok(new AuthSuccessResponse
+        return Ok(new RefreshTokenDto
         {
             Token = response.Token,
             RefreshToken = response.RefreshToken,
         });
+    }
+
+    [HttpPost(ApiRoutes.Account.ResendVerificationEmail)]
+    public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto)
+    {
+        var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
+
+        if (user is null)
+            return BadRequest(); // TODO: someone could check if someone exist
+
+        var emailConfirmed = await _signInManager.UserManager.IsEmailConfirmedAsync(user);
+
+        if (emailConfirmed)
+            return Conflict("Email is already confirmed");
+
+        await _emailService.SendVerificationEmail(user);
+
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost(ApiRoutes.Account.ChangePassword)]
+    public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto dto)
+    {
+        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.NameId);
+
+        if (string.IsNullOrEmpty(uid))
+            return new StatusCodeResult(500);
+
+        var user = await _signInManager.UserManager.FindByEmailAsync(uid);
+
+        if (user is null)
+            return new StatusCodeResult(500);
+
+        var result = await _signInManager.UserManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+
+        if (!result.Succeeded)
+            return BadRequest(result.Errors);
+
+        await _emailService.SendChangePasswordEmail(user);
+
+        return Ok();
     }
 
     [Authorize]

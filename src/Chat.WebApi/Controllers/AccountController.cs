@@ -1,5 +1,6 @@
 ﻿using Chat.Core.Models.Requests;
 using Chat.Core.Models.Responses;
+﻿using Chat.Core;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services;
@@ -11,7 +12,6 @@ using System.Threading.Tasks;
 namespace Chat.WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
 public class AccountController : ControllerBase
 {
     private readonly EmailService _emailService;
@@ -25,7 +25,7 @@ public class AccountController : ControllerBase
         _signInManager = signInManager;
     }
 
-    [HttpPost("register")]
+    [HttpPost(ApiRoutes.Account.Register)]
     public async Task<IActionResult> RegisterAsync([FromBody] RegisterCredentialsDto dto)
     {
         AppUser user = new()
@@ -47,7 +47,7 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("confirmEmail")]
+    [HttpPost(ApiRoutes.Account.ConfirmEmail)]
     public async Task<IActionResult> ConfirmEmailAsync([FromQuery] ConfirmEmailDto dto)
     {
         var user = await _signInManager.UserManager.FindByIdAsync(dto.UserId);
@@ -65,7 +65,7 @@ public class AccountController : ControllerBase
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
-    [HttpPost("login")]
+    [HttpPost(ApiRoutes.Account.Login)]
     public async Task<IActionResult> LoginAsync([FromBody] LoginCredentialsDto dto)
     {
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
@@ -86,14 +86,14 @@ public class AccountController : ControllerBase
 
         var token = await _jwtService.GenerateTokenAsync(user);
 
-        return Ok(new AuthSuccessResponse
+        return Ok(new RefreshTokenDto
         {
             Token = token.Token,
             RefreshToken = token.RefreshToken,
         });
     }
 
-    [HttpPost("refreshToken")]
+    [HttpPost(ApiRoutes.Account.RefreshToken)]
     public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenDto dto)
     {
         var response = await _jwtService.RefreshTokenAsync(dto.Token, dto.RefreshToken);
@@ -109,7 +109,7 @@ public class AccountController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("auth")]
+    [HttpGet(ApiRoutes.Account.Auth)]
     public IActionResult Test()
     {
         return Ok();

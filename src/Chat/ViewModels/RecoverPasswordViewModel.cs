@@ -1,7 +1,6 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Requests;
 using Chat.Extensions;
-using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +10,6 @@ using System;
 using System.Net.Http;
 using System.Text;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Chat.ViewModels;
 
@@ -20,6 +18,8 @@ public partial class RecoverPasswordViewModel : ObservableObject
     public RecoverPasswordViewModel()
     {
         Email = App.Current.Services.GetService<LoginViewModel>().Email ?? string.Empty;
+
+        InitComponents();
     }
 
     [ObservableProperty]
@@ -91,5 +91,13 @@ public partial class RecoverPasswordViewModel : ObservableObject
 
         if (frame.CanGoBack)
             frame.GoBack();
+    }
+
+    void InitComponents()
+    {
+        InfoTitle = "Reset password";
+        InfoMessage = "Enter the email associated with your accound and we'll send an email with instructions to reset your password";
+        InfoSeverity = InfoBarSeverity.Informational;
+        InfoVisible = true;
     }
 }

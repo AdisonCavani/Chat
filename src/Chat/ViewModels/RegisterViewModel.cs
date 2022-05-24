@@ -15,8 +15,16 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Chat.ViewModels;
 
-public partial class LoginViewModel : ObservableObject
+public partial class RegisterViewModel : ObservableObject
 {
+    [ObservableProperty]
+    [AlsoNotifyChangeFor(nameof(CanExecute))]
+    string firstName;
+
+    [ObservableProperty]
+    [AlsoNotifyChangeFor(nameof(CanExecute))]
+    string lastName;
+
     [ObservableProperty]
     [AlsoNotifyChangeFor(nameof(CanExecute))]
     string email;
@@ -31,6 +39,8 @@ public partial class LoginViewModel : ObservableObject
 
     public bool CanExecute =>
         !IsRunning &&
+        !string.IsNullOrWhiteSpace(FirstName) &&
+        !string.IsNullOrWhiteSpace(lastName) &&
         Validators.IsEmailAdress(Email) &&
         !string.IsNullOrWhiteSpace(Password);
 
@@ -47,21 +57,23 @@ public partial class LoginViewModel : ObservableObject
     InfoBarSeverity infoSeverity;
 
     [ICommand]
-    async void Login()
+    async void Register()
     {
         IsRunning = true;
 
-        LoginCredentialsDto dto = new()
+        RegisterCredentialsDto dto = new()
         {
+            FirstName = FirstName,
+            LastName = LastName,
             Email = Email,
             Password = Password
         };
 
         using HttpClient client = new();
-        var response = await client.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Login}", dto);
+        var response = await client.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Register}", dto);
 
         var json = await response.Content.ReadAsStringAsync();
-        var obj = JsonConvert.DeserializeObject<ApiResponse<RefreshTokenDto>>(json);
+        var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -69,7 +81,7 @@ public partial class LoginViewModel : ObservableObject
             foreach (var error in obj.Errors)
                 sb.AppendLine(error);
 
-            InfoTitle = "Login failed";
+            InfoTitle = "Sign up failed";
             InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
             InfoSeverity = InfoBarSeverity.Error;
             InfoVisible = true;
@@ -80,16 +92,29 @@ public partial class LoginViewModel : ObservableObject
 
         IsRunning = false;
 
+        var loginVM = App.Current.Services.GetRequiredService<LoginViewModel>();
+
+        // Infobar
+        loginVM.InfoTitle = "Register successful";
+        loginVM.InfoMessage = "Now you can login using your credentials";
+        loginVM.InfoSeverity = InfoBarSeverity.Informational;
+        loginVM.InfoVisible = true;
+
+        loginVM.Email = Email;
+        loginVM.Password = string.Empty;
+
+        ClearCredentials();
+
         App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(typeof(HubPage));
+            .Navigate(typeof(LoginPage));
     }
 
     [ICommand]
-    void RecoverPassword()
+    void GoToLoginPage()
     {
         App.Current.Services.GetRequiredService<Frame>()
             .Navigate(
-                typeof(RecoverPasswordPage),
+                typeof(LoginPage),
                 null,
                 new SlideNavigationTransitionInfo
                 {
@@ -97,16 +122,11 @@ public partial class LoginViewModel : ObservableObject
                 });
     }
 
-    [ICommand]
-    void GoToRegisterPage()
+    void ClearCredentials()
     {
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(
-                typeof(RegisterPage),
-                null,
-                new SlideNavigationTransitionInfo
-                {
-                    Effect = SlideNavigationTransitionEffect.FromLeft
-                });
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        Email = string.Empty;
+        Password = string.Empty;
     }
 }

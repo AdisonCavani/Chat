@@ -57,6 +57,7 @@ sealed partial class App : Application
 
         services.AddSingleton<Frame>();
         services.AddSingleton<LoginViewModel>();
+        services.AddSingleton<RegisterViewModel>();
         services.AddSingleton<SignalrViewModel>();
         services.AddSingleton<RecoverPasswordViewModel>();
 

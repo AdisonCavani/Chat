@@ -122,7 +122,7 @@ public class JwtService
         }
     }
 
-    private bool IsJwtWithValidSecurityAlgorithm(SecurityToken? validatedToken)
+    private static bool IsJwtWithValidSecurityAlgorithm(SecurityToken? validatedToken)
     {
         return (validatedToken is JwtSecurityToken jwtSecurityToken) &&
                jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
@@ -137,9 +137,9 @@ public class JwtService
         {
             Subject = new(new Claim[]
             {
-                new(JwtRegisteredClaimNames.Sub, user.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(JwtRegisteredClaimNames.NameId, user.Id.ToString())
+                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email)
             }),
             Expires = DateTime.UtcNow.AddMinutes(_authSettings.Value.ExpireMinutes),
             Audience = _authSettings.Value.Audience,

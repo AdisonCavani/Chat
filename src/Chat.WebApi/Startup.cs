@@ -1,15 +1,17 @@
 using Chat.WebApi.Extensions;
+using Chat.WebApi.Models;
 using Chat.WebApi.Models.App;
-using Chat.WebApi.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chat.WebApi;
 
@@ -26,8 +28,7 @@ public class Startup
     {
         services.ConfigureSettings(Configuration);
 
-        services.AddScoped<EmailService>();
-        services.AddScoped<JwtService>();
+        services.RegisterServices();
 
         services.AddValidators();
 
@@ -42,7 +43,15 @@ public class Startup
             options.EnableDetailedErrors = true;
         });
 
-        services.AddControllers().AddFluentValidation();
+        services.AddControllers(options =>
+        {
+            options.Filters.Add(typeof(CustomValidationAttribute));
+        }).AddFluentValidation();
+
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
 
         services.AddSwaggerGen(c =>
         {

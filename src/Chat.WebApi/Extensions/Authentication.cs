@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace Chat.WebApi.Extensions;
@@ -11,6 +12,8 @@ public static class Authentication
 {
     public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
         TokenValidationParameters tokenValidationParameters = new()
         {
             ValidateIssuer = true,

@@ -6,7 +6,9 @@ using Chat.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -15,13 +17,13 @@ namespace Chat.WebApi.Controllers;
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private readonly EmailService _emailService;
+    private readonly EmailHandler _emailHandler;
     private readonly JwtService _jwtService;
     private readonly SignInManager<AppUser> _signInManager;
 
-    public AccountController(EmailService emailService, JwtService jwtService, SignInManager<AppUser> signInManager)
+    public AccountController(EmailHandler emailHandler, JwtService jwtService, SignInManager<AppUser> signInManager)
     {
-        _emailService = emailService;
+        _emailHandler = emailHandler;
         _jwtService = jwtService;
         _signInManager = signInManager;
     }
@@ -40,30 +42,58 @@ public class AccountController : ControllerBase
         var result = await _signInManager.UserManager.CreateAsync(user, dto.Password);
 
         if (!result.Succeeded)
-            return BadRequest(result.Errors);
+        {
+            return BadRequest(new ApiResponse
+            {
+                Errors = result.Errors.Select(x => x.Description)
+            });
+        }
 
         var createdUser = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
-        await _emailService.SendVerificationEmail(createdUser);
 
-        return Ok();
+        if (createdUser is null)
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+
+        var emailHandled = await _emailHandler.SendVerificationEmailAsync(user);
+
+        return emailHandled
+            ? Ok()
+            : StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
     }
 
-    [HttpPost(ApiRoutes.Account.ConfirmEmail)]
+    [HttpGet(ApiRoutes.Account.ConfirmEmail)]
     public async Task<IActionResult> ConfirmEmailAsync([FromQuery] ConfirmEmailDto dto)
     {
         var user = await _signInManager.UserManager.FindByIdAsync(dto.UserId);
 
         if (user is null)
-            return BadRequest();
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Couldn't find user associated with this id"}
+            });
 
         var emailConfirmed = await _signInManager.UserManager.IsEmailConfirmedAsync(user);
 
         if (emailConfirmed)
-            return Conflict("Email is already confirmed");
+            return Conflict(new ApiResponse
+            {
+                Errors = new[] {"Email is already confirmed"}
+            });
 
         var result = await _signInManager.UserManager.ConfirmEmailAsync(user, dto.Token);
 
-        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        return result.Succeeded
+            ? Ok()
+            : BadRequest(new ApiResponse
+            {
+                Errors = result.Errors.Select(x => x.Description)
+            });
     }
 
     [HttpPost(ApiRoutes.Account.Login)]
@@ -72,25 +102,40 @@ public class AccountController : ControllerBase
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
 
         if (result.IsNotAllowed)
-            return BadRequest("Confirm your email");
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Confirm your email"}
+            });
 
         if (result.IsLockedOut)
-            return Ok("User is locked out");
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"User is locked out"}
+            });
 
         if (!result.Succeeded)
-            return BadRequest();
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Wrong credentials"}
+            });
 
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return new StatusCodeResult(500);
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
 
         var token = await _jwtService.GenerateTokenAsync(user);
 
-        return Ok(new RefreshTokenDto
+        return Ok(new ApiResponse<RefreshTokenDto>
         {
-            Token = token.Token,
-            RefreshToken = token.RefreshToken,
+            Result = new()
+            {
+                Token = token.Token,
+                RefreshToken = token.RefreshToken,
+            }
         });
     }
 
@@ -100,7 +145,10 @@ public class AccountController : ControllerBase
         var response = await _jwtService.RefreshTokenAsync(dto.Token, dto.RefreshToken);
 
         if (!response.Success)
-            return BadRequest(response.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Errors = response.Errors
+            });
 
         return Ok(new RefreshTokenDto
         {
@@ -115,40 +163,117 @@ public class AccountController : ControllerBase
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return BadRequest(); // TODO: someone could check if someone exist
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Couldn't find user associated with this email"}
+            });
 
         var emailConfirmed = await _signInManager.UserManager.IsEmailConfirmedAsync(user);
 
         if (emailConfirmed)
-            return Conflict("Email is already confirmed");
+            return Conflict(new ApiResponse
+            {
+                Errors = new[] {"Email is already confirmed"}
+            });
 
-        await _emailService.SendVerificationEmail(user);
+        var token = await _signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
 
-        return Ok();
+        if (token is null)
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+
+        var result = await _emailHandler.SendVerificationEmailAsync(user);
+
+        return result
+            ? Ok()
+            : StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+    }
+
+    [HttpPost(ApiRoutes.Account.PasswordRecovery)]
+    public async Task<IActionResult> SendPasswordRecoveryEmailAsync([FromBody] PasswordRecoveryDto dto)
+    {
+        var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
+
+        if (user is null)
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Couldn't find user associated with this email"}
+            });
+
+        var emailHandled = await _emailHandler.SendPasswordRecoveryEmailAsync(user);
+
+        return emailHandled
+            ? Ok()
+            : StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+    }
+
+    [HttpPost(ApiRoutes.Account.ResetPassword)]
+    public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordDto dto)
+    {
+        var user = await _signInManager.UserManager.FindByIdAsync(dto.UserId);
+
+        if (user is null)
+            return BadRequest(new ApiResponse
+            {
+                Errors = new[] {"Couldn't find user associated with this id"}
+            });
+
+        var result = await _signInManager.UserManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+
+        return result.Succeeded
+            ? Ok()
+            : BadRequest(new ApiResponse
+            {
+                Errors = result.Errors.Select(x => x.Description)
+            });
     }
 
     [Authorize]
     [HttpPost(ApiRoutes.Account.ChangePassword)]
     public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto dto)
     {
-        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.NameId);
+        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         if (string.IsNullOrEmpty(uid))
-            return new StatusCodeResult(500);
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
 
-        var user = await _signInManager.UserManager.FindByEmailAsync(uid);
+        var user = await _signInManager.UserManager.FindByIdAsync(uid);
 
         if (user is null)
-            return new StatusCodeResult(500);
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
 
-        var result = await _signInManager.UserManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+        var result =
+            await _signInManager.UserManager.ChangePasswordAsync(user, dto.CurrentPassword,
+                dto.NewPassword); // FIX: password might be the same!
 
         if (!result.Succeeded)
-            return BadRequest(result.Errors);
+            return BadRequest(new ApiResponse
+            {
+                Errors = result.Errors.Select(x => x.Description)
+            });
 
-        await _emailService.SendChangePasswordEmail(user);
+        var emailHandled = await _emailHandler.SendPasswordChangedAlertAsync(user);
 
-        return Ok();
+        return emailHandled
+            ? Ok()
+            : StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
     }
 
     [Authorize]

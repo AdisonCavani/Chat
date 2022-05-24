@@ -10,5 +10,6 @@ public static class Settings
     {
         services.Configure<DbSettings>(configuration.GetSection(nameof(DbSettings)));
         services.Configure<AuthSettings>(configuration.GetSection(nameof(AuthSettings)));
+        services.Configure<SmtpSettings>(configuration.GetSection(nameof(SmtpSettings)));
     }
 }

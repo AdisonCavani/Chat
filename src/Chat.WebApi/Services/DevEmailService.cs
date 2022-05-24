@@ -1,23 +1,13 @@
-﻿using Chat.WebApi.Models.Settings;
-using Chat.WebApi.Services.Interfaces;
+﻿using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
-using MailKit.Security;
-using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
 using System.Threading.Tasks;
 
 namespace Chat.WebApi.Services;
 
-public class EmailService : IEmailService
+public class DevEmailService : IEmailService
 {
-    private readonly IOptionsSnapshot<SmtpSettings> _smtpSettings;
-
-    public EmailService(IOptionsSnapshot<SmtpSettings> smtpSettings)
-    {
-        _smtpSettings = smtpSettings;
-    }
-
     public async Task<bool> SendEmailAsync(
        string receiverName,
        string receiverEmail,
@@ -28,7 +18,7 @@ public class EmailService : IEmailService
         try
         {
             MimeMessage message = new();
-            message.From.Add(new MailboxAddress(_smtpSettings.Value.Name, _smtpSettings.Value.Email));
+            message.From.Add(new MailboxAddress("Papercut", "chat@papercut.com"));
             message.To.Add(new MailboxAddress(receiverName, receiverEmail));
             message.Subject = subject;
 
@@ -39,8 +29,7 @@ public class EmailService : IEmailService
 
             // TODO: use cancellaction token!
             var client = new SmtpClient();
-            await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port, SecureSocketOptions.Auto);
-            await client.AuthenticateAsync(_smtpSettings.Value.Email, _smtpSettings.Value.Password);
+            await client.ConnectAsync("localhost");
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
 

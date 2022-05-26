@@ -11,4 +11,12 @@ public class AppDbContext : DbContext
     {
 
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserCredentials>()
+            .HasKey(c => c.Email);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

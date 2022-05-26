@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Chat.Core.Models.Entities;
 
 namespace Chat.WebApi.Controllers;
 
@@ -278,8 +279,32 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet(ApiRoutes.Account.Auth)]
-    public IActionResult Test()
+    public async Task<ActionResult<UserProfile>> GetUserDetails()
     {
-        return Ok();
+        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+        if (string.IsNullOrEmpty(uid))
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+
+        var user = await _signInManager.UserManager.FindByIdAsync(uid);
+        
+        if (user is null)
+            return StatusCode(500, new ApiResponse
+            {
+                Errors = new[] {"Oops! Something went wrong"}
+            });
+
+        return Ok(new ApiResponse<UserProfile>
+        {
+            Result = new()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            }
+        });
     }
 }

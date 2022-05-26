@@ -1,14 +1,18 @@
 ﻿using Chat.Core;
+using Chat.Core.Models.Entities;
 using Chat.Core.Models.Requests;
+using Chat.Db.Models.Entities;
 using Chat.Extensions;
+using Chat.Services;
 using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -17,6 +21,15 @@ namespace Chat.ViewModels;
 
 public partial class LoginViewModel : ObservableObject
 {
+    private readonly Frame _frame;
+    private readonly UserCredentialsManager _context;
+
+    public LoginViewModel(Frame frame, UserCredentialsManager context)
+    {
+        _frame = frame;
+        _context = context;
+    }
+
     [ObservableProperty]
     [AlsoNotifyChangeFor(nameof(CanExecute))]
     string email;
@@ -73,22 +86,61 @@ public partial class LoginViewModel : ObservableObject
             InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
             InfoSeverity = InfoBarSeverity.Error;
             InfoVisible = true;
+            IsRunning = false;
+            return;
+        }
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", obj.Result.Token);
+        var response2 = await client.GetAsync($"https://localhost:5001/{ApiRoutes.Account.Auth}");
+
+        var json2 = await response2.Content.ReadAsStringAsync();
+        var obj2 = JsonConvert.DeserializeObject<ApiResponse<UserProfile>>(json2);
+
+        if (!response2.IsSuccessStatusCode)
+        {
+            StringBuilder sb = new();
+            foreach (var error in obj2.Errors)
+                sb.AppendLine(error);
+
+            InfoTitle = "Login failed";
+            InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
+            InfoSeverity = InfoBarSeverity.Error;
+            InfoVisible = true;
+
+            IsRunning = false;
+            return;
+        }
+
+        UserCredentials credentials = new()
+        {
+            Email = obj2.Result.Email,
+            FirstName = obj2.Result.FirstName,
+            LastName = obj2.Result.LastName,
+            Token = obj.Result.Token,
+            RefreshToken = obj.Result.RefreshToken
+        };
+
+        var saved = await _context.SaveUserCredentials(credentials);
+
+        if (!saved)
+        {
+            InfoTitle = "Login failed";
+            InfoMessage = "Something went wrong during saving credentials";
+            InfoSeverity = InfoBarSeverity.Error;
+            InfoVisible = true;
 
             IsRunning = false;
             return;
         }
 
         IsRunning = false;
-
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(typeof(HubPage));
+        _frame.Navigate(typeof(HubPage));
     }
 
     [ICommand]
     void RecoverPassword()
     {
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(
+        _frame.Navigate(
                 typeof(RecoverPasswordPage),
                 null,
                 new SlideNavigationTransitionInfo
@@ -100,8 +152,7 @@ public partial class LoginViewModel : ObservableObject
     [ICommand]
     void GoToRegisterPage()
     {
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(
+        _frame.Navigate(
                 typeof(RegisterPage),
                 null,
                 new SlideNavigationTransitionInfo

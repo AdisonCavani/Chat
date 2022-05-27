@@ -34,7 +34,7 @@ public partial class SignalrViewModel : ObservableObject
     public ObservableCollection<string> Messages { get; private set; } = new();
 
     [ICommand]
-    async void OpenConnection()
+    async Task OpenConnection()
     {
         connection.On<string, string>("ReceiveMessage", (user, message) =>
         {
@@ -54,7 +54,7 @@ public partial class SignalrViewModel : ObservableObject
     }
 
     [ICommand]
-    async void SendMessage()
+    async Task SendMessage()
     {
         try
         {

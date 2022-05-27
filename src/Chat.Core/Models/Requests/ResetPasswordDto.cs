@@ -2,7 +2,7 @@
 
 public class ResetPasswordDto
 {
-    public int UserId { get; init; }
+    public string Email { get; init; }
 
     public string Token { get; init; }
 

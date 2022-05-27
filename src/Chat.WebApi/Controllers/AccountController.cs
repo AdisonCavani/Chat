@@ -158,7 +158,7 @@ public class AccountController : ControllerBase
         });
     }
 
-    [HttpPost(ApiRoutes.Account.ResendVerificationEmail)]
+    [HttpGet(ApiRoutes.Account.ResendVerificationEmail)]
     public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto)
     {
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
@@ -195,8 +195,8 @@ public class AccountController : ControllerBase
             });
     }
 
-    [HttpPost(ApiRoutes.Account.PasswordRecovery)]
-    public async Task<IActionResult> SendPasswordRecoveryEmailAsync([FromBody] PasswordRecoveryDto dto)
+    [HttpGet(ApiRoutes.Account.PasswordRecovery)]
+    public async Task<IActionResult> SendPasswordRecoveryEmailAsync([FromQuery] PasswordRecoveryDto dto)
     {
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
@@ -219,7 +219,7 @@ public class AccountController : ControllerBase
     [HttpPost(ApiRoutes.Account.ResetPassword)]
     public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordDto dto)
     {
-        var user = await _signInManager.UserManager.FindByIdAsync(dto.UserId);
+        var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
             return BadRequest(new ApiResponse

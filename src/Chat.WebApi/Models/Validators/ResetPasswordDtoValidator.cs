@@ -1,4 +1,5 @@
-﻿using Chat.Core.Models.Requests;
+﻿using System;
+using Chat.Core.Models.Requests;
 using FluentValidation;
 using System.Linq;
 
@@ -8,11 +9,21 @@ public class ResetPasswordDtoValidator : AbstractValidator<ResetPasswordDto>
 {
     public ResetPasswordDtoValidator()
     {
-        RuleFor(x => x.UserId)
-            .NotEmpty();
+        RuleFor(x => x.Email)
+            .EmailAddress();
 
         RuleFor(x => x.Token)
-            .NotEmpty();
+            .NotEmpty()
+            .Custom((context, validation) =>
+            {
+                if (context.Length != 6)
+                    validation.AddFailure("Token", "Token must be in 6 digit format");
+            })
+            .Custom((context, validation) =>
+            {
+                if (!context.All(char.IsNumber))
+                    validation.AddFailure("Token", "Token can only contain digits");
+            });
 
         RuleFor(x => x.NewPassword)
             .NotEmpty()
@@ -22,7 +33,7 @@ public class ResetPasswordDtoValidator : AbstractValidator<ResetPasswordDto>
             .Matches(@"[0-9]+").WithMessage("Password must contain at least one number.")
             .Custom((value, validation) =>
             {
-                if (!value.Any(c => !char.IsLetterOrDigit(c)))
+                if (value.All(char.IsLetterOrDigit))
                     validation.AddFailure("Password must contain at least one non alphanumeric character.");
             });
 

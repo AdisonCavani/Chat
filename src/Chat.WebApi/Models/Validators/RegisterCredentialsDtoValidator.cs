@@ -34,7 +34,7 @@ public class RegisterCredentialsDtoValidator : AbstractValidator<RegisterCredent
             .Matches(@"[0-9]+").WithMessage("Password must contain at least one number.")
             .Custom((value, validation) =>
             {
-                if (!value.Any(c => !char.IsLetterOrDigit(c)))
+                if (value.All(char.IsLetterOrDigit))
                     validation.AddFailure("Password must contain at least one non alphanumeric character.");
             });
 

@@ -3,6 +3,7 @@ using Chat.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Chat.WebApi.Services;
 
 namespace Chat.WebApi.Extensions;
 
@@ -10,9 +11,13 @@ public static class Identity
 {
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<AppUser, AppRole>()
+        services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProvider.ProviderKey;
+            })
             .AddEntityFrameworkStores<AppDbContext>()
-            .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
+            .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
+            .AddTokenProvider<PasswordResetTokenProvider>(PasswordResetTokenProvider.ProviderKey);
 
         services.Configure<IdentityOptions>(options =>
         {

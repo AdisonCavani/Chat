@@ -1,5 +1,4 @@
 ﻿using Chat.Core;
-using Chat.Core.Models.Requests;
 using Chat.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace Chat.ViewModels;
@@ -23,12 +23,12 @@ public partial class RecoverPasswordViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    [AlsoNotifyChangeFor(nameof(CanRecover))]
+    [AlsoNotifyChangeFor(nameof(CanExecute))]
     string email;
 
     [ObservableProperty]
-    [AlsoNotifyChangeFor(nameof(CanRecover))]
-    bool recoveryRunning;
+    [AlsoNotifyChangeFor(nameof(CanExecute))]
+    bool isRunning;
 
     [ObservableProperty]
     bool infoVisible;
@@ -42,46 +42,37 @@ public partial class RecoverPasswordViewModel : ObservableObject
     [ObservableProperty]
     InfoBarSeverity infoSeverity;
 
-    public bool CanRecover => !RecoveryRunning && Validators.IsEmailAdress(Email);
+    public bool CanExecute => !IsRunning && Validators.IsEmailAdress(Email);
 
     [ICommand]
-    async void RecoverPassword()
+    async Task SendEmail()
     {
-        RecoveryRunning = true;
-
-        PasswordRecoveryDto dto = new()
-        {
-            Email = Email
-        };
+        IsRunning = true;
 
         using HttpClient client = new();
-        var response = await client.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.PasswordRecovery}", dto);
+        var response = await client.GetAsync($"https://localhost:5001/{ApiRoutes.Account.PasswordRecovery}?email={Email}");
 
         var json = await response.Content.ReadAsStringAsync();
         var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
 
         if (!response.IsSuccessStatusCode)
         {
-            StringBuilder sb = new();
-            foreach (var error in obj.Errors)
-                sb.AppendLine(error);
-
-            InfoTitle = "Recovery failed";
-            InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
-            InfoSeverity = InfoBarSeverity.Error;
-            InfoVisible = true;
-            RecoveryRunning = false;
-
+            HandleFailure(obj);
             return;
         }
 
-        // TODO: handle navigation
         InfoTitle = "Recovery succeeded";
         InfoMessage = "We have sent a password recover instructions to your email";
         InfoSeverity = InfoBarSeverity.Success;
         InfoVisible = true;
 
-        RecoveryRunning = false;
+        IsRunning = false;
+    }
+
+    [ICommand]
+    void RecoverPassword()
+    {
+
     }
 
     [ICommand]
@@ -99,5 +90,19 @@ public partial class RecoverPasswordViewModel : ObservableObject
         InfoMessage = "Enter the email associated with your accound and we'll send an email with instructions to reset your password";
         InfoSeverity = InfoBarSeverity.Informational;
         InfoVisible = true;
+    }
+
+    void HandleFailure(ApiResponse response)
+    {
+        StringBuilder sb = new();
+        foreach (var error in response.Errors)
+            sb.AppendLine(error);
+
+        InfoTitle = "Login failed";
+        InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
+        InfoSeverity = InfoBarSeverity.Error;
+        InfoVisible = true;
+
+        IsRunning = false;
     }
 }

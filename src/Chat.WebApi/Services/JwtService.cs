@@ -82,10 +82,25 @@ public class JwtService
         // TODO: invalidate all tokens for security
         // SEE: https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/#Refresh-Token-Automatic-Reuse-Detection
         if (storedRefreshToken.Used)
+        {
+            var usedToken = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.JwtId == storedRefreshToken.JwtId);
+
+            if (usedToken is null)
+                return new()
+                {
+                    Errors = new[] { "This refresh token has been used" }
+                };
+
+            await _context.RefreshTokens
+                .Where(x => x.UserId == usedToken.UserId)
+                .ForEachAsync(c => c.Invalidated = true);
+            await _context.SaveChangesAsync();
+
             return new()
             {
                 Errors = new[] { "This refresh token has been used" }
             };
+        }
 
         if (storedRefreshToken.JwtId != jti)
             return new()

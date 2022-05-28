@@ -5,6 +5,7 @@ using Chat.Db.Models.Entities;
 using Chat.Extensions;
 using Chat.Services;
 using Chat.Views;
+using Chat.Views.Password;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -71,7 +72,7 @@ public partial class LoginViewModel : ObservableObject
     void RecoverPassword()
     {
         _frame.Navigate(
-                typeof(RecoverPasswordPage),
+                typeof(RecoverPage),
                 null,
                 new SlideNavigationTransitionInfo
                 {
@@ -138,7 +139,7 @@ public partial class LoginViewModel : ObservableObject
     void HandleFailure<T>(ApiResponse<T> response)
     {
         StringBuilder sb = new();
-        foreach (var error in response.Errors)
+        foreach (var error in response?.Errors)
             sb.AppendLine(error);
 
         InfoTitle = "Login failed";

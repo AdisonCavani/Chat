@@ -128,11 +128,17 @@
     <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\SignalrViewModel.cs" />
+    <Compile Include="Views\Password\TokenPage.xaml.cs">
+      <DependentUpon>TokenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Password\ChangePage.xaml.cs">
+      <DependentUpon>ChangePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RecoverPasswordPage.xaml.cs">
-      <DependentUpon>RecoverPasswordPage.xaml</DependentUpon>
+    <Compile Include="Views\Password\RecoverPage.xaml.cs">
+      <DependentUpon>RecoverPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -162,11 +168,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Password\TokenPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Password\ChangePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\RegisterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\RecoverPasswordPage.xaml">
+    <Page Include="Views\Password\RecoverPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

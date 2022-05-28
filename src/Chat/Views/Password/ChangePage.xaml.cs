@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml.Controls;
 
-namespace Chat.Views;
+namespace Chat.Views.Password;
 
-public sealed partial class RecoverPasswordPage : Page
+public sealed partial class ChangePage : Page
 {
-    public RecoverPasswordPage()
+    public ChangePage()
     {
         DataContext = App.Current.Services.GetRequiredService<RecoverPasswordViewModel>();
 

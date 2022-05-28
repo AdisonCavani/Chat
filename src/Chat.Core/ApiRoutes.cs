@@ -12,10 +12,18 @@ public static class ApiRoutes
         public const string ConfirmEmail = $"{endpoint}/confirmEmail";
         public const string Register = $"{endpoint}/register";
         public const string RefreshToken = $"{endpoint}/refreshToken";
-        public const string PasswordRecovery = $"{endpoint}/passwordRecovery";
-        public const string ResetPassword = $"{endpoint}/resetPassword";
         public const string ResendVerificationEmail = $"{endpoint}/resendVerificationEmail";
-        public const string ChangePassword = $"{endpoint}/changePassword";
         public const string Auth = $"{endpoint}/auth";
+
+        public static class Password
+        {
+            private const string endpoint = $"{Account.endpoint}/password";
+
+            public const string SendRecoveryEmail = $"{endpoint}/recovery";
+            public const string VerifyToken = $"{endpoint}/verifyToken";
+            public const string Reset = $"{endpoint}/reset";
+
+            public const string Change = $"{endpoint}/change";
+        }
     }
 }

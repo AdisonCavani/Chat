@@ -60,7 +60,7 @@ public class EmailHandler
         var name = $"{user.FirstName} {user.LastName}";
         var topic = "Password recovery";
 
-        var body = $"<p>UserId: {user.Id}</br>Token: {HttpUtility.UrlEncode(token)}</p>";
+        var body = $"<p>Token: {HttpUtility.UrlEncode(token)}</p>";
 
         var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body);
 

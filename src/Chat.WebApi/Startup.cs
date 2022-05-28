@@ -1,5 +1,4 @@
 using Chat.WebApi.Extensions;
-using Chat.WebApi.Models;
 using Chat.WebApi.Models.App;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Chat.WebApi;
 

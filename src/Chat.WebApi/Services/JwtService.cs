@@ -49,7 +49,8 @@ public class JwtService
                 Errors = new[] { "Invalid token" }
             };
 
-        var expirationDataUnix = long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+        var expirationDataUnix =
+            long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
         var expirationDateTimeUtc = DateTime.UnixEpoch.AddSeconds(expirationDataUnix);
 
         if (expirationDateTimeUtc > DateTime.UtcNow)
@@ -154,7 +155,7 @@ public class JwtService
             {
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Email)
+                new(JwtRegisteredClaimNames.Email, user.Email),
             }),
             Expires = DateTime.UtcNow.AddMinutes(_authSettings.Value.ExpireMinutes),
             Audience = _authSettings.Value.Audience,

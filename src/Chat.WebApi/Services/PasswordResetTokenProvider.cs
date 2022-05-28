@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Chat.WebApi.Models.Entities;
+﻿using Chat.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace Chat.WebApi.Services;
 

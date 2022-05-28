@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Chat.WebApi.Models.Internal;
+
 public class AuthenticationResult
 {
     public string Token { get; set; }

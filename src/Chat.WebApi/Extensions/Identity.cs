@@ -1,9 +1,9 @@
 ﻿using Chat.WebApi.Models.App;
 using Chat.WebApi.Models.Entities;
+using Chat.WebApi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Chat.WebApi.Services;
 
 namespace Chat.WebApi.Extensions;
 

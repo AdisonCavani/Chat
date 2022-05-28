@@ -1,5 +1,4 @@
-﻿using System;
-using Chat.Core.Models.Requests;
+﻿using Chat.Core.Models.Requests;
 using FluentValidation;
 using System.Linq;
 

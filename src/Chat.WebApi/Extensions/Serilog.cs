@@ -7,7 +7,7 @@ public static class Serilog
 {
     public static IHostBuilder ConfigureSerilog(this IHostBuilder builder)
     {
-        builder.UseSerilog((host, configuration) =>
+        builder.UseSerilog((_, configuration) =>
         {
             configuration // TODO: Configure serilog
 #if DEBUG

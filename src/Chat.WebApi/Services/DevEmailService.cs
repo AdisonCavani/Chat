@@ -27,7 +27,7 @@ public class DevEmailService : IEmailService
                 Text = body
             };
 
-            // TODO: use cancellaction token!
+            // TODO: use cancellation token!
             var client = new SmtpClient();
             await client.ConnectAsync("localhost");
             await client.SendAsync(message);

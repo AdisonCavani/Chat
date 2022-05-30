@@ -1,7 +1,6 @@
 ﻿using Chat.WebApi.Models.Settings;
 using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -37,9 +36,9 @@ public class EmailService : IEmailService
                 Text = body
             };
 
-            // TODO: use cancellaction token!
+            // TODO: use cancellation token!
             var client = new SmtpClient();
-            await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port, SecureSocketOptions.Auto);
+            await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port);
             await client.AuthenticateAsync(_smtpSettings.Value.Email, _smtpSettings.Value.Password);
             await client.SendAsync(message);
             await client.DisconnectAsync(true);

@@ -15,7 +15,7 @@ public class AuthOperationFilter : IOperationFilter
             .Union(context.MethodInfo.GetCustomAttributes(true))
             .OfType<AuthorizeAttribute>();
 
-        if (authAttributes.Any())
+        if (authAttributes is not null && authAttributes.Any())
         {
             var securityRequirement = new OpenApiSecurityRequirement()
             {

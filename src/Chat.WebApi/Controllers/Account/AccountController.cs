@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
 namespace Chat.WebApi.Controllers.Account;
 
@@ -42,29 +43,21 @@ public class AccountController : ControllerBase
         var result = await _signInManager.UserManager.CreateAsync(user, dto.Password);
 
         if (!result.Succeeded)
-        {
             return BadRequest(new ApiResponse
             {
                 Errors = result.Errors.Select(x => x.Description)
             });
-        }
 
         var createdUser = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (createdUser is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var emailHandled = await _emailHandler.SendVerificationEmailAsync(user);
 
         return emailHandled
             ? Ok()
-            : StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            : InternalServerError();
     }
 
     [HttpGet(ApiRoutes.Account.ConfirmEmail)]
@@ -97,7 +90,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Login)]
-    public async Task<IActionResult> LoginAsync([FromBody] LoginCredentialsDto dto)
+    public async Task<ActionResult<RefreshTokenDto>> LoginAsync([FromBody] LoginCredentialsDto dto)
     {
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
 
@@ -122,10 +115,7 @@ public class AccountController : ControllerBase
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var token = await _jwtService.GenerateTokenAsync(user);
 
@@ -140,7 +130,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.RefreshToken)]
-    public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenDto dto)
+    public async Task<ActionResult<RefreshTokenDto>> RefreshTokenAsync([FromBody] RefreshTokenDto dto)
     {
         var response = await _jwtService.RefreshTokenAsync(dto.Token, dto.RefreshToken);
 
@@ -179,19 +169,13 @@ public class AccountController : ControllerBase
         var token = await _signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
 
         if (token is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var result = await _emailHandler.SendVerificationEmailAsync(user);
 
         return result
             ? Ok()
-            : StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            : InternalServerError();
     }
 
     [Authorize]
@@ -201,18 +185,12 @@ public class AccountController : ControllerBase
         var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         if (string.IsNullOrEmpty(uid))
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var user = await _signInManager.UserManager.FindByIdAsync(uid);
 
         if (user is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         return Ok(new ApiResponse<UserProfile>
         {

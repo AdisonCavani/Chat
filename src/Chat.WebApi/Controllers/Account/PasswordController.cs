@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
 namespace Chat.WebApi.Controllers.Account;
 
@@ -39,10 +40,7 @@ public class PasswordController : ControllerBase
 
         return emailHandled
             ? Ok()
-            : StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            : InternalServerError();
     }
 
     [HttpPost(ApiRoutes.Account.Password.VerifyToken)]
@@ -72,10 +70,7 @@ public class PasswordController : ControllerBase
         var user = await _userManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var result =
             await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
@@ -90,10 +85,7 @@ public class PasswordController : ControllerBase
 
         return emailHandled
             ? Ok()
-            : StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            : InternalServerError();
     }
 
     [Authorize]
@@ -103,18 +95,12 @@ public class PasswordController : ControllerBase
         var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         if (string.IsNullOrEmpty(uid))
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var user = await _userManager.FindByIdAsync(uid);
 
         if (user is null)
-            return StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            return InternalServerError();
 
         var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword,
             dto.NewPassword); // TODO: password might be the same!
@@ -129,9 +115,6 @@ public class PasswordController : ControllerBase
 
         return emailHandled
             ? Ok()
-            : StatusCode(500, new ApiResponse
-            {
-                Errors = new[] { "Oops! Something went wrong" }
-            });
+            : InternalServerError();
     }
 }

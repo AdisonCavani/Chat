@@ -1,9 +1,12 @@
+using Chat.Core;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.App;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -73,12 +76,31 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat.WebApi v1"));
+            app.UseExceptionHandler(a => a.Run(async handler =>
+            {
+                var exceptionHandlerPathFeature = handler.Features.Get<IExceptionHandlerPathFeature>();
+                var errorMsg = exceptionHandlerPathFeature?.Error?.Message;
+
+                if (!string.IsNullOrEmpty(errorMsg))
+                    await handler.Response.WriteAsJsonAsync(new ApiResponse
+                    {
+                        Errors = new[] { errorMsg }
+                    });
+            }));
         }
 
         if (context.Database.IsRelational())
             context.Database.Migrate();
 
         app.UseHttpsRedirection();
+
+        app.UseExceptionHandler(a => a.Run(async handler =>
+        {
+            await handler.Response.WriteAsJsonAsync(new ApiResponse
+            {
+                Errors = new[] { "Oops! Something went wrong" }
+            });
+        }));
 
         app.UseRouting();
 

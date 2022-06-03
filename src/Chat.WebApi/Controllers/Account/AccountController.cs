@@ -7,6 +7,7 @@ using Chat.WebApi.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
@@ -27,7 +28,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Register)]
-    public async Task<IActionResult> RegisterAsync([FromBody] RegisterCredentialsDto dto)
+    public async Task<IActionResult> RegisterAsync([FromBody] RegisterCredentialsDto dto, CancellationToken token)
     {
         AppUser user = new()
         {
@@ -50,7 +51,7 @@ public class AccountController : ControllerBase
         if (createdUser is null)
             return InternalServerError();
 
-        var emailHandled = await _emailHandler.SendVerificationEmailAsync(user);
+        var emailHandled = await _emailHandler.SendVerificationEmailAsync(user, token);
 
         return emailHandled
             ? Ok()
@@ -126,7 +127,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet(ApiRoutes.Account.ResendVerificationEmail)]
-    public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto)
+    public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto, CancellationToken token)
     {
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
@@ -144,7 +145,7 @@ public class AccountController : ControllerBase
                 Errors = new[] { "Email is already confirmed" }
             });
 
-        var result = await _emailHandler.SendVerificationEmailAsync(user);
+        var result = await _emailHandler.SendVerificationEmailAsync(user, token);
 
         return result
             ? Ok()

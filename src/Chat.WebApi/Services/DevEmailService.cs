@@ -1,4 +1,5 @@
-﻿using Chat.WebApi.Services.Interfaces;
+﻿using System.Threading;
+using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
@@ -9,11 +10,12 @@ namespace Chat.WebApi.Services;
 public class DevEmailService : IEmailService
 {
     public async Task<bool> SendEmailAsync(
-       string receiverName,
-       string receiverEmail,
-       string subject,
-       string body,
-       bool html = true)
+        string receiverName,
+        string receiverEmail,
+        string subject,
+        string body,
+        bool html = true,
+        CancellationToken token = default)
     {
         try
         {
@@ -26,12 +28,11 @@ public class DevEmailService : IEmailService
             {
                 Text = body
             };
-
-            // TODO: use cancellation token!
+            
             var client = new SmtpClient();
-            await client.ConnectAsync("localhost");
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            await client.ConnectAsync("localhost", cancellationToken: token);
+            await client.SendAsync(message, token);
+            await client.DisconnectAsync(true, token);
 
             return true;
         }

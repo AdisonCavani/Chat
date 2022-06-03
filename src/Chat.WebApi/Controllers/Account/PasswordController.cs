@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
@@ -65,7 +66,7 @@ public class PasswordController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Password.Reset)]
-    public async Task<IActionResult> ResetAsync([FromBody] ResetPasswordDto dto)
+    public async Task<IActionResult> ResetAsync([FromBody] ResetPasswordDto dto, CancellationToken token)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
 
@@ -81,7 +82,7 @@ public class PasswordController : ControllerBase
                 Errors = result.Errors.Select(x => x.Description)
             });
 
-        var emailHandled = await _emailHandler.SendPasswordChangedAlertAsync(user);
+        var emailHandled = await _emailHandler.SendPasswordChangedAlertAsync(user, token);
 
         return emailHandled
             ? Ok()
@@ -90,7 +91,7 @@ public class PasswordController : ControllerBase
 
     [Authorize]
     [HttpPost(ApiRoutes.Account.Password.Change)]
-    public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto dto)
+    public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto dto, CancellationToken token)
     {
         var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
@@ -111,7 +112,7 @@ public class PasswordController : ControllerBase
                 Errors = result.Errors.Select(x => x.Description)
             });
 
-        var emailHandled = await _emailHandler.SendPasswordChangedAlertAsync(user);
+        var emailHandled = await _emailHandler.SendPasswordChangedAlertAsync(user, token);
 
         return emailHandled
             ? Ok()

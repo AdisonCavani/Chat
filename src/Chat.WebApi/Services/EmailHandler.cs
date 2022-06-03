@@ -1,4 +1,5 @@
-﻿using Chat.Core;
+﻿using System.Threading;
+using Chat.Core;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -19,50 +20,51 @@ public class EmailHandler
         _userManager = userManager;
     }
 
-    public async Task<bool> SendVerificationEmailAsync(AppUser user)
+    public async Task<bool> SendVerificationEmailAsync(AppUser user, CancellationToken token = default)
     {
-        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        if (string.IsNullOrEmpty(token))
+        if (string.IsNullOrEmpty(confirmationToken))
             return false;
 
         var name = $"{user.FirstName} {user.LastName}";
         var topic = "Confirm your email";
 
-        var confirmationUrl = $"https://localhost:5001/{ApiRoutes.Account.ConfirmEmail}?userId={HttpUtility.UrlEncode(user.Id.ToString())}&token={HttpUtility.UrlEncode(token)}";
+        var confirmationUrl =
+            $"https://localhost:5001/{ApiRoutes.Account.ConfirmEmail}?userId={HttpUtility.UrlEncode(user.Id.ToString())}&token={HttpUtility.UrlEncode(confirmationToken)}";
 
         var body = $"<a href='{confirmationUrl}'>Confirm email</a>";
 
-        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body);
+        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body, token: token);
 
         return emailSend;
     }
 
-    public async Task<bool> SendPasswordChangedAlertAsync(AppUser user)
+    public async Task<bool> SendPasswordChangedAlertAsync(AppUser user, CancellationToken token = default)
     {
         var name = $"{user.FirstName} {user.LastName}";
         var topic = "Password has been changed";
 
         var body = $"<p>Your password has been changed</p>";
 
-        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body);
+        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body, token: token);
 
         return emailSend;
     }
 
-    public async Task<bool> SendPasswordRecoveryEmailAsync(AppUser user)
+    public async Task<bool> SendPasswordRecoveryEmailAsync(AppUser user, CancellationToken token = default)
     {
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var passwordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        if (string.IsNullOrEmpty(token))
+        if (string.IsNullOrEmpty(passwordToken))
             return false;
 
         var name = $"{user.FirstName} {user.LastName}";
         var topic = "Password recovery";
 
-        var body = $"<p>Token: {HttpUtility.UrlEncode(token)}</p>";
+        var body = $"<p>Token: {HttpUtility.UrlEncode(passwordToken)}</p>";
 
-        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body);
+        var emailSend = await _emailService.SendEmailAsync(name, user.Email, topic, body, token: token);
 
         return emailSend;
     }

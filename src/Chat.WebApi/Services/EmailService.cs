@@ -1,4 +1,5 @@
-﻿using Chat.WebApi.Models.Settings;
+﻿using System.Threading;
+using Chat.WebApi.Models.Settings;
 using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
@@ -18,11 +19,12 @@ public class EmailService : IEmailService
     }
 
     public async Task<bool> SendEmailAsync(
-       string receiverName,
-       string receiverEmail,
-       string subject,
-       string body,
-       bool html = true)
+        string receiverName,
+        string receiverEmail,
+        string subject,
+        string body,
+        bool html = true,
+        CancellationToken token = default)
     {
         try
         {
@@ -35,13 +37,12 @@ public class EmailService : IEmailService
             {
                 Text = body
             };
-
-            // TODO: use cancellation token!
+            
             var client = new SmtpClient();
-            await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port);
-            await client.AuthenticateAsync(_smtpSettings.Value.Email, _smtpSettings.Value.Password);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port, cancellationToken: token);
+            await client.AuthenticateAsync(_smtpSettings.Value.Email, _smtpSettings.Value.Password, token);
+            await client.SendAsync(message, token);
+            await client.DisconnectAsync(true, token);
 
             return true;
         }

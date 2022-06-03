@@ -144,11 +144,6 @@ public class AccountController : ControllerBase
                 Errors = new[] { "Email is already confirmed" }
             });
 
-        var token = await _signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
-
-        if (token is null)
-            return InternalServerError();
-
         var result = await _emailHandler.SendVerificationEmailAsync(user);
 
         return result

@@ -1,6 +1,7 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Entities;
 using Chat.Core.Models.Requests;
+using Chat.Core.Models.Responses;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services;
@@ -90,7 +91,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Login)]
-    public async Task<ActionResult<RefreshTokenDto>> LoginAsync([FromBody] LoginCredentialsDto dto)
+    public async Task<ActionResult<JwtTokenDto>> LoginAsync([FromBody] LoginCredentialsDto dto)
     {
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
 
@@ -117,33 +118,14 @@ public class AccountController : ControllerBase
         if (user is null)
             return InternalServerError();
 
-        var token = await _jwtService.GenerateTokenAsync(user);
+        var token = _jwtService.GenerateToken(user);
 
-        return Ok(new ApiResponse<RefreshTokenDto>
+        return Ok(new ApiResponse<JwtTokenDto>
         {
             Result = new()
             {
                 Token = token.Token,
-                RefreshToken = token.RefreshToken,
             }
-        });
-    }
-
-    [HttpPost(ApiRoutes.Account.RefreshToken)]
-    public async Task<ActionResult<RefreshTokenDto>> RefreshTokenAsync([FromBody] RefreshTokenDto dto)
-    {
-        var response = await _jwtService.RefreshTokenAsync(dto.Token, dto.RefreshToken);
-
-        if (!response.Success)
-            return BadRequest(new ApiResponse
-            {
-                Errors = response.Errors
-            });
-
-        return Ok(new RefreshTokenDto
-        {
-            Token = response.Token,
-            RefreshToken = response.RefreshToken,
         });
     }
 

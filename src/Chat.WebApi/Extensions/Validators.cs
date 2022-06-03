@@ -13,7 +13,6 @@ public static class Validators
 
         services.AddScoped<IValidator<RegisterCredentialsDto>, RegisterCredentialsDtoValidator>();
         services.AddScoped<IValidator<LoginCredentialsDto>, LoginCredentialsDtoValidator>();
-        services.AddScoped<IValidator<RefreshTokenDto>, RefreshTokenDtoValidator>();
         services.AddScoped<IValidator<ConfirmEmailDto>, ConfirmEmailDtoValidator>();
         services.AddScoped<IValidator<ResendVerificationEmailDto>, ResendVerificationEmailDtoValidator>();
         services.AddScoped<IValidator<PasswordRecoveryDto>, PasswordRecoveryDtoValidator>();

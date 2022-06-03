@@ -6,8 +6,6 @@ public class AuthSettings
 
     public int ExpireMinutes { get; set; }
 
-    public int ExpireDays { get; set; }
-
     public string Issuer { get; set; }
 
     public string SecretKey { get; set; }

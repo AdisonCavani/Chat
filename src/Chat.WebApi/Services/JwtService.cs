@@ -37,7 +37,7 @@ public class JwtService
             Expires = DateTime.UtcNow.AddSeconds(10),
             Audience = _authSettings.Value.Audience,
             Issuer = _authSettings.Value.Issuer,
-            SigningCredentials = new(key, SecurityAlgorithms.HmacSha256Signature) // TODO: verify algorithm
+            SigningCredentials = new(key, SecurityAlgorithms.HmacSha256Signature)
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

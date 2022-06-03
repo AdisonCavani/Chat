@@ -51,7 +51,7 @@ public class PasswordController : ControllerBase
         if (user is null)
             return BadRequest(new ApiResponse
             {
-                Errors = new[] { "Couldn't find user associated with this id" }
+                Errors = new[] { "Couldn't find user associated with this email" }
             });
 
         if (!await _userManager.VerifyUserTokenAsync(user, PasswordResetTokenProvider.ProviderKey,

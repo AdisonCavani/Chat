@@ -1,16 +1,12 @@
 ﻿using Chat.Core;
-using Chat.Core.Models.Entities;
 using Chat.Core.Models.Requests;
 using Chat.Core.Models.Responses;
 using Chat.WebApi.Extensions;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
@@ -91,7 +87,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Login)]
-    public async Task<ActionResult<JwtTokenDto>> LoginAsync([FromBody] LoginCredentialsDto dto)
+    public async Task<ActionResult<ApiResponse<JwtTokenDto>>> LoginAsync([FromBody] LoginCredentialsDto dto)
     {
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
 
@@ -158,30 +154,5 @@ public class AccountController : ControllerBase
         return result
             ? Ok()
             : InternalServerError();
-    }
-
-    [Authorize]
-    [HttpGet(ApiRoutes.Account.Auth)]
-    public async Task<ActionResult<UserProfile>> GetUserDetails()
-    {
-        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
-
-        if (string.IsNullOrEmpty(uid))
-            return InternalServerError();
-
-        var user = await _signInManager.UserManager.FindByIdAsync(uid);
-
-        if (user is null)
-            return InternalServerError();
-
-        return Ok(new ApiResponse<UserProfile>
-        {
-            Result = new()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
-            }
-        });
     }
 }

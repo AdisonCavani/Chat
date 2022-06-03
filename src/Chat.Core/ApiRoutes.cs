@@ -12,7 +12,6 @@ public static class ApiRoutes
         public const string ConfirmEmail = $"{endpoint}/confirmEmail";
         public const string Register = $"{endpoint}/register";
         public const string ResendVerificationEmail = $"{endpoint}/resendVerificationEmail";
-        public const string Auth = $"{endpoint}/auth";
 
         public static class Password
         {
@@ -23,6 +22,13 @@ public static class ApiRoutes
             public const string Reset = $"{endpoint}/reset";
 
             public const string Change = $"{endpoint}/change";
+        }
+        
+        public static class Profile
+        {
+            private const string endpoint = $"{Account.endpoint}/password";
+            
+            public const string Details = $"{endpoint}/details";
         }
     }
 }

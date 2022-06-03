@@ -198,10 +198,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client">
-      <Version>5.2.8</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client">
-      <Version>6.0.5</Version>
+      <Version>5.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>3.1.25</Version>

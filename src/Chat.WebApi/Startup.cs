@@ -39,11 +39,6 @@ public class Startup
 
         services.ConfigureDbContext(Configuration);
 
-        services.AddSignalR(options =>
-        {
-            options.EnableDetailedErrors = true;
-        });
-
         services.AddControllers(options =>
         {
             options.Filters.Add(typeof(CustomValidationAttribute));

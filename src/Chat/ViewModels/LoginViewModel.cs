@@ -1,6 +1,7 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Entities;
 using Chat.Core.Models.Requests;
+using Chat.Core.Models.Responses;
 using Chat.Db.Models.Entities;
 using Chat.Extensions;
 using Chat.Services;
@@ -104,7 +105,7 @@ public partial class LoginViewModel : ObservableObject
         var loginCall = await client.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Login}", dto);
 
         var loginJson = await loginCall.Content.ReadAsStringAsync();
-        var loginObj = JsonConvert.DeserializeObject<ApiResponse<RefreshTokenDto>>(loginJson);
+        var loginObj = JsonConvert.DeserializeObject<ApiResponse<JwtTokenDto>>(loginJson);
 
         if (!loginCall.IsSuccessStatusCode)
         {
@@ -129,8 +130,7 @@ public partial class LoginViewModel : ObservableObject
             Email = tokenObj.Result.Email,
             FirstName = tokenObj.Result.FirstName,
             LastName = tokenObj.Result.LastName,
-            Token = loginObj.Result.Token,
-            RefreshToken = loginObj.Result.RefreshToken
+            Token = loginObj.Result.Token
         };
 
         await HandleSuccess(credentials);

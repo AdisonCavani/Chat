@@ -1,6 +1,5 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Requests;
-using Chat.Core.Models.Response;
 using Chat.Extensions;
 using Chat.Views;
 using Chat.Views.Password;
@@ -106,7 +105,7 @@ public partial class RecoverPasswordViewModel : ObservableObject
         var response = await _httpClient.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Password.VerifyToken}", dto);
 
         var json = await response.Content.ReadAsStringAsync();
-        var obj = JsonConvert.DeserializeObject<ApiResponse<TempTokenDto>>(json);
+        var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
 
         if (!response.IsSuccessStatusCode)
         {

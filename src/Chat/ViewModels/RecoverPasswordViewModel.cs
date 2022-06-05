@@ -5,7 +5,6 @@ using Chat.Views;
 using Chat.Views.Password;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using System;
@@ -146,14 +145,12 @@ public partial class RecoverPasswordViewModel : ObservableObject
             return;
         }
 
-        var vm = App.Current.Services.GetRequiredService<LoginViewModel>();
-
         _frame.Navigate(typeof(LoginPage));
 
-        vm.InfoTitle = "Password changed";
-        vm.InfoMessage = "Now you can login with your new credentials";
-        vm.InfoSeverity = InfoBarSeverity.Success;
-        vm.InfoVisible = true;
+        //vm.InfoTitle = "Password changed";
+        //vm.InfoMessage = "Now you can login with your new credentials";
+        //vm.InfoSeverity = InfoBarSeverity.Success;
+        //vm.InfoVisible = true;
 
         IsRunning = false;
     }
@@ -167,7 +164,7 @@ public partial class RecoverPasswordViewModel : ObservableObject
 
     void InitComponents()
     {
-        Email = App.Current.Services.GetService<LoginViewModel>().Email ?? string.Empty;
+        // Email = App.Current.Services.GetService<LoginViewModel>().Email ?? string.Empty;
 
         InfoTitle = "Reset password";
         InfoMessage = "Enter the email associated with your accound and we'll send an email with instructions to reset your password";

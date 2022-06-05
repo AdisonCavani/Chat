@@ -4,7 +4,6 @@ using Chat.ViewModels;
 using Chat.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
@@ -21,37 +20,31 @@ namespace Chat;
 
 sealed partial class App : Application
 {
-    private readonly IHost _host;
-
-    public IServiceProvider Services { get; private set; }
+    public IServiceProvider Services { get; }
 
     public new static App Current => (App)Application.Current;
 
     public App()
     {
+        AddSerilog();
         Services = ConfigureServices().BuildServiceProvider();
-
-        var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
-
-        _host = Host.CreateDefaultBuilder()
-            .UseSerilog((host, configuration) =>
-            {
-                configuration
-                    .WriteTo.Debug()
-                    .WriteTo.File(path, rollingInterval: RollingInterval.Day)
-                    .MinimumLevel.Verbose();
-            })
-            .ConfigureServices(services =>
-            {
-                services = ConfigureServices();
-            })
-            .Build();
 
         InitializeComponent();
         Suspending += OnSuspending;
     }
 
-    private IServiceCollection ConfigureServices()
+    void AddSerilog()
+    {
+        var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Debug()
+            .WriteTo.File(path, rollingInterval: RollingInterval.Day)
+            .MinimumLevel.Verbose()
+            .CreateLogger();
+    }
+
+    IServiceCollection ConfigureServices()
     {
         IServiceCollection services = new ServiceCollection();
 
@@ -61,10 +54,12 @@ sealed partial class App : Application
         });
 
         services.AddSingleton<Frame>();
+
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<RegisterViewModel>();
         services.AddSingleton<SignalrViewModel>();
         services.AddSingleton<RecoverPasswordViewModel>();
+
         services.AddScoped<UserCredentialsManager>();
 
         services.AddDbContext<AppDbContext>(options =>
@@ -75,18 +70,19 @@ sealed partial class App : Application
         return services;
     }
 
-    private async Task ConfigureApplicationAsync()
+    async Task ConfigureApplicationAsync()
     {
         var context = Services.GetRequiredService<UserCredentialsManager>();
         var logger = Services.GetRequiredService<ILogger<App>>();
 
         var createdDb = await context.EnsureCreatedAsync();
+        await context.EnsureCreatedAsync();
 
         if (createdDb)
             logger.LogInformation("Created new Sqlite database");
     }
 
-    private async Task Navigate()
+    async Task Navigate()
     {
         var context = Services.GetRequiredService<UserCredentialsManager>();
         var frame = Services.GetRequiredService<Frame>();
@@ -101,7 +97,6 @@ sealed partial class App : Application
 
     protected override async void OnLaunched(LaunchActivatedEventArgs e)
     {
-        await _host.StartAsync();
         await ConfigureApplicationAsync();
 
         // Do not repeat app initialization when the Window already has content,
@@ -141,11 +136,8 @@ sealed partial class App : Application
         throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
     }
 
-    private async void OnSuspending(object sender, SuspendingEventArgs e)
+    void OnSuspending(object sender, SuspendingEventArgs e)
     {
-        await _host.StopAsync();
-        _host.Dispose();
-
         var deferral = e.SuspendingOperation.GetDeferral();
 
         //TODO: Save application state and stop any background activity

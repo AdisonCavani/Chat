@@ -6,10 +6,6 @@ namespace Chat.ViewModels;
 
 public partial class SignalrViewModel : ObservableObject
 {
-    public SignalrViewModel()
-    {
-    }
-
     [ObservableProperty]
     [AlsoNotifyChangeFor(nameof(CanSend))]
     string message;

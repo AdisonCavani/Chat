@@ -4,7 +4,6 @@ using Chat.Extensions;
 using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using System;
@@ -18,6 +17,13 @@ namespace Chat.ViewModels;
 
 public partial class RegisterViewModel : ObservableObject
 {
+    private readonly Frame _frame;
+
+    public RegisterViewModel(Frame frame)
+    {
+        _frame = frame;
+    }
+
     [ObservableProperty]
     [AlsoNotifyChangeFor(nameof(CanExecute))]
     string firstName;
@@ -93,28 +99,24 @@ public partial class RegisterViewModel : ObservableObject
 
         IsRunning = false;
 
-        var loginVM = App.Current.Services.GetRequiredService<LoginViewModel>();
-
         // Infobar
-        loginVM.InfoTitle = "Register successful";
-        loginVM.InfoMessage = "Now you can login using your credentials";
-        loginVM.InfoSeverity = InfoBarSeverity.Informational;
-        loginVM.InfoVisible = true;
+        // loginVM.InfoTitle = "Register successful";
+        // loginVM.InfoMessage = "Now you can login using your credentials";
+        // loginVM.InfoSeverity = InfoBarSeverity.Informational;
+        // loginVM.InfoVisible = true;
 
-        loginVM.Email = Email;
-        loginVM.Password = string.Empty;
+        // loginVM.Email = Email;
+        // loginVM.Password = string.Empty;
 
         ClearCredentials();
 
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(typeof(LoginPage));
+        _frame.Navigate(typeof(LoginPage));
     }
 
     [ICommand]
     void GoToLoginPage()
     {
-        App.Current.Services.GetRequiredService<Frame>()
-            .Navigate(
+        _frame.Navigate(
                 typeof(LoginPage),
                 null,
                 new SlideNavigationTransitionInfo

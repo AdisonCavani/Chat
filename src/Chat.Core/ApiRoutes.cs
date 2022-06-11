@@ -31,4 +31,17 @@ public static class ApiRoutes
             public const string Details = $"{endpoint}/details";
         }
     }
+
+    public static class Chat
+    {
+        private const string endpoint = $"{root}/chat";
+
+        public static class Message
+        {
+            private const string endpoint = $"{Chat.endpoint}/message";
+
+            public const string Connect = $"{endpoint}/connect";
+            public const string Send = $"{endpoint}/send";
+        }
+    }
 }

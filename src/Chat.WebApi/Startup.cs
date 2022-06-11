@@ -98,6 +98,7 @@ public class Startup
         }));
 
         app.UseRouting();
+        app.UseWebSockets(); // TODO: configure WebSockets
 
         app.UseAuthentication();
         app.UseAuthorization();

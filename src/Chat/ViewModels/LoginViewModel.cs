@@ -201,7 +201,7 @@ public partial class LoginViewModel : IDisposable
         }
 
         IsRunning = false;
-        _frame.Navigate(typeof(HubPage));
+        _frame.Navigate(typeof(ChatPage));
     }
 
     public void Dispose()

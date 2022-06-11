@@ -56,9 +56,9 @@ sealed partial class App : Application
 
         services.AddSingleton<Frame>();
 
+        services.AddSingleton<ChatViewModel>();
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<RegisterViewModel>();
-        services.AddSingleton<SignalrViewModel>();
         services.AddSingleton<RecoverPasswordViewModel>();
 
         services.AddSingleton<InfobarStore>();
@@ -100,7 +100,7 @@ sealed partial class App : Application
         frame.Navigate(
             hasCredentials is null ?
             typeof(LoginPage) :
-            typeof(HubPage));
+            typeof(ChatPage));
     }
 
     protected override async void OnLaunched(LaunchActivatedEventArgs e)

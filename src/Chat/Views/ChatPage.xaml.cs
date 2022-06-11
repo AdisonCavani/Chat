@@ -4,11 +4,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Chat.Views;
 
-public sealed partial class HubPage : Page
+public sealed partial class ChatPage : Page
 {
-    public HubPage()
+    public ChatPage()
     {
-        DataContext = App.Current.Services.GetRequiredService<SignalrViewModel>();
+        DataContext = App.Current.Services.GetRequiredService<ChatViewModel>();
 
         InitializeComponent();
     }

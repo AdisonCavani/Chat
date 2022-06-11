@@ -123,7 +123,13 @@
     </Compile>
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Extensions\Validators.cs" />
+    <Compile Include="Models\Infobar.cs" />
+    <Compile Include="Models\Credentials.cs" />
     <Compile Include="Services\UserCredentialsManager.cs" />
+    <Compile Include="Stores\InfobarStore.cs" />
+    <Compile Include="Stores\CredentialsStore.cs" />
+    <Compile Include="ViewModels\InfobarViewModel.cs" />
+    <Compile Include="ViewModels\CredentialsViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

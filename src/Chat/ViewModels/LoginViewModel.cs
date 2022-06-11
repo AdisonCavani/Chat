@@ -4,7 +4,9 @@ using Chat.Core.Models.Requests;
 using Chat.Core.Models.Responses;
 using Chat.Db.Models.Entities;
 using Chat.Extensions;
+using Chat.Models;
 using Chat.Services;
+using Chat.Stores;
 using Chat.Views;
 using Chat.Views.Password;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,20 +18,44 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Chat.ViewModels;
 
-public partial class LoginViewModel : ObservableObject
+[ObservableObject]
+public partial class LoginViewModel : IDisposable
 {
     private readonly Frame _frame;
     private readonly UserCredentialsManager _context;
 
-    public LoginViewModel(Frame frame, UserCredentialsManager context)
+    private readonly InfobarStore _infobarStore;
+    private readonly CredentialsStore _credentialsStore;
+
+    public LoginViewModel(Frame frame, UserCredentialsManager context, InfobarStore infobarStore, CredentialsStore credentialsStore)
     {
         _frame = frame;
         _context = context;
+
+        _infobarStore = infobarStore;
+        _infobarStore.InfobarUpdated += OnInfobarUpdated;
+
+        _credentialsStore = credentialsStore;
+        _credentialsStore.CredentialsUpdated += OnCredentialsUpdated;
+    }
+
+    void OnInfobarUpdated(Infobar infobar)
+    {
+        InfoTitle = new InfobarViewModel(infobar).Title;
+        InfoMessage = new InfobarViewModel(infobar).Message;
+        InfoSeverity = new InfobarViewModel(infobar).Severity;
+        InfoVisible = new InfobarViewModel(infobar).Visible;
+    }
+
+    void OnCredentialsUpdated(Credentials credentials)
+    {
+        Email = new CredentialsViewModel(credentials).Email;
     }
 
     [ObservableProperty]
@@ -49,9 +75,7 @@ public partial class LoginViewModel : ObservableObject
         Validators.IsEmailAdress(Email) &&
         !string.IsNullOrWhiteSpace(Password);
 
-    [ObservableProperty]
-    bool infoVisible;
-
+    #region Infobar
     [ObservableProperty]
     string infoTitle;
 
@@ -60,6 +84,10 @@ public partial class LoginViewModel : ObservableObject
 
     [ObservableProperty]
     InfoBarSeverity infoSeverity;
+
+    [ObservableProperty]
+    bool infoVisible;
+    #endregion
 
     [ICommand]
     async Task Login()
@@ -72,6 +100,12 @@ public partial class LoginViewModel : ObservableObject
     [ICommand]
     void RecoverPassword()
     {
+        _credentialsStore.UpdateCredentials(new()
+        {
+            Email = Email
+        });
+
+
         _frame.Navigate(
                 typeof(RecoverPage),
                 null,
@@ -114,22 +148,22 @@ public partial class LoginViewModel : ObservableObject
         }
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginObj.Result.Token);
-        var tokenCall = await client.GetAsync($"https://localhost:5001/{ApiRoutes.Account.Auth}");
+        var profileCall = await client.GetAsync($"https://localhost:5001/{ApiRoutes.Account.Profile.Details}");
 
-        var tokenJson = await tokenCall.Content.ReadAsStringAsync();
-        var tokenObj = JsonConvert.DeserializeObject<ApiResponse<UserProfile>>(tokenJson);
+        var profileJson = await profileCall.Content.ReadAsStringAsync();
+        var profileObj = JsonConvert.DeserializeObject<ApiResponse<UserProfile>>(profileJson);
 
-        if (!tokenCall.IsSuccessStatusCode)
+        if (!profileCall.IsSuccessStatusCode)
         {
-            HandleFailure(tokenObj);
+            HandleFailure(profileObj);
             return;
         }
 
         UserCredentials credentials = new()
         {
-            Email = tokenObj.Result.Email,
-            FirstName = tokenObj.Result.FirstName,
-            LastName = tokenObj.Result.LastName,
+            Email = profileObj.Result.Email,
+            FirstName = profileObj.Result.FirstName,
+            LastName = profileObj.Result.LastName,
             Token = loginObj.Result.Token
         };
 
@@ -168,5 +202,11 @@ public partial class LoginViewModel : ObservableObject
 
         IsRunning = false;
         _frame.Navigate(typeof(HubPage));
+    }
+
+    public void Dispose()
+    {
+        _infobarStore.InfobarUpdated -= OnInfobarUpdated;
+        _credentialsStore.CredentialsUpdated -= OnCredentialsUpdated;
     }
 }

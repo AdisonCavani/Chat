@@ -1,6 +1,8 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Requests;
 using Chat.Extensions;
+using Chat.Models;
+using Chat.Stores;
 using Chat.Views;
 using Chat.Views.Password;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -15,17 +17,31 @@ using Windows.UI.Xaml.Controls;
 
 namespace Chat.ViewModels;
 
-public partial class RecoverPasswordViewModel : ObservableObject
+[ObservableObject]
+public partial class RecoverPasswordViewModel : IDisposable
 {
     private readonly Frame _frame;
     private readonly HttpClient _httpClient;
 
-    public RecoverPasswordViewModel(Frame frame)
+    private readonly InfobarStore _infobarStore;
+    private readonly CredentialsStore _credentialsStore;
+
+    public RecoverPasswordViewModel(Frame frame, InfobarStore infobarStore, CredentialsStore credentialsStore)
     {
         _frame = frame;
         _httpClient = new();
 
+        _infobarStore = infobarStore;
+
+        _credentialsStore = credentialsStore;
+        _credentialsStore.CredentialsUpdated += OnCredentialsUpdated;
+
         InitComponents();
+    }
+
+    void OnCredentialsUpdated(Credentials credentials)
+    {
+        Email = new CredentialsViewModel(credentials).Email;
     }
 
     [ObservableProperty]
@@ -47,9 +63,6 @@ public partial class RecoverPasswordViewModel : ObservableObject
     bool isRunning;
 
     [ObservableProperty]
-    bool infoVisible;
-
-    [ObservableProperty]
     string infoTitle;
 
     [ObservableProperty]
@@ -58,10 +71,11 @@ public partial class RecoverPasswordViewModel : ObservableObject
     [ObservableProperty]
     InfoBarSeverity infoSeverity;
 
+    [ObservableProperty]
+    bool infoVisible;
+
     public bool CanSend => !IsRunning && Validators.IsEmailAdress(Email);
-
     public bool CanVerify => !IsRunning && !string.IsNullOrWhiteSpace(Token);
-
     public bool CanChange => !IsRunning && !string.IsNullOrWhiteSpace(NewPassword);
 
     [ICommand]
@@ -147,10 +161,13 @@ public partial class RecoverPasswordViewModel : ObservableObject
 
         _frame.Navigate(typeof(LoginPage));
 
-        //vm.InfoTitle = "Password changed";
-        //vm.InfoMessage = "Now you can login with your new credentials";
-        //vm.InfoSeverity = InfoBarSeverity.Success;
-        //vm.InfoVisible = true;
+        _infobarStore.UpdateInfobar(new()
+        {
+            Title = "Password changed",
+            Message = "Now you can login using your credentials",
+            Severity = InfoBarSeverity.Success,
+            Visible = true
+        });
 
         IsRunning = false;
     }
@@ -158,14 +175,17 @@ public partial class RecoverPasswordViewModel : ObservableObject
     [ICommand]
     void GoBack()
     {
+        _credentialsStore.UpdateCredentials(new()
+        {
+            Email = Email
+        });
+
         if (_frame.CanGoBack)
             _frame.GoBack();
     }
 
     void InitComponents()
     {
-        // Email = App.Current.Services.GetService<LoginViewModel>().Email ?? string.Empty;
-
         InfoTitle = "Reset password";
         InfoMessage = "Enter the email associated with your accound and we'll send an email with instructions to reset your password";
         InfoSeverity = InfoBarSeverity.Informational;
@@ -187,17 +207,8 @@ public partial class RecoverPasswordViewModel : ObservableObject
         IsRunning = false;
     }
 
-    void HandleFailure<T>(ApiResponse<T> response)
+    public void Dispose()
     {
-        StringBuilder sb = new();
-        foreach (var error in response.Errors)
-            sb.AppendLine(error);
-
-        InfoTitle = "Something went wrong";
-        InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
-        InfoSeverity = InfoBarSeverity.Error;
-        InfoVisible = true;
-
-        IsRunning = false;
+        _credentialsStore.CredentialsUpdated -= OnCredentialsUpdated;
     }
 }

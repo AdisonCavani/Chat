@@ -1,6 +1,7 @@
 ﻿using Chat.Core;
 using Chat.Core.Models.Requests;
 using Chat.Extensions;
+using Chat.Stores;
 using Chat.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -19,9 +20,13 @@ public partial class RegisterViewModel : ObservableObject
 {
     private readonly Frame _frame;
 
-    public RegisterViewModel(Frame frame)
+    private readonly InfobarStore _infobarStore;
+
+    public RegisterViewModel(Frame frame, InfobarStore infobarStore)
     {
         _frame = frame;
+
+        _infobarStore = infobarStore;
     }
 
     [ObservableProperty]
@@ -51,9 +56,7 @@ public partial class RegisterViewModel : ObservableObject
         Validators.IsEmailAdress(Email) &&
         !string.IsNullOrWhiteSpace(Password);
 
-    [ObservableProperty]
-    bool infoVisible;
-
+    #region Infobar
     [ObservableProperty]
     string infoTitle;
 
@@ -62,6 +65,10 @@ public partial class RegisterViewModel : ObservableObject
 
     [ObservableProperty]
     InfoBarSeverity infoSeverity;
+
+    [ObservableProperty]
+    bool infoVisible;
+    #endregion
 
     [ICommand]
     async Task Register()
@@ -97,20 +104,18 @@ public partial class RegisterViewModel : ObservableObject
             return;
         }
 
-        IsRunning = false;
+        _frame.Navigate(typeof(LoginPage));
 
-        // Infobar
-        // loginVM.InfoTitle = "Register successful";
-        // loginVM.InfoMessage = "Now you can login using your credentials";
-        // loginVM.InfoSeverity = InfoBarSeverity.Informational;
-        // loginVM.InfoVisible = true;
-
-        // loginVM.Email = Email;
-        // loginVM.Password = string.Empty;
+        _infobarStore.UpdateInfobar(new()
+        {
+            Title = "Register successful",
+            Message = "Now you can login using your credentials",
+            Severity = InfoBarSeverity.Informational,
+            Visible = true
+        });
 
         ClearCredentials();
-
-        _frame.Navigate(typeof(LoginPage));
+        IsRunning = false;
     }
 
     [ICommand]

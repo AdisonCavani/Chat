@@ -1,5 +1,6 @@
 ﻿using Chat.Db.Models.App;
 using Chat.Services;
+using Chat.Stores;
 using Chat.ViewModels;
 using Chat.Views;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,9 @@ sealed partial class App : Application
         services.AddSingleton<SignalrViewModel>();
         services.AddSingleton<RecoverPasswordViewModel>();
 
+        services.AddSingleton<InfobarStore>();
+        services.AddSingleton<CredentialsStore>();
+
         services.AddScoped<UserCredentialsManager>();
 
         services.AddDbContext<AppDbContext>(options =>
@@ -80,6 +84,10 @@ sealed partial class App : Application
 
         if (createdDb)
             logger.LogInformation("Created new Sqlite database");
+
+        // TODO: better method?
+        // Initialize singleton with stores
+        Services.GetRequiredService<RecoverPasswordViewModel>();
     }
 
     async Task Navigate()

@@ -1,4 +1,5 @@
-﻿using Chat.WebApi.Services;
+﻿using Chat.WebApi.Chat;
+using Chat.WebApi.Services;
 using Chat.WebApi.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,5 +16,8 @@ public static class Services
 #endif
         services.AddScoped<EmailHandler>();
         services.AddScoped<JwtService>();
+
+        services.AddTransient<ConnectionManager>();
+        services.AddSingleton<ChatHandler>();
     }
 }

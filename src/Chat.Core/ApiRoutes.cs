@@ -42,6 +42,7 @@ public static class ApiRoutes
 
             public const string Connect = $"{endpoint}/connect";
             public const string Send = $"{endpoint}/send";
+            public const string WebSocket = $"{endpoint}/wss";
         }
     }
 }

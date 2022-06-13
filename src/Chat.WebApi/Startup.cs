@@ -71,13 +71,13 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat.WebApi v1"));
-            app.UseExceptionHandler(a => a.Run(async handler =>
+            app.UseExceptionHandler(a => a.Run(async httpContext =>
             {
-                var exceptionHandlerPathFeature = handler.Features.Get<IExceptionHandlerPathFeature>();
-                var errorMsg = exceptionHandlerPathFeature?.Error?.Message;
+                var exceptionHandlerPathFeature = httpContext.Features.Get<IExceptionHandlerPathFeature>();
+                var errorMsg = exceptionHandlerPathFeature?.Error.Message;
 
                 if (!string.IsNullOrEmpty(errorMsg))
-                    await handler.Response.WriteAsJsonAsync(new ApiResponse
+                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse
                     {
                         Errors = new[] { errorMsg }
                     });
@@ -89,16 +89,17 @@ public class Startup
 
         app.UseHttpsRedirection();
 
-        app.UseExceptionHandler(a => a.Run(async handler =>
+        app.UseExceptionHandler(a => a.Run(async httpContext =>
         {
-            await handler.Response.WriteAsJsonAsync(new ApiResponse
+            await httpContext.Response.WriteAsJsonAsync(new ApiResponse
             {
                 Errors = new[] { "Oops! Something went wrong" }
             });
         }));
 
         app.UseRouting();
-        app.UseWebSockets(); // TODO: configure WebSockets
+
+        app.UseWebSockets(); // TODO: configure WS
 
         app.UseAuthentication();
         app.UseAuthorization();

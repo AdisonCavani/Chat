@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chat.WebApi.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Text;
@@ -17,48 +18,24 @@ public abstract class WebSocketHandler
         ConnectionManager = connectionManager;
     }
 
-    public virtual async Task OnConnected(WebSocket socket, string username)
+    public virtual async Task OnConnected(WebSocket socket, AppUser user)
     {
-        string connectionError = ValidateUsername(username);
+        ConnectionManager.AddSocket(socket);
+        ConnectionManager.AddUser(socket, user);
 
-        if (!string.IsNullOrEmpty(connectionError))
-        {
-            await ConnectionManager.RemoveSocket(socket, connectionError);
-        }
-        else
-        {
-            ConnectionManager.AddSocket(socket);
-            ConnectionManager.AddUser(socket, username);
-
-            ServerMessage connectMessage = new ServerMessage(username, false, GetAllUsers());
-            await BroadcastMessage(JsonSerializer.Serialize(connectMessage));
-        }
+        var connectMessage = new ServerMessage(user, false, GetAllUsers());
+        await BroadcastMessage(JsonSerializer.Serialize(connectMessage));
     }
 
-    public string ValidateUsername(string username)
-    {
-        if (String.IsNullOrEmpty(username))
-        {
-            return $"Username must not be empty";
-        }
-
-        if (ConnectionManager.UsernameAlreadyExists(username))
-        {
-            return $"User {username} already exists";
-        }
-
-        return null;
-    }
-
-    public virtual async Task<string> OnDisconnected(WebSocket socket)
+    public virtual async Task<AppUser> OnDisconnected(WebSocket socket)
     {
         string socketId = ConnectionManager.GetId(socket);
         await ConnectionManager.RemoveSocket(socket);
 
-        string username = ConnectionManager.GetUsernameBySocketId(socketId);
-        ConnectionManager.RemoveUser(username);
+        var user = ConnectionManager.GetUserBySocketId(socketId);
+        ConnectionManager.RemoveUser(user);
 
-        return username;
+        return user;
     }
 
     public async Task SendMessageAsync(WebSocket socket, string message)
@@ -105,13 +82,13 @@ public abstract class WebSocketHandler
         await SendMessageToAllAsync(message);
     }
 
-    public List<string> GetAllUsers()
+    public List<AppUser> GetAllUsers()
     {
-        return ConnectionManager.GetAllUsernames();
+        return ConnectionManager.GetAllUsers();
     }
 
-    public string GetUsernameBySocket(WebSocket socket)
+    public AppUser? GetUsernameBySocket(WebSocket socket)
     {
-        return ConnectionManager.GetUsernameBySocket(socket);
+        return ConnectionManager.GetUserBySocket(socket);
     }
 }

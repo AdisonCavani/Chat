@@ -1,12 +1,15 @@
 ﻿using Chat.Core;
 using Chat.WebApi.Chat;
+using Chat.WebApi.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
-using System.Text;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,87 +17,52 @@ using ControllerBase = Chat.WebApi.Extensions.ControllerBase;
 
 namespace Chat.WebApi.Controllers.Chat;
 
+// [Authorize]
 [ApiController]
 public class MessageController : ControllerBase
 {
+    private readonly ChatHandler _chatHandler;
+    private readonly UserManager<AppUser> _userManager;
     private readonly ILogger<MessageController> _logger;
-    private readonly ChatHandler _socketHandler;
 
-    public MessageController(ILogger<MessageController> logger, ChatHandler socketHandler)
+    public MessageController(ChatHandler chatHandler, UserManager<AppUser> userManager,
+        ILogger<MessageController> logger)
     {
+        _chatHandler = chatHandler;
+        _userManager = userManager;
         _logger = logger;
-        _socketHandler = socketHandler;
-    }
-
-    [HttpGet(ApiRoutes.Chat.Message.Connect)]
-    public IActionResult Connect()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            HttpContext.WebSockets.AcceptWebSocketAsync();
-        }
-
-        return Ok(HttpStatusCode.SwitchingProtocols);
-    }
-
-    [HttpGet(ApiRoutes.Chat.Message.Send)]
-    public async Task<IActionResult> Send()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await Send(HttpContext, webSocket);
-        }
-        else
-            return BadRequest();
-
-        return Ok(HttpStatusCode.SwitchingProtocols);
-    }
-
-    async Task Send(HttpContext context, WebSocket webSocket)
-    {
-        var buffer = new byte[1024 * 4];
-        var result =
-            await webSocket.ReceiveAsync(new(buffer),
-                CancellationToken.None); // TODO: use CancellationToken
-
-        if (result is not null)
-        {
-            while (!result.CloseStatus.HasValue)
-            {
-                string message = Encoding.UTF8.GetString(new ArraySegment<byte>(buffer, 0, result.Count));
-                await webSocket.SendAsync(
-                    new(Encoding.UTF8.GetBytes(message)),
-                    result.MessageType,
-                    result.EndOfMessage, CancellationToken.None);
-            }
-        }
-
-        await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
     }
 
     [HttpGet(ApiRoutes.Chat.Message.WebSocket)]
-    public async Task<IActionResult> WebSocketAsync([FromQuery] string username)
+    public async Task<IActionResult> WebSocketAsync()
     {
         if (!HttpContext.WebSockets.IsWebSocketRequest)
             return BadRequest();
 
+        var uid = HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+        if (uid is null)
+            return InternalServerError();
+
+        var user = await _userManager.FindByIdAsync(uid);
+
+        if (user is null)
+            return InternalServerError();
+
         using var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-        await _socketHandler.OnConnected(socket, username);
+        await _chatHandler.OnConnected(socket, user);
 
         await Receive(socket, async (result, buffer) =>
         {
             if (result.MessageType == WebSocketMessageType.Text)
             {
-                var msg = _socketHandler.ReceiveString(result, buffer);
+                var msg = _chatHandler.ReceiveString(result, buffer);
                 await HandleMessage(socket, msg);
-                return;
             }
 
             else if (result.MessageType == WebSocketMessageType.Close)
             {
                 await HandleDisconnect(socket);
-                return;
             }
         });
 
@@ -103,9 +71,9 @@ public class MessageController : ControllerBase
 
     private async Task HandleDisconnect(WebSocket socket)
     {
-        var disconnectedUser = await _socketHandler.OnDisconnected(socket);
-        var disconnectMessage = new ServerMessage(disconnectedUser, true, _socketHandler.GetAllUsers());
-        await _socketHandler.BroadcastMessage(JsonSerializer.Serialize(disconnectMessage));
+        var disconnectedUser = await _chatHandler.OnDisconnected(socket);
+        var disconnectMessage = new ServerMessage(disconnectedUser, true, _chatHandler.GetAllUsers());
+        await _chatHandler.BroadcastMessage(JsonSerializer.Serialize(disconnectMessage));
     }
 
     private async Task HandleMessage(WebSocket socket, string message)
@@ -122,13 +90,8 @@ public class MessageController : ControllerBase
 
         else if (clientMessage.IsTypeChat())
         {
-            var expectedUsername = _socketHandler.GetUsernameBySocket(socket);
-
-            if (clientMessage.IsValid(expectedUsername))
-            {
-                var chatMessage = new ServerMessage(clientMessage);
-                await _socketHandler.BroadcastMessage(JsonSerializer.Serialize(chatMessage));
-            }
+            var chatMessage = new ServerMessage(clientMessage);
+            await _chatHandler.BroadcastMessage(JsonSerializer.Serialize(chatMessage));
         }
     }
 

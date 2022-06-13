@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Chat.WebApi.Models.Entities;
+using System.Collections.Generic;
 
 namespace Chat.WebApi.Chat;
 
@@ -6,10 +7,10 @@ public class ServerMessage
 {
     public ServerMessage()
     {
-        Users = new List<string>();
+        Users = new();
     }
 
-    public ServerMessage(MessageType messageType, string messageContent, List<string> users)
+    public ServerMessage(MessageType messageType, string messageContent, List<AppUser> users)
     {
         Type = messageType.ToString();
         Content = messageContent;
@@ -22,26 +23,26 @@ public class ServerMessage
         Content = clientMessage.BuildChatMessageBody();
     }
 
-    public ServerMessage(string username, bool isDisconnect, List<string> users)
+    public ServerMessage(AppUser user, bool isDisconnect, List<AppUser> users)
     {
         Type = MessageType.CONNECTION.ToString();
-        Content = this.BuildConnectionMessageBody(username, isDisconnect);
+        Content = BuildConnectionMessageBody(user, isDisconnect);
         Users = users;
     }
 
-    public string Type { get; set; }
-    public string Content { get; set; }
-    public List<string> Users { get; set; }
+    public string? Type { get; set; }
+    public string? Content { get; set; }
+    public List<AppUser> Users { get; set; }
 
-    private string BuildConnectionMessageBody(string username, bool isDisconnect)
+    private string BuildConnectionMessageBody(AppUser user, bool isDisconnect)
     {
         if (isDisconnect)
         {
-            return $"User {username} left the room.";
+            return $"User {user.FirstName} {user.LastName} left the room.";
         }
         else
         {
-            return $"User {username} joined the room.";
+            return $"User {user.FirstName} {user.LastName} joined the room.";
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using Chat.Core;
+﻿using Chat.Core;
 using Chat.WebApi.Models.Entities;
 using Chat.WebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 

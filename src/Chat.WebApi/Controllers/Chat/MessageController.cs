@@ -1,7 +1,7 @@
 ﻿using Chat.Core;
+using Chat.Core.Models;
 using Chat.WebApi.Chat;
 using Chat.WebApi.Models.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,13 +57,11 @@ public class MessageController : ControllerBase
             if (result.MessageType == WebSocketMessageType.Text)
             {
                 var msg = _chatHandler.ReceiveString(result, buffer);
-                await HandleMessage(socket, msg);
+                await HandleMessage(msg);
             }
 
             else if (result.MessageType == WebSocketMessageType.Close)
-            {
                 await HandleDisconnect(socket);
-            }
         });
 
         return Ok();
@@ -76,19 +74,19 @@ public class MessageController : ControllerBase
         await _chatHandler.BroadcastMessage(JsonSerializer.Serialize(disconnectMessage));
     }
 
-    private async Task HandleMessage(WebSocket socket, string message)
+    private async Task HandleMessage(string message)
     {
         var clientMessage = TryDeserializeClientMessage(message);
 
         if (clientMessage is null)
             return;
 
-        if (clientMessage.IsTypeConnection())
+        if (clientMessage.Type == MessageType.CONNECTION)
         {
             // For future improvements
         }
 
-        else if (clientMessage.IsTypeChat())
+        else if (clientMessage.Type == MessageType.CHAT)
         {
             var chatMessage = new ServerMessage(clientMessage);
             await _chatHandler.BroadcastMessage(JsonSerializer.Serialize(chatMessage));

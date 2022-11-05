@@ -32,7 +32,7 @@ public class PasswordController : ControllerBase
         var user = await _userManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Couldn't find user associated with this email" }
             });
@@ -50,14 +50,14 @@ public class PasswordController : ControllerBase
         var user = await _userManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Couldn't find user associated with this email" }
             });
 
         if (!await _userManager.VerifyUserTokenAsync(user, PasswordResetTokenProvider.ProviderKey,
                 PasswordResetTokenProvider.ProviderKey, dto.Token))
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Invalid token" }
             });
@@ -77,7 +77,7 @@ public class PasswordController : ControllerBase
             await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
 
         if (!result.Succeeded)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = result.Errors.Select(x => x.Description)
             });
@@ -107,7 +107,7 @@ public class PasswordController : ControllerBase
             dto.NewPassword); // TODO: password might be the same!
 
         if (!result.Succeeded)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = result.Errors.Select(x => x.Description)
             });

@@ -77,7 +77,7 @@ public class Startup
                 var errorMsg = exceptionHandlerPathFeature?.Error.Message;
 
                 if (!string.IsNullOrEmpty(errorMsg))
-                    await httpContext.Response.WriteAsJsonAsync(new ApiResponse
+                    await httpContext.Response.WriteAsJsonAsync(new ErrorResponse
                     {
                         Errors = new[] { errorMsg }
                     });
@@ -91,7 +91,7 @@ public class Startup
 
         app.UseExceptionHandler(a => a.Run(async httpContext =>
         {
-            await httpContext.Response.WriteAsJsonAsync(new ApiResponse
+            await httpContext.Response.WriteAsJsonAsync(new ErrorResponse
             {
                 Errors = new[] { "Oops! Something went wrong" }
             });

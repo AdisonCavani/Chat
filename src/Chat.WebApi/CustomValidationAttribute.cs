@@ -16,7 +16,7 @@ public class CustomValidationAttribute : ActionFilterAttribute
                     .Select(v => v.ErrorMessage)
                     .ToList();
 
-            var responseObj = new ApiResponse()
+            var responseObj = new ErrorResponse
             {
                 Errors = errors
             };

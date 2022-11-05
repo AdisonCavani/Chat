@@ -8,7 +8,7 @@ public class PasswordRecoveryTokenDtoValidator : AbstractValidator<PasswordRecov
     public PasswordRecoveryTokenDtoValidator()
     {
         Include(new PasswordRecoveryDtoValidator());
-        
+
         RuleFor(x => x.Token)
             .NotEmpty();
     }

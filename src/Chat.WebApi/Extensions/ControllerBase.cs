@@ -8,9 +8,12 @@ public class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     [NonAction]
     protected ObjectResult InternalServerError()
     {
-        return new ObjectResult(new ApiResponse
+        return new ObjectResult(new ErrorResponse
         {
             Errors = new[] { "Oops! Something went wrong" }
-        });
+        })
+        {
+            StatusCode = 500
+        };
     }
 }

@@ -1,18 +1,23 @@
-﻿using Chat.Db.Models.App;
+﻿using Chat.ApiSDK;
+using Chat.Db.Models.App;
 using Chat.Services;
 using Chat.Stores;
 using Chat.ViewModels;
+using Chat.ViewModels.Controls.Design;
 using Chat.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Refit;
 using Serilog;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -66,10 +71,21 @@ sealed partial class App : Application
 
         services.AddScoped<UserCredentialsManager>();
 
+        // Design view models
+        services.AddSingleton<UserListDesignViewModel>();
+
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseSqlite("Data Source=Chat.db"); // TODO: configure this with IOptions
         });
+
+        // TODO: configure this with IOptions
+        services.AddRefitClient<IAccountApi>()
+            .ConfigureHttpClient(c => c.BaseAddress = new("https://localhost:5001"));
+        services.AddRefitClient<IPasswordApi>()
+            .ConfigureHttpClient(c => c.BaseAddress = new("https://localhost:5001"));
+        services.AddRefitClient<IProfileApi>()
+            .ConfigureHttpClient(c => c.BaseAddress = new("https://localhost:5001"));
 
         return services;
     }
@@ -106,6 +122,9 @@ sealed partial class App : Application
     protected override async void OnLaunched(LaunchActivatedEventArgs e)
     {
         await ConfigureApplicationAsync();
+
+        CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+        ApplicationView.GetForCurrentView().SetPreferredMinSize(new(500, 469));
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active

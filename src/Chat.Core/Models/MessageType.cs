@@ -1,4 +1,4 @@
-﻿namespace Chat.WebApi.Chat;
+﻿namespace Chat.Core.Models;
 
 public enum MessageType
 {

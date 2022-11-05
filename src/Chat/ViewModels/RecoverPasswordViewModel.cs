@@ -1,4 +1,5 @@
-﻿using Chat.Core;
+﻿using Chat.ApiSDK;
+using Chat.Core;
 using Chat.Core.Models.Requests;
 using Chat.Extensions;
 using Chat.Models;
@@ -8,9 +9,8 @@ using Chat.Views.Password;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json;
+using Refit;
 using System;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
@@ -21,17 +21,20 @@ namespace Chat.ViewModels;
 public partial class RecoverPasswordViewModel : IDisposable
 {
     private readonly Frame _frame;
-    private readonly HttpClient _httpClient;
 
     private readonly InfobarStore _infobarStore;
+
+    private readonly IPasswordApi _passwordApi;
+
     private readonly CredentialsStore _credentialsStore;
 
-    public RecoverPasswordViewModel(Frame frame, InfobarStore infobarStore, CredentialsStore credentialsStore)
+    public RecoverPasswordViewModel(Frame frame, InfobarStore infobarStore, IPasswordApi passwordApi, CredentialsStore credentialsStore)
     {
         _frame = frame;
-        _httpClient = new();
 
         _infobarStore = infobarStore;
+
+        _passwordApi = passwordApi;
 
         _credentialsStore = credentialsStore;
         _credentialsStore.CredentialsUpdated += OnCredentialsUpdated;
@@ -83,25 +86,30 @@ public partial class RecoverPasswordViewModel : IDisposable
     {
         IsRunning = true;
 
-        var response = await _httpClient.GetAsync($"https://localhost:5001/{ApiRoutes.Account.Password.SendRecoveryEmail}?email={Email}");
-
-        var json = await response.Content.ReadAsStringAsync();
-        var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
-
-        if (!response.IsSuccessStatusCode)
+        var dto = new PasswordRecoveryDto()
         {
-            HandleFailure(obj);
-            return;
+            Email = Email
+        };
+
+        try
+        {
+            await _passwordApi.SendRecoveryEmailAsync(dto);
+
+            _frame.Navigate(typeof(TokenPage));
+
+            InfoTitle = "Email send";
+            InfoMessage = "We have sent you a password recovery token to your email";
+            InfoSeverity = InfoBarSeverity.Success;
+            InfoVisible = true;
         }
-
-        _frame.Navigate(typeof(TokenPage));
-
-        InfoTitle = "Email send";
-        InfoMessage = "We have sent you a password recovery token to your email";
-        InfoSeverity = InfoBarSeverity.Success;
-        InfoVisible = true;
-
-        IsRunning = false;
+        catch (ApiException ex)
+        {
+            HandleFailure(await ex.GetContentAsAsync<ErrorResponse>());
+        }
+        finally
+        {
+            IsRunning = false;
+        }
     }
 
     [ICommand]
@@ -115,25 +123,26 @@ public partial class RecoverPasswordViewModel : IDisposable
             Token = Token
         };
 
-        var response = await _httpClient.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Password.VerifyToken}", dto);
-
-        var json = await response.Content.ReadAsStringAsync();
-        var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
-
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            HandleFailure(obj);
-            return;
+            await _passwordApi.VerifyTokenAsync(dto);
+
+            _frame.Navigate(typeof(ChangePage));
+
+            InfoTitle = "Token verified";
+            InfoMessage = "Token has been verified. Now you can set new password";
+            InfoSeverity = InfoBarSeverity.Success;
+            InfoVisible = true;
         }
 
-        _frame.Navigate(typeof(ChangePage));
-
-        InfoTitle = "Token verified";
-        InfoMessage = "Token has been verified. Now you can set new password";
-        InfoSeverity = InfoBarSeverity.Success;
-        InfoVisible = true;
-
-        IsRunning = false;
+        catch (ApiException ex)
+        {
+            HandleFailure(await ex.GetContentAsAsync<ErrorResponse>());
+        }
+        finally
+        {
+            IsRunning = false;
+        }
     }
 
     [ICommand]
@@ -148,28 +157,28 @@ public partial class RecoverPasswordViewModel : IDisposable
             Token = Token
         };
 
-        var response = await _httpClient.PostAsJsonAsync($"https://localhost:5001/{ApiRoutes.Account.Password.Reset}", dto);
-
-        var json = await response.Content.ReadAsStringAsync();
-        var obj = JsonConvert.DeserializeObject<ApiResponse>(json);
-
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            HandleFailure(obj);
-            return;
+            await _passwordApi.ResetAsync(dto);
+
+            _frame.Navigate(typeof(LoginPage));
+
+            _infobarStore.UpdateInfobar(new()
+            {
+                Title = "Password changed",
+                Message = "Now you can login using your credentials",
+                Severity = InfoBarSeverity.Success,
+                Visible = true
+            });
         }
-
-        _frame.Navigate(typeof(LoginPage));
-
-        _infobarStore.UpdateInfobar(new()
+        catch (ApiException ex)
         {
-            Title = "Password changed",
-            Message = "Now you can login using your credentials",
-            Severity = InfoBarSeverity.Success,
-            Visible = true
-        });
-
-        IsRunning = false;
+            HandleFailure(await ex.GetContentAsAsync<ErrorResponse>());
+        }
+        finally
+        {
+            IsRunning = false;
+        }
     }
 
     [ICommand]
@@ -193,18 +202,16 @@ public partial class RecoverPasswordViewModel : IDisposable
     }
 
     // TODO: resolve this duplication
-    void HandleFailure(ApiResponse response)
+    void HandleFailure(ErrorResponse apiError)
     {
         StringBuilder sb = new();
-        foreach (var error in response.Errors)
+        foreach (var error in apiError.Errors)
             sb.AppendLine(error);
 
         InfoTitle = "Something went wrong";
         InfoMessage = sb.ToString().TrimEnd(Environment.NewLine.ToCharArray());
         InfoSeverity = InfoBarSeverity.Error;
         InfoVisible = true;
-
-        IsRunning = false;
     }
 
     public void Dispose()

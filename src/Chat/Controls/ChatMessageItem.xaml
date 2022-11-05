@@ -1,0 +1,118 @@
+﻿<UserControl
+    x:Class="Chat.Controls.ChatMessageItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Chat.ViewModels.Controls.Design"
+    MaxWidth="590"
+    d:DesignHeight="35"
+    d:DesignWidth="240"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vm:ChatMessageItemDesignViewModel x:Key="DesignVm" />
+    </UserControl.Resources>
+
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem
+                Command="{Binding ReplyToMessageCommand}"
+                Text="Reply" />
+            <MenuFlyoutItem
+                Command="{Binding CopyMessageCommand}"
+                Icon="Copy"
+                Text="Copy" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{Binding ReactToMessageCommand}"
+                Icon="Emoji2"
+                Text="React to message" />
+            <MenuFlyoutItem Text="Forward" />
+            <MenuFlyoutItem
+                Command="{Binding StarMessageCommand}"
+                Icon="OutlineStar"
+                Text="Star" />
+            <MenuFlyoutItem
+                Command="{Binding DeleteMessageCommand}"
+                Icon="Delete"
+                Text="Delete" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{Binding GetMessageInfoCommand}"
+                Text="Info" />
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
+
+    <Grid
+        Margin="{Binding Margin}"
+        HorizontalAlignment="{Binding HorizontalAlignment}"
+        VerticalAlignment="Top"
+        d:DataContext="{StaticResource DesignVm}"
+        Background="{Binding BackgroundColor}"
+        CornerRadius="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Column="0"
+            Margin="10,6,0,12"
+            HorizontalAlignment="Right">
+            <RichTextBlock
+                FontSize="14"
+                Foreground="#cddfdb"
+                IsTextSelectionEnabled="True"
+                TextWrapping="WrapWholeWords">
+                <RichTextBlock.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            Command="{Binding ReplyToMessageCommand}"
+                            Text="Reply" />
+                        <MenuFlyoutItem
+                            Command="{Binding CopyMessageCommand}"
+                            Icon="Copy"
+                            Text="Copy" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Command="{Binding ReactToMessageCommand}"
+                            Icon="Emoji2"
+                            Text="React to message" />
+                        <MenuFlyoutItem Text="Forward" />
+                        <MenuFlyoutItem
+                            Command="{Binding StarMessageCommand}"
+                            Icon="OutlineStar"
+                            Text="Star" />
+                        <MenuFlyoutItem
+                            Command="{Binding DeleteMessageCommand}"
+                            Icon="Delete"
+                            Text="Delete" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Command="{Binding GetMessageInfoCommand}"
+                            Text="Info" />
+                    </MenuFlyout>
+                </RichTextBlock.ContextFlyout>
+                <Paragraph>
+                    <Run Text="{Binding Message}" />
+                </Paragraph>
+            </RichTextBlock>
+        </Grid>
+        <Grid
+            Grid.Column="1"
+            Margin="25,0,10,6"
+            VerticalAlignment="Bottom">
+            <ToolTipService.ToolTip>
+                <ToolTip Content="{Binding FullDisplayTime}" />
+            </ToolTipService.ToolTip>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    FontSize="10"
+                    Foreground="{Binding SendHourForeground}"
+                    LineStackingStrategy="BlockLineHeight"
+                    Text="{Binding DisplayTime}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

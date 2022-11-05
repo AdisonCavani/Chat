@@ -28,7 +28,8 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost(ApiRoutes.Account.Register)]
-    public async Task<IActionResult> RegisterAsync([FromBody] RegisterCredentialsDto dto, CancellationToken token)
+    public async Task<IActionResult> RegisterAsync([FromBody] RegisterCredentialsDto dto,
+        CancellationToken token)
     {
         AppUser user = new()
         {
@@ -41,7 +42,7 @@ public class AccountController : ControllerBase
         var result = await _signInManager.UserManager.CreateAsync(user, dto.Password);
 
         if (!result.Succeeded)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = result.Errors.Select(x => x.Description)
             });
@@ -64,7 +65,7 @@ public class AccountController : ControllerBase
         var user = await _signInManager.UserManager.FindByIdAsync(dto.UserId);
 
         if (user is null)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Couldn't find user associated with this id" }
             });
@@ -72,7 +73,7 @@ public class AccountController : ControllerBase
         var emailConfirmed = await _signInManager.UserManager.IsEmailConfirmedAsync(user);
 
         if (emailConfirmed)
-            return Conflict(new ApiResponse
+            return Conflict(new ErrorResponse
             {
                 Errors = new[] { "Email is already confirmed" }
             });
@@ -81,31 +82,31 @@ public class AccountController : ControllerBase
 
         return result.Succeeded
             ? Ok()
-            : BadRequest(new ApiResponse
+            : BadRequest(new ErrorResponse
             {
                 Errors = result.Errors.Select(x => x.Description)
             });
     }
 
     [HttpPost(ApiRoutes.Account.Login)]
-    public async Task<ActionResult<ApiResponse<JwtTokenDto>>> LoginAsync([FromBody] LoginCredentialsDto dto)
+    public async Task<ActionResult<JwtTokenDto>> LoginAsync([FromBody] LoginCredentialsDto dto)
     {
         var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, true, true);
 
         if (result.IsNotAllowed)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Confirm your email" }
             });
 
         if (result.IsLockedOut)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "User is locked out" }
             });
 
         if (!result.Succeeded)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Wrong credentials" }
             });
@@ -117,22 +118,20 @@ public class AccountController : ControllerBase
 
         var token = _jwtService.GenerateToken(user);
 
-        return Ok(new ApiResponse<JwtTokenDto>
+        return Ok(new JwtTokenDto
         {
-            Result = new()
-            {
-                Token = token.Token,
-            }
+            Token = token.Token
         });
     }
 
     [HttpGet(ApiRoutes.Account.ResendVerificationEmail)]
-    public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto, CancellationToken token)
+    public async Task<IActionResult> ResendVerificationEmailAsync([FromQuery] ResendVerificationEmailDto dto,
+        CancellationToken token)
     {
         var user = await _signInManager.UserManager.FindByEmailAsync(dto.Email);
 
         if (user is null)
-            return BadRequest(new ApiResponse
+            return BadRequest(new ErrorResponse
             {
                 Errors = new[] { "Couldn't find user associated with this email" }
             });
@@ -140,7 +139,7 @@ public class AccountController : ControllerBase
         var emailConfirmed = await _signInManager.UserManager.IsEmailConfirmedAsync(user);
 
         if (emailConfirmed)
-            return Conflict(new ApiResponse
+            return Conflict(new ErrorResponse
             {
                 Errors = new[] { "Email is already confirmed" }
             });

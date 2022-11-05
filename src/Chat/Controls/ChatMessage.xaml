@@ -1,0 +1,211 @@
+﻿<UserControl
+    x:Class="Chat.Controls.ChatMessage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attp="using:Chat.AttachedProperties"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:controls="using:Chat.Controls"
+    xmlns:conv="using:Chat.Converters"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:Chat.ViewModels.Controls.Design"
+    d:DesignHeight="450"
+    d:DesignWidth="650"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vm:UserListDesignViewModel x:Key="DesignVm" />
+        <conv:KeyUpEventArgsConverter x:Key="KeyUpEventArgsConverter" />
+        <conv:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+        <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+
+        <Storyboard x:Name="FadeInStoryboard">
+            <FadeOutThemeAnimation
+                SpeedRatio="1.5"
+                Storyboard.TargetName="ScrollDownButton" />
+        </Storyboard>
+        <Storyboard x:Name="FadeOutStoryboard">
+            <FadeInThemeAnimation
+                SpeedRatio="1.5"
+                Storyboard.TargetName="ScrollDownButton" />
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid
+        d:DataContext="{StaticResource DesignVm}"
+        Background="#282828"
+        Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibilityConverter}}">
+        <Grid>
+            <Grid.Background>
+                <brushes:TilesBrush TextureUri="ms-appx:///Assets/Background.png" />
+            </Grid.Background>
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Offset="0.05" Color="#282828" />
+                        <GradientStop Offset="0.15" Color="#00282828" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:ChatListBar Grid.Row="0" />
+
+                <Grid Grid.Row="1">
+                    <ScrollViewer
+                        x:Name="Scroller"
+                        HorizontalScrollBarVisibility="Visible"
+                        HorizontalScrollMode="Enabled"
+                        VerticalScrollBarVisibility="Visible"
+                        VerticalScrollMode="Enabled">
+                        <ItemsControl ItemsSource="{Binding CurrentUser}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <controls:ChatMessageItem />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Button
+                        x:Name="ScrollDownButton"
+                        Width="46"
+                        Height="40"
+                        Margin="0,0,18,45"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Click="Button_Click"
+                        Template="{ThemeResource ScrollDownButton}">
+                        <Button.Content>
+                            <Grid>
+                                <muxc:InfoBadge
+                                    Width="16"
+                                    Height="16"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding UnreadMessages, Converter={StaticResource IntToVisibilityConverter}}"
+                                    Value="{Binding UnreadMessages}">
+                                    <muxc:InfoBadge.RenderTransform>
+                                        <TranslateTransform X="9" Y="-6" />
+                                    </muxc:InfoBadge.RenderTransform>
+                                </muxc:InfoBadge>
+                                <Grid>
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform X="1" Y="2" />
+                                    </Grid.RenderTransform>
+                                    <Grid>
+                                        <Grid.RenderTransform>
+                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                        </Grid.RenderTransform>
+                                        <SymbolIcon Symbol="Up">
+                                            <SymbolIcon.RenderTransform>
+                                                <RotateTransform Angle="180" CenterX="10" CenterY="10" />
+                                            </SymbolIcon.RenderTransform>
+                                        </SymbolIcon>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Button.Content>
+                        <Button.Shadow>
+                            <ThemeShadow />
+                        </Button.Shadow>
+                    </Button>
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <TextBox
+                            PlaceholderText="Search in chat"
+                            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    MaxHeight="105"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+
+                        <AppBarButton
+                            Width="55"
+                            Height="50"
+                            MaxWidth="55"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Bottom"
+                            Icon="Emoji2"
+                            LabelPosition="Collapsed" />
+
+                        <AppBarButton
+                            Width="55"
+                            Height="50"
+                            MaxWidth="55"
+                            Margin="0,0,0,2"
+                            VerticalAlignment="Bottom"
+                            Icon="Attach"
+                            IsCompact="True"
+                            LabelPosition="Collapsed">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Icon="OpenFile"
+                                        Text="File" />
+                                    <MenuFlyoutItem
+                                        Icon="Edit"
+                                        Text="Drawing" />
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                    </StackPanel>
+
+                    <TextBox
+                        x:Name="MessageTextBox"
+                        Grid.Column="1"
+                        MaxHeight="105"
+                        Margin="8,0,8,10"
+                        VerticalAlignment="Bottom"
+                        attp:ScrollViewerAttachedProperties.AutoScroll="True"
+                        AcceptsReturn="False"
+                        PlaceholderText="Type a message"
+                        PreviewKeyDown="MessageTextBox_PreviewKeyDown"
+                        Template="{StaticResource FlatTextBox}"
+                        Text="{Binding PendingMessage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        TextWrapping="Wrap">
+                        <i:Interaction.Behaviors>
+                            <behaviors:KeyDownTriggerBehavior Key="Enter">
+                                <core:InvokeCommandAction
+                                    Command="{Binding EnterPressedCommand}"
+                                    InputConverter="{StaticResource KeyUpEventArgsConverter}" />
+                            </behaviors:KeyDownTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+
+
+                    <AppBarButton
+                        Grid.Column="2"
+                        Width="55"
+                        Height="50"
+                        MaxWidth="55"
+                        Margin="0,0,0,2"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding SendCommand}"
+                        Icon="{Binding SendButtonIcon}"
+                        LabelPosition="Collapsed" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

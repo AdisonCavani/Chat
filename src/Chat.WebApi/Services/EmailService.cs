@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using Chat.WebApi.Models.Settings;
+﻿using Chat.WebApi.Models.Settings;
 using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat.WebApi.Services;
@@ -37,7 +37,7 @@ public class EmailService : IEmailService
             {
                 Text = body
             };
-            
+
             var client = new SmtpClient();
             await client.ConnectAsync(_smtpSettings.Value.Host, _smtpSettings.Value.Port, cancellationToken: token);
             await client.AuthenticateAsync(_smtpSettings.Value.Email, _smtpSettings.Value.Password, token);

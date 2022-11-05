@@ -2,7 +2,7 @@
 
 public static class ApiRoutes
 {
-    private const string root = "api";
+    private const string root = "/api";
 
     public static class Account
     {
@@ -23,11 +23,11 @@ public static class ApiRoutes
 
             public const string Change = $"{endpoint}/change";
         }
-        
+
         public static class Profile
         {
             private const string endpoint = $"{Account.endpoint}/password";
-            
+
             public const string Details = $"{endpoint}/details";
         }
     }

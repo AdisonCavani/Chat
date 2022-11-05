@@ -9,9 +9,9 @@ public class ResetPasswordDtoValidator : AbstractValidator<ResetPasswordDto>
     public ResetPasswordDtoValidator()
     {
         Include(new PasswordRecoveryDtoValidator());
-        
+
         Include(new PasswordRecoveryTokenDtoValidator());
-        
+
         RuleFor(x => x.Email)
             .EmailAddress();
 

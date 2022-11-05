@@ -1,0 +1,88 @@
+﻿<UserControl
+    x:Class="Chat.Controls.ChatList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Chat.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:Chat.ViewModels.Controls.Design"
+    MaxWidth="380"
+    d:DesignHeight="600"
+    d:DesignWidth="350"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vm:UserListDesignViewModel x:Key="DesignVm" />
+    </UserControl.Resources>
+
+    <Grid
+        MaxWidth="350"
+        Margin="20,0"
+        d:DataContext="{StaticResource DesignVm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Margin="20,15,0,0"
+            Orientation="Horizontal">
+            <muxc:PersonPicture
+                MaxHeight="50"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Margin="20,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Text="Chats" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            Margin="20,15,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="50"
+                Height="42"
+                HorizontalAlignment="Right"
+                Background="{ThemeResource AppBarItemBackgroundThemeBrush}"
+                BorderThickness="0">
+                <Button.Content>
+                    <SymbolIcon Symbol="Edit" />
+                </Button.Content>
+            </Button>
+            <Button
+                Width="50"
+                Height="42"
+                HorizontalAlignment="Right"
+                Background="{ThemeResource AppBarItemBackgroundThemeBrush}"
+                BorderThickness="0"
+                Command="{Binding LogoutCommand}">
+                <Button.Content>
+                    <SymbolIcon Symbol="More" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <AutoSuggestBox
+            Grid.Row="1"
+            Margin="20,15"
+            PlaceholderText="Search or start new chat"
+            QueryIcon="Find" />
+
+        <ListView
+            Grid.Row="2"
+            ItemsSource="{Binding Items}"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectedIndex="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:UserListItem />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

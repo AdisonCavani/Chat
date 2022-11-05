@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using Chat.WebApi.Services.Interfaces;
+﻿using Chat.WebApi.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat.WebApi.Services;
@@ -28,7 +28,7 @@ public class DevEmailService : IEmailService
             {
                 Text = body
             };
-            
+
             var client = new SmtpClient();
             await client.ConnectAsync("localhost", cancellationToken: token);
             await client.SendAsync(message, token);

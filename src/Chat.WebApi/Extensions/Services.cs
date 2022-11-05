@@ -9,7 +9,7 @@ public static class Services
 {
     public static void RegisterServices(this IServiceCollection services)
     {
-#if DEBUG
+#if RELEASE
         services.AddScoped<IEmailService, DevEmailService>();
 #else
         services.AddScoped<IEmailService, EmailService>();

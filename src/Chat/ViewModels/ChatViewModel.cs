@@ -49,18 +49,17 @@ public partial class ChatViewModel : ObservableObject
         {
             await _client.ConnectAsync(new($"wss://localhost:5001/{ApiRoutes.Chat.Message.WebSocket}"), CancellationToken.None);
 
-            var send = Task.Run(async () =>
-            {
-                await _client.SendAsync(new(Encoding.UTF8.GetBytes(Message)), WebSocketMessageType.Text, true, CancellationToken.None);
-                await _client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Connection closed by client", CancellationToken.None);
-            });
+            ConnectionOpened = true;
 
             var receive = ReceiveAsync(_client);
-            await Task.WhenAll(send, receive);
+            await Task.WhenAll(receive);
         }
 
-        catch (WebSocketException ex)
+        catch (Exception ex)
         {
+            if (_client.State != WebSocketState.Open)
+                ConnectionOpened = false;
+
             _logger.LogError(ex.Message);
         }
     }
@@ -77,6 +76,7 @@ public partial class ChatViewModel : ObservableObject
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                ConnectionOpened = false;
                 break;
             }
         }
@@ -85,39 +85,22 @@ public partial class ChatViewModel : ObservableObject
     [ICommand]
     async Task SendMessage()
     {
-        var uri = new Uri($"wss://localhost:5001/{ApiRoutes.Chat.Message.Send}");
-
         try
         {
-            await _client.ConnectAsync(uri, CancellationToken.None);
-
-            // TODO: look at this while loop
-            //while (client.State == WebSocketState.Open)
-            if (_client.State == WebSocketState.Open)
+            var send = Task.Run(async () =>
             {
-                var bytes = new ArraySegment<byte>(Encoding.UTF8.GetBytes(Message));
-                await _client.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None);
+                await _client.SendAsync(new(Encoding.UTF8.GetBytes(Message)), WebSocketMessageType.Text, true, CancellationToken.None);
+                await _client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Connection closed by client", CancellationToken.None);
+            });
 
-                var responseBuffer = new byte[1024];
-                var offset = 0;
-                var packet = 1024;
-
-                while (true)
-                {
-                    var byteReceived = new ArraySegment<byte>(responseBuffer, offset, packet);
-                    var response = await _client.ReceiveAsync(byteReceived, CancellationToken.None);
-
-                    var responseMessage = Encoding.UTF8.GetString(responseBuffer, offset, response.Count);
-                    Messages.Add(responseMessage);
-
-                    if (response.EndOfMessage)
-                        break;
-                }
-            }
+            await Task.WhenAll(send);
         }
 
-        catch (WebSocketException ex)
+        catch (Exception ex)
         {
+            if (_client.State != WebSocketState.Open)
+                ConnectionOpened = false;
+
             _logger.LogError(ex.Message);
         }
 

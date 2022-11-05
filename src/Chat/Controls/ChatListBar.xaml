@@ -1,0 +1,87 @@
+﻿<UserControl
+    x:Class="Chat.Controls.ChatListBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="using:Chat.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Chat.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:Chat.ViewModels.Controls.Design"
+    Height="70"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vm:UserListDesignViewModel x:Key="DesignVm" />
+    </UserControl.Resources>
+
+    <Grid d:DataContext="{StaticResource DesignVm}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <muxc:PersonPicture
+            Grid.Column="0"
+            MaxWidth="50"
+            Margin="10"
+            HorizontalAlignment="Left"
+            DisplayName="{Binding UserFullName}" />
+
+        <StackPanel
+            Grid.Column="1"
+            Margin="0,10"
+            VerticalAlignment="Center">
+            <TextBlock
+                FontWeight="SemiBold"
+                MaxLines="1"
+                Text="{Binding UserFullName}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="Wrap" />
+            <TextBlock
+                Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                MaxLines="1"
+                Text="{Binding UserStatus}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <AppBarButton
+                MinWidth="40"
+                MinHeight="40"
+                MaxWidth="53"
+                MaxHeight="53"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Icon="Video"
+                LabelPosition="Collapsed" />
+            <AppBarButton
+                MinWidth="40"
+                MinHeight="40"
+                MaxWidth="53"
+                MaxHeight="53"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Icon="Phone"
+                LabelPosition="Collapsed" />
+            <AppBarSeparator
+                Width="10"
+                Height="40" />
+            <AppBarButton
+                MinWidth="40"
+                MinHeight="40"
+                MaxWidth="53"
+                MaxHeight="53"
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
+                Icon="Find"
+                LabelPosition="Collapsed" />
+        </StackPanel>
+    </Grid>
+</UserControl>
